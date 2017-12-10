@@ -1,0 +1,133 @@
+﻿@model GlenwoodMed.Model.ViewModels.DependentModel
+@{
+    ViewBag.Title = "Add Dependent";
+}
+<style>
+    .x {
+        color: Blue;
+        font: bold;
+    }
+</style>
+
+<script>
+    $(function () {
+        $("#datepicker").datepicker();
+    });
+</script>
+
+<ol class="breadcrumb">
+    <li class="x"><a href="@Url.Action("Index", "Patient")">Patient</a></li>
+    <li class="active">Create Dependent</li>
+</ol>
+
+    @using (Html.BeginForm("Create", "Dependent", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <div class="text-center">
+                <h2 class=""><small>Add Dependent for</small> <b>( @Model.patientName )</b></h2>
+                <hr />
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Title, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("Title", new List<SelectListItem>{
+                            new SelectListItem{ Text="Mr", Value="Mr"},
+                            new SelectListItem{ Text="Mrs", Value="Mrs"},
+                            new SelectListItem{ Text="Ms", Value="Ms"}
+                            }, "Choose Title", new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.IdentityNo, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.IdentityNo, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.IdentityNo, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DependentFname, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.DependentFname, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.DependentFname, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DependentSname, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.DependentSname, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.DependentSname, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DependentRole, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("Role", new List<SelectListItem>{
+                            new SelectListItem{ Text="Child", Value="Child"},
+                            new SelectListItem{ Text="Husband", Value="Husband"},
+                            new SelectListItem{ Text="Wife", Value="Wife"},
+                            new SelectListItem{ Text="Father", Value="Father"},
+                            new SelectListItem{ Text="Mother", Value="Mother"},
+                            new SelectListItem{ Text="Brother", Value="Brother"},
+                            new SelectListItem{ Text="Sister", Value="Sister"},
+                            new SelectListItem{ Text="Uncle", Value="Uncle"},
+                            new SelectListItem{ Text="Cousin", Value="Cousin"},
+                            new SelectListItem{ Text="Nephew", Value="Nephew"},
+                            new SelectListItem{ Text="Niece", Value="Niece"}
+                            }, "Select Dependent Role", new { @class = "form-control" })
+                            @*@Html.EditorFor(model => model.DependentRole, new { htmlAttributes = new { @class = "form-control" } })*@
+                            @Html.ValidationMessageFor(model => model.DependentRole, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DOB_Dependent, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.DOB_Dependent, new { htmlAttributes = new { @class = "form-control", id = "datepicker" } })
+                            @Html.ValidationMessageFor(model => model.DOB_Dependent, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Sex, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("Gender", new List<SelectListItem>{
+                            new SelectListItem{ Text="Male", Value="Male"},
+                            new SelectListItem{ Text="Female", Value="Female"}
+                            }, "Select Gender", new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DependentAllergy, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.DependentAllergy, new { rows = "4", cols = "50", htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.DependentAllergy, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Create" class="btn btn-primary" />
+
+                        </div>
+
+                    </div>
+                </div>
+                @*<div class="col-md-2"></div>*@
+            </div>
+            
+            
+        </div>
+        }

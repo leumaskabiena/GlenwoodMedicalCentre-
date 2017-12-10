@@ -1,0 +1,256 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+@*<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.11.4.js"></script>
+<script src="~/Scripts/jquery-ui-1.11.4.min.js"></script>
+<script src="~/Scripts/jquery-2.1.4.js"></script>
+<script src="~/Scripts/jquery-2.1.4.min.js"></script>
+<link href="~/Content/ButtonColors.css" rel="stylesheet" />*@
+
+@*<script src="~/Scripts/gviz-api.js"></script>*@
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#Age").click(function () {
+            $("#DisplayProfit").hide();
+            $("#DisplayAge").show();
+        });
+
+        $("#Profit").click(function () {
+            $("#DisplayProfit").show();
+            $("#DisplayAge").hide();
+        });
+
+        $("#Drugs").click(function () {
+            $("#chart").hide();
+            $("#chartpie").show();
+            $("#chartbar").hide();
+        });
+    });
+</script>
+
+<div class="text-center"><h2 class="x">Chart</h2></div>
+<div class="btn-group btn-group-justified" role="group" aria-label="ButtonHeads">
+    <div class="btn-group" role="group">
+        @*<button type="button" id="Profit" class="btn btn-default btn-lg but">Profit</button>*@
+        <button type="button" class="btn btn-default btn-lg but" onclick="location.href='@Url.Action("Index", "Statistics")';return false;"> <b>Income</b></button>
+    </div>
+    <div class="btn-group" role="group">
+        @*<button type="button" id="Age" class="btn btn-danger btn-lg but">Age Groups</button>*@
+        @*@Html.ActionLink("Age Groups", "AgeChart", new { title = "View Age Chart", @class = "btn btn-default" })*@
+        <button type="button" class="btn btn-danger btn-lg but" onclick="location.href='@Url.Action("AgeChart", "Statistics")';return false;"> <b>Age Groups</b></button>
+    </div>
+    @*<div class="btn-group" role="group">
+        <button type="button" id="Drugs" class="btn btn-default btn-lg but">Drugs</button>
+    </div>*@
+</div>
+
+<br/>
+
+<div id="Display">
+
+</div>
+<div id="DisplayProfit" align="center" >
+    <div id="chart" align="center">
+
+    </div>
+</div>
+<div id="loader" class="alert text-center" style="display:none; margin:0 auto;">
+    Loading...<img src="~/Images/IMG_6246.GIF" />
+</div>
+
+<div id="DisplayAge" style="display:none; width:100%; height:400px">
+    <div id="chartbar" style="width:100%; height:400px">
+        Chart loads in this div tag
+    </div>
+</div>
+@*<div id="chartpie" style="width:100%; height:400px; display:none">
+    Chart loads in this div tag
+</div>*@
+
+@section scripts{
+    <script>
+        var chartDataYear;
+        var chartDataMonth;
+        var chartDataDays;
+        var GlobalYear;
+        var CurrentReport;
+        google.load("visualization", "1", { packages: ["corechart"] });
+
+        //load Profit Year report as default load
+        $(document).ready(function () {
+            $.ajax({
+                url: '/Statistics/ProfitYearSelection',
+                type: 'get',
+                dataType: 'json',
+                data: {},
+                success: function (d) {
+                    chartDataYear = d;
+                },
+                error: function () {
+
+                }
+            }).done(function () {
+                CurrentReport = 'year';
+                generateChart(chartDataYear, "Income Report Data ", selectYear);
+            });
+        }); //This would display only the years on the chart which is our default display
+
+        function generateChart(chartData, title, selectEvent) //Method to construct chart
+        {
+            var data = google.visualization.arrayToDataTable(chartData);
+
+            var options = {
+                title: title,
+                //legend: 'none',
+                //colors: ['red'],
+                //lineWidth: 7,
+                pointSize: 5,
+                //pointShape: { type: 'star', sides: 4 },
+                focusTarget: "category",
+                hAxis: {showTextEvery: 1}
+            }
+
+            var linechart = new google.visualization.LineChart(document.getElementById('chart')); // chart to div tag
+            if(selectEvent != null)
+            {
+                google.visualization.events.addListener(linechart, 'select', function() {
+                    selectEvent(linechart, data);
+                    });
+            }
+            
+            GenerateBack(CurrentReport);
+            linechart.draw(data, options); //draws the draph of the chart
+        }
+
+        function GenerateBack(currentReport) { //Method for creating a back to default button
+            $('.backbuttoncontainer').remove();
+
+            //create new back button
+            if(currentReport != 'year') //back button except year according to the currentreport in the done function
+            {
+                //constructing the back button
+                var $back = $('<button/>')
+                            .text('Back')
+                            .addClass('reportBack')
+                            .css({ 'color': 'blue'})
+                            .click(function () {
+                                switch (currentReport) {
+                                    case 'month':
+                                        CurrentReport = 'year';
+                                        generateChart(chartDataYear, "Income Report Data ", selectYear);
+                                        break;
+
+                                    case 'days':
+                                        CurrentReport = 'month';
+                                        generateChart(chartDataMonth, "Income Report Data of year " + GlobalYear, selectMonth);
+                                        break;
+                                    default:
+                                }
+                                $(this).parent().remove();
+                            });
+
+                var $div = $('<div/>')
+                        .addClass('backbuttoncontainer')
+                        .css({ 'width': '70%', 'text-align': 'right', 'padding': '5px' })
+                        .append($back);
+                $('#chart').before($div);
+            }
+        }
+
+        function selectYear(chart, data)
+        {
+            //YearEvent ( after select year data from chart )
+            var selectedItem = chart.getSelection()[0];
+            if (selectedItem) {
+                var rowlevel = parseInt(data.getValue(selectedItem.row, 0));
+                var chartData = null;
+
+                $.ajax({
+                    url: '/Statistics/ProfitMonthSelection',
+                    type: 'get',
+                    dataType: 'json',
+                    data: {'year': rowlevel},
+                    success: function (d) {
+                        chartDataMonth = d;
+                    },
+                    error: function () {
+                        alert("Error !");
+                    }
+                }).done(function () {
+                    CurrentReport = 'month';
+                    GlobalYear = rowlevel;
+                    generateChart(chartDataMonth, "Income Report Data of year " + rowlevel, selectMonth);
+                });
+            }
+        }
+
+        function selectMonth(chart, data) {
+            //MonthEvent ( after select month data from chart
+            //Load Chart Day Wise
+            var selectedItem = chart.getSelection()[0];
+            if(selectedItem)
+            {
+                var rowlevel = data.getValue(selectedItem.row, 0);
+                $.ajax({
+                    url: '/Statistics/ProfitDaysSelection',
+                    type: 'get',
+                    dataType: 'json',
+                    data: { 'year': GlobalYear, 'month': rowlevel },
+                    success: function (d) {
+                        chartDataDays = d;
+                    },
+                    error: function () {
+                        alert("Error !");
+                    }
+                }).done(function () {
+                    CurrentReport = 'days';
+                    generateChart(chartDataDays, "Income report data of " + rowlevel + " '" + GlobalYear, null);
+                })
+            }
+        }
+    </script>
+
+<script>
+    var chartData; //global variable for hold chart data
+    google.load("visualization", "1", { packages: ["corechart"] });
+
+    //Fill chartData below
+    $(document).ready(function () {
+        $.ajax({
+            url: '/Statistics/AgeGroup',
+            data: {},
+            dataType: 'json',
+            type: 'get',
+            //contentType: "application/json; chartset=utf-8",
+            success: function (data) {
+                chartData = data;
+            },
+            error: function () {
+                alert("Error loading data! Please try again.")
+            }
+        }).done(function () {
+            //after completely loading data
+            drawChart();
+        })
+    })
+
+    function drawChart() {
+        var data = google.visualization.arrayToDataTable(chartData);
+
+        var options = {
+            title: "Age Groups",
+            pointSize: 5
+        };
+
+        var barChart = new google.visualization.ColumnChart(document.getElementById('chartbar'));
+        barChart.draw(data, options);
+    }
+</script>
+
+    }

@@ -1,0 +1,131 @@
+﻿@using Microsoft.AspNet.Identity
+@using GlenwoodMed.Service.RepositoryClass
+
+<ul class="navbar-nav nav navbar-right">
+    <li class="dropdown">
+        @if (Request.IsAuthenticated && User.IsInRole("Patient"))
+        {
+            <text>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">@*<span class="glyphicon glyphicon-user"></span>&nbsp;*@<b>Account</b> <b class="caret"></b></a>
+
+                <ul class="dropdown-menu">
+                    <li>
+                        @{
+            RegisterRepository rr = new RegisterRepository();
+
+            var user = System.Web.HttpContext.Current.User.Identity.GetUserId();
+            var ap = rr.GetById(user.ToString());
+
+                        }
+                        @Html.ActionLink("Hello " + ap.FullName + " " + ap.Surname @*+ User.Identity.GetUserName()*@ + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                    </li>
+                    <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+                </ul>
+
+                @using (Html.BeginForm("LogOff", "MyAccount", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                }
+            </text>
+        }
+        
+        @if (Request.IsAuthenticated && User.IsInRole("Receptionist"))
+        {
+            <text>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span>&nbsp;Account <b class="caret"></b></a>
+
+            <ul class="dropdown-menu">
+                <li>
+                    @{
+                        RegisterRepository rr = new RegisterRepository();
+
+                        var user = System.Web.HttpContext.Current.User.Identity.GetUserId();
+                        var ap = rr.GetById(user.ToString());
+
+                    }
+                    @Html.ActionLink("Hello " + ap.FullName + " " + ap.Surname @*+ User.Identity.GetUserName()*@ + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                </li>
+                <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+            </ul>
+            
+            @using (Html.BeginForm("LogOff", "MyAccount", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+            {
+                @Html.AntiForgeryToken()  
+            
+            }
+            </text>
+        }
+        
+        @if (Request.IsAuthenticated && User.IsInRole("Pharmacist"))
+        {
+            <text>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span>&nbsp;Account <b class="caret"></b></a>
+
+                <ul class="dropdown-menu">
+                    <li>
+                        @{
+                            RegisterRepository rr = new RegisterRepository();
+
+                            var user = System.Web.HttpContext.Current.User.Identity.GetUserId();
+                            var ap = rr.GetById(user.ToString());
+
+                        }
+                        @Html.ActionLink("Hello " + ap.FullName + " " + ap.Surname @*+ User.Identity.GetUserName()*@ + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                    </li>
+                    <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+                </ul>
+
+                @using (Html.BeginForm("LogOff", "MyAccount", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                }
+            </text>
+        }
+        
+        @if (Request.IsAuthenticated && User.IsInRole("Doctor"))
+        {
+            <text>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span>&nbsp;Account <b class="caret"></b></a>
+
+                <ul class="dropdown-menu">
+                    <li>
+                        @{
+                            RegisterRepository rr = new RegisterRepository();
+
+                            var user = System.Web.HttpContext.Current.User.Identity.GetUserId();
+                            var ap = rr.GetById(user.ToString());
+
+                        }
+                        @Html.ActionLink("Hello " + ap.FullName + " " + ap.Surname @*+ User.Identity.GetUserName()*@ + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                    </li>
+                    <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+                    <li>@Html.ActionLink("Register", "Register", "MyAccount", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+                    <li>@Html.ActionLink("Roles", "RoleAddToUser", "Roles")</li>
+                    <li>@Html.ActionLink("Feeback", "CreateFeedback", "Feedback")</li>
+                </ul>
+
+                @using (Html.BeginForm("LogOff", "MyAccount", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                }
+            </text>
+        }
+        
+        @if (!Request.IsAuthenticated)
+        {
+        }
+        
+        @*@if (Request.IsAuthenticated)
+        {
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span>Account <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                <li>@Html.ActionLink("Register", "Register", "MyAccount", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+                <li>@Html.ActionLink("Log in", "Login", "MyAccount", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+                <li>@Html.ActionLink("Roles", "RoleAddToUser", "Roles")</li>
+            </ul>
+        }*@
+    </li>
+</ul>

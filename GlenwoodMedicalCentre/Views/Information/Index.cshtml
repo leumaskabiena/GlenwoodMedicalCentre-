@@ -1,0 +1,362 @@
+﻿
+@using GlenwoodMed.BusinessLogic.Business
+
+@{
+    ViewBag.Title = "Information";
+    PatientBusiness pb = new PatientBusiness();
+    InformationBusiness ib = new InformationBusiness();
+}
+
+<script src="~/Scripts/jquery-2.1.4.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<link href="~/Content/ButtonColors.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-ui-1.11.4.js"></script>
+<script src="~/Scripts/jquery-ui-1.11.4.min.js"></script>
+<script src="~/Scripts/jquery-2.1.4.js"></script>
+
+<script>
+    // ADD SLIDEDOWN ANIMATION TO DROPDOWN //
+    $('.dropdown').on('show.bs.dropdown', function (e) {
+        $(this).find('.dropdown-menu').first().stop(true, true).slideDown();
+    });
+
+    // ADD SLIDEUP ANIMATION TO DROPDOWN //
+    $('.dropdown').on('hide.bs.dropdown', function (e) {
+        $(this).find('.dropdown-menu').first().stop(true, true).slideUp();
+    });
+
+    $(document).ready(function () {
+        $(document).on('focus', '.datepicker', function () {
+            $(this).datepicker();
+        });
+    });
+</script>
+
+<style type="text/css">
+    .dropdown-menu {
+        width: 300px !important;
+        /*height: 400px !important;*/
+    }
+</style>
+<ol class="breadcrumb">
+    <li class="x"><a href="@Url.Action("Main", "Statistics")">Report</a></li>
+    <li class="active">Information</li>
+</ol>
+
+<div align="center" class="x">
+    <h2><b>Select Information Type</b></h2>
+    <hr/>
+</div>
+<br />
+
+<div class="btn-group btn-group-justified" role="group" aria-label="ButtonHeads">
+
+    <div class="btn-group" role="group">
+        <button type="button" class="btn btn-default btn-lg dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Patient Actions
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            <li>
+                <div align="center">
+                    <p>
+                        <h5>
+                            <b>
+                                <span class="glyphicon glyphicon-tree-deciduous"></span> @Ajax.ActionLink("All Patients", "_AllPatients", "", new AjaxOptions()
+                                                    {
+                                                        HttpMethod = "GET",
+                                                        UpdateTargetId = "info",
+                                                        InsertionMode = InsertionMode.Replace,
+                                                        LoadingElementId = "loader"
+                                                    }, new { @class = "" }) <span class="badge"> @pb.CountMethod() </span>
+                                                </b>
+                                            </h5>
+                                        </p>
+                                    </div>
+                                </li>
+                                <li role="separator" class="divider"></li>
+                                <li class="dropdown-header"><div align="center"><b>Newly Added</b></div></li>
+                                <li role="separator" class="divider"></li>
+                                <li>
+                                    <div align="center">
+                                        <p>
+                                            <h5>
+                                                <b>
+                                                    <span class="glyphicon glyphicon-tree-deciduous"></span> @Ajax.ActionLink("7 Days ", "_7DaysPatients", "", new AjaxOptions()
+                                                    {
+                                                        HttpMethod = "GET",
+                                                        UpdateTargetId = "info",
+                                                        InsertionMode = InsertionMode.Replace,
+                                                        LoadingElementId = "loader"
+                                                    }, new { @class = "" })
+                                                </b>
+                                            </h5>
+                                        </p>
+                                    </div>
+                                </li>
+
+                                <li>
+                                    <div align="center">
+                                        <p>
+                                            <h5>
+                                                <b>
+                                                    <span class="glyphicon glyphicon-tree-deciduous"></span> @Ajax.ActionLink("1 Month Ago ", "_1monthPatients", "", new AjaxOptions()
+                                                    {
+                                                        HttpMethod = "GET",
+                                                        UpdateTargetId = "info",
+                                                        InsertionMode = InsertionMode.Replace,
+                                                        LoadingElementId = "loader"
+                                                    }, new { @class = "" })
+                                                </b>
+                                            </h5>
+                                        </p>
+                                    </div>
+                                </li>
+
+            <li>
+                <div align="center">
+                    <p>
+                        <h5>
+                            <b>
+                                <span class="glyphicon glyphicon-tree-deciduous"></span> @Ajax.ActionLink("1 Year Ago ", "_1yearPatients", "", new AjaxOptions()
+                                                    {
+                                                        HttpMethod = "GET",
+                                                        UpdateTargetId = "info",
+                                                        InsertionMode = InsertionMode.Replace,
+                                                        LoadingElementId = "loader"
+                                                    }, new { @class = "" })
+                            </b>
+                        </h5>
+                    </p>
+                </div>
+            </li>
+
+            <li>
+                <div align="center">
+                    <p>
+                        <h5>
+                            <b>
+                                <span class="glyphicon glyphicon-tree-deciduous"></span> @Ajax.ActionLink("Specify ", "_specificPatients", "", new AjaxOptions()
+                                                    {
+                                                        HttpMethod = "GET",
+                                                        UpdateTargetId = "info",
+                                                        InsertionMode = InsertionMode.Replace,
+                                                        LoadingElementId = "loader"
+                                                    }, new { @class = "" })
+                            </b>
+                        </h5>
+                    </p>
+                </div>
+            </li>
+         </ul>
+      </div>
+
+    <div class="btn-group" role="group">
+        <button type="button" class="btn btn-default btn-lg dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Medical Certificate Actions
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            <li>
+                <div align="center">
+                    <p>
+                        <h5>
+                            <b>
+                                <span class="glyphicon glyphicon-tree-deciduous"></span> @Ajax.ActionLink("All Certificates", "_AllMedCertificates", "", new AjaxOptions()
+                                                    {
+                                                        HttpMethod = "GET",
+                                                        UpdateTargetId = "info",
+                                                        InsertionMode = InsertionMode.Replace,
+                                                        LoadingElementId = "loader"
+                                                    }, new { @class = "" }) <span class="badge"> @ib.CountCertificates() </span>
+                                                </b>
+                                            </h5>
+                                        </p>
+                                    </div>
+                                </li>
+                                <li role="separator" class="divider"></li>
+                                <li class="dropdown-header"><div align="center"><b>Newly Added</b></div></li>
+                                <li role="separator" class="divider"></li>
+                                <li>
+                                    <div align="center">
+                                        <p>
+                                            <h5>
+                                                <b>
+                                                    <span class="glyphicon glyphicon-tree-deciduous"></span> @Ajax.ActionLink("7 Days ", "_7DaysMedical", "", new AjaxOptions()
+                                                    {
+                                                        HttpMethod = "GET",
+                                                        UpdateTargetId = "info",
+                                                        InsertionMode = InsertionMode.Replace,
+                                                        LoadingElementId = "loader"
+                                                    }, new { @class = "" })
+                                                </b>
+                                            </h5>
+                                        </p>
+                                    </div>
+                                </li>
+
+                                <li>
+                                    <div align="center">
+                                        <p>
+                                            <h5>
+                                                <b>
+                                                    <span class="glyphicon glyphicon-tree-deciduous"></span> @Ajax.ActionLink("1 Month Ago ", "_1monthMedical", "", new AjaxOptions()
+                                                    {
+                                                        HttpMethod = "GET",
+                                                        UpdateTargetId = "info",
+                                                        InsertionMode = InsertionMode.Replace,
+                                                        LoadingElementId = "loader"
+                                                    }, new { @class = "" })
+                                                </b>
+                                            </h5>
+                                        </p>
+                                    </div>
+                                </li>
+
+                                <li>
+                                    <div align="center">
+                                        <p>
+                                            <h5>
+                                                <b>
+                                                    <span class="glyphicon glyphicon-tree-deciduous"></span> @Ajax.ActionLink("1 Year Ago ", "_1yearMedical", "", new AjaxOptions()
+                                                    {
+                                                        HttpMethod = "GET",
+                                                        UpdateTargetId = "info",
+                                                        InsertionMode = InsertionMode.Replace,
+                                                        LoadingElementId = "loader"
+                                                    }, new { @class = "" })
+                                                </b>
+                                            </h5>
+                                        </p>
+                                    </div>
+                                </li>
+
+            <li>
+                <div align="center">
+                    <p>
+                        <h5>
+                            <b>
+                                <span class="glyphicon glyphicon-tree-deciduous"></span> @Ajax.ActionLink("Specify ", "_specificMedical", "", new AjaxOptions()
+                                                    {
+                                                        HttpMethod = "GET",
+                                                        UpdateTargetId = "info",
+                                                        InsertionMode = InsertionMode.Replace,
+                                                        LoadingElementId = "loader"
+                                                    }, new { @class = "" })
+                            </b>
+                        </h5>
+                    </p>
+                </div>
+            </li>
+                            </ul>
+                        </div>
+
+    <div class="btn-group" role="group">
+        <button type="button" class="btn btn-default btn-lg dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Consultation Actions
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            <li>
+                <div align="center">
+                    <p>
+                        <h5>
+                            <b>
+                                <span class="glyphicon glyphicon-tree-deciduous"></span> @Ajax.ActionLink("All Consultations", "_AllConsultations", "", new AjaxOptions()
+                                                    {
+                                                        HttpMethod = "GET",
+                                                        UpdateTargetId = "info",
+                                                        InsertionMode = InsertionMode.Replace,
+                                                        LoadingElementId = "loader"
+                                                    }, new { @class = "" }) <span class="badge"> @ib.CountConsultations() </span>
+                                                </b>
+                                            </h5>
+                                        </p>
+                                    </div>
+                                </li>
+                                <li role="separator" class="divider"></li>
+                                <li class="dropdown-header"><div align="center"><b>Newly Added</b></div></li>
+                                <li role="separator" class="divider"></li>
+                                <li>
+                                    <div align="center">
+                                        <p>
+                                            <h5>
+                                                <b>
+                                                    <span class="glyphicon glyphicon-tree-deciduous"></span> @Ajax.ActionLink("7 Days ", "_7DaysConsult", "", new AjaxOptions()
+                                                    {
+                                                        HttpMethod = "GET",
+                                                        UpdateTargetId = "info",
+                                                        InsertionMode = InsertionMode.Replace,
+                                                        LoadingElementId = "loader"
+                                                    }, new { @class = "" })
+                                                </b>
+                                            </h5>
+                                        </p>
+                                    </div>
+                                </li>
+
+                                <li>
+                                    <div align="center">
+                                        <p>
+                                            <h5>
+                                                <b>
+                                                    <span class="glyphicon glyphicon-tree-deciduous"></span> @Ajax.ActionLink("1 Month Ago ", "_1monthConsult", "", new AjaxOptions()
+                                                    {
+                                                        HttpMethod = "GET",
+                                                        UpdateTargetId = "info",
+                                                        InsertionMode = InsertionMode.Replace,
+                                                        LoadingElementId = "loader"
+                                                    }, new { @class = "" })
+                                                </b>
+                                            </h5>
+                                        </p>
+                                    </div>
+                                </li>
+
+                                <li>
+                                    <div align="center">
+                                        <p>
+                                            <h5>
+                                                <b>
+                                                    <span class="glyphicon glyphicon-tree-deciduous"></span> @Ajax.ActionLink("1 Year Ago ", "_1yearConsult", "", new AjaxOptions()
+                                                    {
+                                                        HttpMethod = "GET",
+                                                        UpdateTargetId = "info",
+                                                        InsertionMode = InsertionMode.Replace,
+                                                        LoadingElementId = "loader"
+                                                    }, new { @class = "" })
+                                                </b>
+                                            </h5>
+                                        </p>
+                                    </div>
+                                </li>
+            <li>
+                <div align="center">
+                    <p>
+                        <h5>
+                            <b>
+                                <span class="glyphicon glyphicon-tree-deciduous"></span> @Ajax.ActionLink("Specify ", "_specificCon", "", new AjaxOptions()
+                                                    {
+                                                        HttpMethod = "GET",
+                                                        UpdateTargetId = "info",
+                                                        InsertionMode = InsertionMode.Replace,
+                                                        LoadingElementId = "loader"
+                                                    }, new { @class = "" })
+                            </b>
+                        </h5>
+                    </p>
+                </div>
+            </li>
+                            </ul>
+                        </div>
+</div>
+
+<div id="loader" class="alert text-center" style="display:none; margin:0 auto;">
+    <img src="~/Images/IMG_6246.GIF" />
+</div>
+
+<br /><br />
+<div id="info">
+
+</div>

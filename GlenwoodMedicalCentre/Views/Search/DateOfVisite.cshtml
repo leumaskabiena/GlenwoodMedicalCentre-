@@ -1,0 +1,83 @@
+﻿@model IEnumerable<GlenwoodMed.Data.Tables.Consultation>
+<style>
+    .table {
+        border: 0;
+        font: italic,bold;
+        color: darkblue;
+    }
+
+    td {
+        color: black;
+    }
+</style>
+@{
+    ViewBag.Title = "DateOfVisite";
+}
+
+<h2>DateOfVisite</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.PatientFname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PatientSname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.illness)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Symptoms)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PresribedMed)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ConsultTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ConsultDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalPrice)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.PatientFname)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PatientSname)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.illness)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Symptoms)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PresribedMed)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ConsultTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ConsultDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalPrice)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ConsultId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ConsultId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ConsultId })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,31 @@
+﻿@using GlenwoodMed.BusinessLogic.Business
+@using GlenwoodMed.Data
+@model GlenwoodMed.Model.ViewModels.DispenseDrug
+@{
+    ConsultationBusiness con = new ConsultationBusiness();
+    ViewBag.Title = "Create";
+}
+<div class="row" id="contactInformation">
+    @using (Html.BeginForm("DispenseDrug", "Consultations", FormMethod.Post, new { id = "contactForm", name = "contactForm", @class = "form-horizontal", role = "form" }))
+    {
+            @Html.AntiForgeryToken()
+     
+                <div class="form-group">
+                   
+                    <div id="phoneNumbers">
+                        @Html.EditorFor(model => model.DispenseCusts)
+                    </div>
+                    <p>
+                        @Html.AddLink(" ", "#phoneNumbers", ".phoneNumber", "Custs", typeof(GlenwoodMed.Model.ViewModels.DispenseDrug.DispenseCust), new { @class = "btn btn-primary view glyphicon glyphicon-plus" })
+                    </p>
+                </div>
+
+                <br />
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" class="btn btn-primary view" title="Create and  Send to Pharmasicts" value="Send to Pharmasicts" id="btnRegister" />
+                    </div>
+                </div>
+    }
+
+</div>

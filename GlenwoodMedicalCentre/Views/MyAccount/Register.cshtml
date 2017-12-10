@@ -1,0 +1,314 @@
+﻿@model GlenwoodMed.Model.RegisterModel
+
+@using GlenwoodMed.BusinessLogic
+@{
+    ViewBag.Title = "Register";
+    RegisterBusiness rb = new RegisterBusiness();
+}
+
+<style>
+
+    .form-group.required .control-label:before {
+        content: "*";
+        color: red;
+        font-family: 'Glyphicons Halflings';
+        font-weight: normal;
+        font-size: 8px;
+    }
+</style>
+
+<script src="~/Scripts/jquery-2.1.4.min.js" type="text/javascript"></script>
+<script src="~/Scripts/jquery.validate.min.js" type="text/javascript"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js" type="text/javascript"></script>
+<script src="~/Scripts/jquery-ui-1.11.4.min.js"></script>
+<link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+
+<head>
+    <title>Register Patient</title>
+
+    <script type="text/javascript">
+        //Show password Code...
+        $(document).ready(function () {
+            $('#showPassword').click(function () {
+                //$('#txtpassword').attr('type', $(this).is(':checked') ? 'text' : 'password');
+
+                var currentPasswordField = $('#txtpassword');
+                var currentPassword = currentPasswordField.val();
+                currentPasswordField.remove();
+
+                if($(this).is(':checked'))
+                {
+                    $(this).before('<input type="text" id="txtpassword" value="' + currentPassword + '" class="form-control">');
+                }
+
+                else
+                {
+                    $(this).before('<input type="password" id="txtpassword" value="' + currentPassword + '" class="form-control">');
+                }
+            });
+        });
+
+        $(function () {
+            $("#datepicker").datepicker();
+        });
+    </script>
+</head>
+<style>
+    .x{
+        color:Blue;
+        font:bold;
+    }
+</style>
+
+<script>
+    $(document).ready(function () {
+        $('#txtPhone').blur(function (e) {
+            if (validatePhone1('txtPhone')) {
+                $('#spnPhoneStatus').html('Valid');
+                $('#spnPhoneStatus').css('color', 'green');
+            }
+            else {
+                $('#spnPhoneStatus').html('Invalid');
+                $('#spnPhoneStatus').css('color', 'red');
+            }
+        });
+    });
+
+    function validatePhone1(txtPhone) {
+        var a = document.getElementById(txtPhone).value;
+        var filter = /^[0-9-+]+$/;
+        if (filter.test(a)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    $(document).ready(function () {
+        $('#txtEPhone').blur(function (e) {
+            if (validatePhone2('txtEPhone')) {
+                $('#EspnPhoneStatus').html('Valid');
+                $('#EspnPhoneStatus').css('color', 'green');
+            }
+            else {
+                $('#EspnPhoneStatus').html('Invalid');
+                $('#EspnPhoneStatus').css('color', 'red');
+            }
+        });
+    });
+
+    function validatePhone2(txtEPhone) {
+        var a = document.getElementById(txtEPhone).value;
+        var filter = /^[0-9-+]+$/;
+        if (filter.test(a)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    $(document).ready(function () {
+        $('#sEmail').blur(function (e) {
+            if (validateEmail('sEmail')) {
+                $('#EmailspnPhoneStatus').html('Valid');
+                $('#EmailspnPhoneStatus').css('color', 'green');
+            }
+            else {
+                $('#EmailspnPhoneStatus').html('Invalid');
+                $('#EmailspnPhoneStatus').css('color', 'red');
+            }
+        });
+    });
+
+    function validateEmail(sEmail) {
+        var a = document.getElementById(sEmail).value;
+        var filter = /^([\w-\.]+@@([\w-]+\.)+[\w-]{2,4})?$/;
+        if (filter.test(a)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+</script>
+
+<div class="progress">
+    <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
+        <span class="sr-only">45% Complete</span> First Step !
+    </div>
+</div>
+<h2>Register</h2>
+
+<div class="row">
+@using (Html.BeginForm("Register", "MyAccount", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    <div class="col-md-6">
+        @Html.AntiForgeryToken()
+        <h4 class="x">Primary Staff Details</h4>
+        <hr />
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+        <div class="form-group required">
+            @Html.Label("Role", new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @*@Html.DropDownList("Id", Model.DDLName, "Select A Role", new { @class = "form-control" })*@
+                @Html.DropDownList("Id", rb.DDRoles(), "Select A Name", new { @class = "form-control" })
+                @*@Html.ValidationMessageFor(model => model.DDLName, "", new { @class = "text-danger" })*@
+            </div>
+        </div>
+
+        <div class="form-group required">
+            @Html.LabelFor(m => m.Title, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.DropDownList("Title", new List<SelectListItem>{
+                            new SelectListItem{ Text="Mr", Value="Mr"},
+                            new SelectListItem{ Text="Mrs", Value="Mrs"},
+                            new SelectListItem{ Text="Ms", Value="Ms"}
+                            }, "Choose Title", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group required">
+            @Html.LabelFor(m => m.FullName, new { @class = "col-md-2 control-label", id = "Fname" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.FullName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
+                <p id="Fnameerr"></p>
+            </div>
+        </div>
+        <div class="form-group required">
+            @Html.LabelFor(m => m.Surname, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Surname, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Surname, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group required">
+            @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control", id = "txtpassword" })
+                <input type="checkbox" id="showPassword"/> Show Password
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group required">
+            @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        
+        <div class="form-group required">
+            @Html.LabelFor(m => m.MaritalStatus, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.DropDownList("Status", new List<SelectListItem>{
+                            new SelectListItem{ Text="Single", Value="Single"},
+                            new SelectListItem{ Text="Married", Value="Married"},
+                            new SelectListItem{ Text="Divorced", Value="Divorced"}
+                            }, "Select Marital Status", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.MaritalStatus, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group required">
+            @Html.LabelFor(m => m.DOB, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.DOB, new { @class = "form-control", id = "datepicker" })
+                @Html.ValidationMessageFor(model => model.DOB, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group required">
+            @Html.LabelFor(m => m.Sex, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.DropDownList("Gender", new List<SelectListItem>{
+                            new SelectListItem{ Text="Male", Value="Male"},
+                            new SelectListItem{ Text="Female", Value="Female"}
+                            }, "Select Gender", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Sex, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <br/>
+        
+    </div>
+
+    <div class="col-md-6">
+        <h4 class="x">Contact Details</h4>
+        <hr />
+        <div class="form-group required">
+            @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", id = "sEmail" })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                <span id="EmailspnPhoneStatus"></span>
+            </div>
+        </div>
+
+        <div class="form-group required">
+            @Html.LabelFor(m => m.Address1, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Address1, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Address1, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Address2, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Address2, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Address2, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Address3, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Address3, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Address3, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group required">
+            @Html.LabelFor(m => m.PostalCode, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.PostalCode, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.PostalCode, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group required">
+            @Html.LabelFor(m => m.Telephone, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Telephone, new { @class = "form-control", id = "txtPhone" })
+                @Html.ValidationMessageFor(model => model.PostalCode, "", new { @class = "text-danger" })
+                <span id="spnPhoneStatus"></span>
+            </div>
+        </div>
+
+        <div class="form-group required">
+            @Html.LabelFor(m => m.NationalId, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.NationalId, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.NationalId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" class="btn btn-primary" @*onclick="myFunction()"*@ value="Next" />
+
+                @*<button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Next", new { id = Model.UserName })';return false;"> Next</button>*@
+            </div>
+        </div>
+        </div>
+}
+</div>
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

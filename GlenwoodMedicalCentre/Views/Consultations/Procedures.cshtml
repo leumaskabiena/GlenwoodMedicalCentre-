@@ -1,0 +1,114 @@
+﻿@model GlenwoodMed.Model.ViewModels.ConsultationView
+@using (Html.BeginForm())
+{
+<div class="modal-body">
+    @*<div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <table>
+                <tr>
+                @{
+                    int cnt = 0;
+                    foreach (var item in Model.procedures)
+                    {
+                        if (cnt++%3 == 0)
+                        {
+                            @:</tr><tr>
+                        }@:
+                        <td>
+                            <input type="checkbox"
+                                   name="procedures"
+                                   id="procedures"
+                                   value="@item.procedureid"
+                                   @(Html.Raw(item.assigned ? "checked=\"checked\"" : "")) />
+                            @item.procedurename
+
+                        </td>
+                    }
+
+
+                }
+            </table>
+        </div>
+    </div>*@
+    <fieldset>
+        <legend>Previous roles</legend>
+        @Html.EditorFor(model => model.procedures)
+        <button type="button" data-bind="click: addPosition">Add one</button>
+        <button type="button" data-bind="click: removePosition">Remove one</button>
+    </fieldset>
+</div>
+<input type="submit" name="submit" value="Submit" class="btn btn-primary"/>
+}
+
+<script type="text/javascript">
+    ko.bindingHandlers.namePath = {
+        init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+
+            var jElement = $(element);
+            var parent = $(element).parents("fieldset")[0];
+            var parentIndex = $(parent).index() - 1;
+
+            if (valueAccessor()) {
+
+                var name = jElement.attr("name");
+                var modifiedPath = name.replace("[0]", "[" + parentIndex + "]");
+                element.name = modifiedPath;
+
+                var id = jElement.attr("id");
+                var modifiediD = id.replace("_0_", "_" + parentIndex + "_");
+                element.id = modifiediD;
+
+                // Workaround IE 6/7 issue
+                // - https://github.com/SteveSanderson/knockout/issues/197
+                // - http://www.matts411.com/post/setting_the_name_attribute_in_ie_dom/
+                if (ko.utils.isIe6 || ko.utils.isIe7)
+                    element.mergeAttributes(document.createElement("<input name='" + element.name + "'/>"), false);
+            }
+
+            // Fix data-valmsg-for on labels to match
+            $(element).parent().find(".field-validation-valid").each(function () {
+                var item = $(this);
+                var data = item.data();
+                var modifiedValPath = data.valmsgFor.replace("[0]", "[" + parentIndex + "]");
+                item.attr("data-valmsg-for", modifiedValPath);
+            });
+        }
+    };
+</script>
+<script type="text/javascript">
+
+    function createViewModel() {
+
+        var createPosition = function() {
+            return {
+                Dosage: ko.observable(),
+                DrugName: ko.observable(),
+                Quantity: ko.observable()
+            };
+        };
+
+        var addPosition = function() {
+            positions.push(createPosition());
+        };
+
+        var removePosition = function() {
+            positions.pop();
+        };
+
+        var Notes = ko.observable();
+        var positions = ko.observableArray([createPosition()]);
+
+        return {
+           Notes: Notes,
+            positions: positions,
+            addPosition: addPosition,
+            removePosition: removePosition
+        };
+
+    }
+
+    $(document).ready(function() {
+        var viewModel = createViewModel();
+        ko.applyBindings(viewModel);
+    });
+</script>

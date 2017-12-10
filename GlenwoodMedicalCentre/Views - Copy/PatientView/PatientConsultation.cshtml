@@ -1,0 +1,113 @@
+﻿@model GlenwoodMedicalCentre.Models.PatientConsultationDetails
+
+@{
+    ViewBag.Title = "Patient Consultation";
+    Layout = "~/Views/Shared/_PatientLayout.cshtml";
+}
+
+<link href="~/Content/ButtonColors.css" rel="stylesheet" />
+<div id="dialog-alert" style="display: none">
+    <p>
+        @TempData["msg"]!
+    </p>
+</div>
+
+@*@Html.ActionLink("AddMoreDrugs", "AddDrugsToConsult", "Consultations", new { id = Model._Consultation.ConsultId }, new { @class = "lnkDetail btn btn-info " })*@
+
+@*<ol class="breadcrumb">
+    <li class="x">Consultation</li>
+    <li class="x"><a href="@Url.Action("MainIndex", "Consultations")">Main Index</a></li>
+    <li class="active">View Patient Consultation</li>
+</ol>*@
+<div class="text-center"><h2 class=""><small> Consultation(s) for</small> ( @Html.DisplayFor(m => m.Patient.FullName) @Html.DisplayFor(m => m.Patient.Surname) )</h2></div>
+
+<table class="table  table-bordered table-responsive">
+    <tr>
+
+
+        <th>
+            Consult Date
+        </th>
+        <th>
+            Consult Time
+        </th>
+
+        <th>
+            illness
+        </th>
+        <th>
+            Description
+        </th>
+
+        <th>
+            Notes
+        </th>
+        <th>
+            Testtype
+        </th>
+        <th>
+            Symptoms
+        </th>
+        <th>
+            Prescribed Medicine
+        </th>
+
+
+    </tr>
+
+    @foreach (var item in Model._Consultation)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ConsultDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ConsultTime)
+            </td>
+
+
+            <td>
+                @Html.DisplayFor(modelItem => item.illness)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Notes)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Testtype)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Symptoms)
+            </td>
+            <td>
+                @{
+        foreach (var course in item.CustLis)
+        {
+            @course.DrugName    <br />
+        }
+                }
+            </td>
+            <td>
+                <div class="dropup">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" id="dropdownMenu2" aria-haspopup="true" aria-expanded="false">
+                        <b>Actions</b>
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                        <li class="dropdown-header"><b>Primary Actions</b></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="@Url.Action("PrintConsultation", "Consultations", new { ConsultId = item.ConsultId })"><span><img src="~/Images/printer-icon.png" style="width:20px; height:20px" /></span> <b>Print</b></a></li>
+                    </ul>
+                </div>
+            </td>
+
+        </tr>
+    }
+
+</table>
+
+
+

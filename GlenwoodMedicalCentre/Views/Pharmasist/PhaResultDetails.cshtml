@@ -1,0 +1,45 @@
+﻿@model GlenwoodMed.Model.ViewModels.CollectionView
+
+<div>
+    <h4>CollectionDrugs</h4>
+    <hr />
+    <dl class="dl-horizontal">
+ 
+        <dt>
+            @Html.DisplayNameFor(model => model.Prescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Prescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PatientName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PatientName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Collected)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Collected)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PaymentType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PaymentType)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Collected ", "PostPharmar", "Pharmasist", new { id = Model.collectionID }, new { @class = " btn btn-primary" })
+ |
+</p>

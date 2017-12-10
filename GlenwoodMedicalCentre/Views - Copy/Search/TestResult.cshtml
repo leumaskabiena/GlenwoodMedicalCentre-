@@ -1,0 +1,88 @@
+﻿@model IEnumerable<GlenwoodMed.Data.Tables.TestResult>
+                      <style>
+                          .x {
+                              color: Blue;
+                              font: bold;
+                          }
+
+                          .y {
+                              font-family: 'Bell MT';
+                              color: royalblue;
+                              font-size: x-large;
+                          }
+
+                          .wid {
+                              width: 50%;
+                          }
+
+                          .table-bordered {
+                              border: thick;
+                              color: blue;
+                          }
+                          table {
+                              border: thick,thin;
+                              color: blue;
+                              background-color: lightgrey;
+                          }
+                          td{
+                              color:black;
+                          }
+                      </style>
+@{
+    ViewBag.Title = "Test Result";
+}
+
+<h2 class="y">Search for</h2>
+
+                      <form>
+                          <table class="table">
+                              <tr>
+                                  <td><input type="radio" name="searchfor" value="Patient" onclick="location.href='@Url.Action("Patient", "Search")';return false;" /><text>Patient</text></td>
+                                  <td></td>
+                                  <td><input type="radio" name="searchfor" value="Drugs" onclick="location.href='@Url.Action("Drugs", "Search")';return false;" /><text>Drugs</text></td>
+                                  <td></td>
+                                  <td><input type="radio" name="searchfor" value="Consultation" onclick="location.href='@Url.Action("consultation", "Search")';return false;" /><text>Consultation</text></td>
+
+
+                              </tr>
+                          </table>
+                      </form><br/><br/>
+<h2 class="x">Test Result</h2>
+@using (Html.BeginForm("TestResult", "Search", FormMethod.Post))
+   {
+    <br /><br />
+    <h3><b>Search:</b></h3><br/>
+    <h3 class="wid">@Html.TextBox("testpar")</h3><br />
+  
+    <input type="submit" value="Search Test" size="20" name="searchtest" />
+    }
+    <br/><br/>
+                      <table class="table table-striped table-bordered table-hover table-responsive">
+                          <tr class="success">
+                              <th>
+                                  @Html.DisplayNameFor(model => model.TestType)
+                              </th>
+                              <th>
+                                  @Html.DisplayNameFor(model => model.TestFile)
+                              </th>
+                              <th></th>
+                          </tr>
+
+                          @foreach (var item in Model)
+                          {
+                              <tr>
+                                  <td>
+                                      @Html.DisplayFor(modelItem => item.TestType)
+                                  </td>
+                                  <td>
+                                      @Html.DisplayFor(modelItem => item.TestFile)
+                                  </td>
+                                  @*<td>
+                                      @Html.ActionLink("Edit", "Edit", new { id = item.TestId }) |
+                                      @Html.ActionLink("Details", "Details", new { id = item.TestId }) |
+                                      @Html.ActionLink("Delete", "Delete", new { id = item.TestId })
+                                  </td>*@
+                              </tr>
+                          }
+
+                      </table>

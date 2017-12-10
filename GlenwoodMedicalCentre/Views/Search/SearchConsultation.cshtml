@@ -1,0 +1,62 @@
+﻿@model IEnumerable<GlenwoodMed.Data.Tables.Consultation>
+<script src="~/Scripts/TooTipScript.js"></script>
+@using (Ajax.BeginForm("SearchConsultation", "Search", null, new AjaxOptions()
+                                            {
+                                                HttpMethod = "GET",
+                                                UpdateTargetId = "Display",
+                                                InsertionMode = InsertionMode.Replace
+                                            }))
+{
+    <div align="center">
+        @Html.TextBox("illpar", "", new { @class = "form-control", @placeholder = "Enter Text Here" })<br/>
+        <input type="submit" name="searchcons" value="Search" class="btn btn-success" />
+    </div>
+}
+
+<br/>
+<table class="table table-striped table-bordered table-hover table-responsive">
+    <tr class="success">
+
+        <th>
+            @Html.DisplayNameFor(model => model.illness)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Symptoms)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PresribedMed)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ConsultDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalPrice)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.illness)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Symptoms)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PresribedMed)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ConsultDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalPrice)
+            </td>
+            <td>
+           </td>
+        </tr>
+    }
+
+</table>

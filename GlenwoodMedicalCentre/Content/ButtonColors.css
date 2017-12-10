@@ -1,0 +1,49 @@
+﻿body {
+}
+
+.delete{
+    color:red;
+    font-size:20px;
+}
+
+.details{
+    color:black;
+    font-size:20px;
+}
+
+.edit{
+    color:green;
+    font-size:20px;
+}
+
+.print{
+    font-size:20px;
+}
+
+.but:hover{
+    color:blue;
+}
+
+.x{
+    color: Blue;
+    font: bold;
+}
+
+.wid{
+     width: 50%;
+}
+
+.table-bordered{
+    border: thick;
+}
+
+.conprice{
+         font-family: Bold;
+         font-size: 500%
+       }
+
+hr{
+    height:1px;border:none;color:#333;background-color:#333;
+}
+
+    

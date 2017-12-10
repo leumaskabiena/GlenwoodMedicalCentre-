@@ -1,0 +1,409 @@
+﻿@*@model IEnumerable<GlenwoodMed.Model.ViewModels.PatientModel>*@
+@*@model GlenwoodMed.Data.Tables.PatientModelDetails*@
+
+@*@model PagedList.IPagedList<GlenwoodMed.Model.ViewModels.PatientModel>*@
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+@model IPagedList<GlenwoodMed.Model.ViewModels.bookingPatient>
+@*@model IPagedList<GlenwoodMed.Model.ViewModels.PatientModel>*@
+@using PagedList.Mvc
+@using PagedList;
+@using GlenwoodMed.BusinessLogic.Business
+@{
+    ViewBag.Title = "Patient";
+    PatientBusiness pb = new PatientBusiness();
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/ButtonColors.css" rel="stylesheet" />
+<script src="~/Scripts/gviz-api.js"></script>
+@*<script type="text/javascript" src="https://www.google.com/jsapi"></script>*@
+<script src="~/Scripts/jquery-2.1.4.min.js"></script>
+<script src="~/Scripts/jquery.mousewheel-3.0.6.pack.js"></script>
+<script src="~/Scripts/jquery.fancybox.js?v=2.1.5"></script>
+<link href="~/Content/jquery.fancybox.css?v=2.1.5" rel="stylesheet" media="screen" />
+<link href="~/Scripts/jquery.fancybox.css" rel="stylesheet" />
+<link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+<script src="~/Scripts/TooTipScript.js"></script>
+<script src="~/Scripts/jquery-ui-1.11.4.min.js"></script>
+
+
+
+<head>
+    <title>Patients</title>
+    @*<script type="text/javascript">
+    $(document).ready(function() {
+        $("#show").click(function () {
+            $("#p").toggle();
+            $("#all").toggle();
+        });
+    });
+    </script>*@
+
+    <script type="text/javascript">
+    $(function () {
+        $("#txtsearch").autocomplete
+        source: '@Url.Action("Patient/GetPatients")'
+    });
+    
+        $(document).ready(function () {
+            $("#ShowImage").fancybox({
+                helpers:
+                {
+                    title:
+                    {
+                        type: 'float'
+                    }
+                }
+            });
+        });
+    </script>
+
+    <style type="text/css">
+        .imgBox {
+            width: 200px;
+            height: 200px;
+            opacity: 1.0;
+            filter: alpha(opacity=100);
+        }
+
+            .imgBox:hover {
+                -moz-box-shadow: 0 0 10px #ccc;
+                -webkit-box-shadow: 0 0 10px #ccc;
+                box-shadow: 0 0 10px #ccc;
+                opacity: 0.4;
+                filter: alpha(opacity=40);
+            }
+    </style>
+</head>
+<div class="container-fluid">
+    <ol class="breadcrumb">
+        <li class="x">Patient</li>
+        <li class="active">Index</li>
+    </ol>
+
+@if (Request.IsAuthenticated && User.IsInRole("Receptionist"))
+{
+    <div class="btn-group btn-group-justified" role="group" aria-label="ButtonHeads">
+        <div class="btn-group" role="group">
+            <button type="button" id="cre" class="btn btn-default btn-lg but" onclick="location.href='@Url.Action("RegisterPatient", "Patient")';return false;"><span class="glyphicon glyphicon-plus"></span>  Add Patient ?</button>
+        </div>
+        @*<div class="btn-group" role="group">
+            <button type="button" id="show" class="btn btn-danger btn-lg but"><span class="glyphicon glyphicon-eye-open"></span>  Hide All ?</button>
+        </div>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default btn-lg but" onclick="location.href='@Url.Action("Create", "Dependent")';return false;"><span class="glyphicon glyphicon-plus"></span>  Add Dependent ?</button>
+        </div>*@
+    </div>
+    
+
+    <br /><br />
+}
+    <div class="row">
+        @*<div class="col-md-6">
+            @using (Html.BeginForm("EditPatient", "Patient", FormMethod.Get))
+            {
+                <button type="button" id="edi" class="btn btn-default btn-lg disabled" onclick="location.href='@Url.Action("Register", "MyAccount")';return false;"><span class="glyphicon glyphicon-arrow-down"></span>  Edit Patient Profile ?</button>
+                <br /><br />
+                @Html.DropDownList("PatientId", pb.PatientDDL(), "Select A Patient", new { @class = "form-control" })
+
+                @Html.DropDownList("PatientId", ViewBag.PatientId as SelectList, "Select A Patient", new { @class = "form-control" })   <input type="submit" value="Go!" class="btn btn-default" /> <br />
+            }
+        </div>*@
+
+        @*<div class="col-md-6">
+            @using (Html.BeginForm("ViewPatient", "Patient", FormMethod.Get))
+            {
+                <button type="button" id="edi" class="btn btn-default btn-lg disabled" onclick="location.href='@Url.Action("Register", "MyAccount", new { @class = "form-control" })';return false;"><span class="glyphicon glyphicon-arrow-down"></span>  View Patient Profile ?</button>
+                <br /><br />
+                @Html.DropDownList("PatientId", pb.PatientDDL(), "Select A Patient", new { @class = "form-control" })
+
+                @Html.DropDownList("PatientId", ViewBag.PatientId as SelectList, "Select A Patient", new { @class = "form-control" })    <input type="submit" value="Go!" class="btn btn-default" /> <br />
+            }
+        </div>*@
+    </div>
+
+    <div align="center">
+
+        <table>
+            <tr>
+                <td align="left" width="350px">
+                    @using (@Html.BeginForm("Index", "Patient", FormMethod.Get))
+                    {
+                        <div align="center">
+                            @Html.TextBox("patient", null, new { id = "txtsearch", @class = "form-control", @placeholder = "Search for patient..." }) <br />
+                            <input type="submit" name="spatient" value="Search" id="button1" class="btn btn-success" />
+                        </div>
+                    }
+                </td>
+                <td align="right">
+                    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+                        <script type="text/javascript">
+                        google.load("visualization", "1", { packages: ["corechart"] });
+                        google.setOnLoadCallback(drawChart);
+                        function drawChart() {
+                            var data = google.visualization.arrayToDataTable([
+                              ['Consultations', 'Review'],
+                              ['Consulted Patients', @ViewBag.Info],
+                              ['Not Consulted Patients ', @ViewData["N_count"]]
+                            ]);
+
+                            var options = {
+                                title: 'Statistics for Consultation',
+                                is3D: true,
+                            };
+
+                            var chart = new google.visualization.PieChart(document.getElementById('con_3d'));
+                            chart.draw(data, options);
+                        }
+                    </script>
+                    <div id="con_3d" style="width: 400px; height: 220px;"></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    @*<div align="center">
+        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+        <script type="text/javascript">
+            google.load("visualization", "1", { packages: ["corechart"] });
+            google.setOnLoadCallback(drawChart);
+            function drawChart() {
+                var data = google.visualization.arrayToDataTable([
+                  ['Consultations', 'Review'],
+                  ['Consulted Patients', @ViewBag.Info],
+                  ['Not Consulted Patients ', @ViewData["N_count"]]
+                ]);
+
+                var options = {
+                    title: 'Statistics for Consultation',
+                    is3D: true,
+                };
+
+                var chart = new google.visualization.PieChart(document.getElementById('con_3d'));
+                chart.draw(data, options);
+            }
+        </script>
+        <div id="con_3d" style="width: 400px; height: 220px;"></div>
+    </div>*@
+
+    @*@using (@Html.BeginForm("Index", "Patient", FormMethod.Post))
+    {
+        <div align="center">
+            @Html.TextBox("patient", null, new { id = "txtsearch", @class = "form-control", @placeholder = "Search for patient..." }) <br />
+            <input type="submit" name="spatient" value="Search" class="btn btn-success" />
+        </div>
+    }*@
+    
+
+    <br/>
+
+    <div id="p">
+        <table class="table table-striped table-bordered table-hover table-responsive">
+            <tr>
+                <td colspan="16">
+                <h4 style="font:bold; color:red">
+                    There are ( @ViewData["CountPatients"] ) patients awaiting consultation...
+                    </h4>
+                </td>
+            </tr>
+
+            <tr class="success">
+                @*<th>
+                    @Html.DisplayNameFor(item => item.First().Title)
+                </th>*@
+                <th>
+                    Profile Pic
+                </th>
+                <th>
+                    @Html.DisplayNameFor(item => item.First().FullName)
+                </th>
+                @*<th>
+                    @Html.DisplayNameFor(item => item.First().Surname)
+                </th>*@
+                <th>
+                    @Html.DisplayNameFor(item => item.First().Email)
+                </th>
+                @*<th>
+                    @Html.DisplayNameFor(item => item.First().Sex)
+                </th>*@
+                <th>
+                    @Html.DisplayNameFor(item => item.First().Telephone)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(item => item.First().date)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(item => item.First().time)
+                </th>
+                @*<th>
+                    @Html.DisplayNameFor(item => item.First().MedicalAidName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(item => item.First().MedicalAidNo)
+                </th>*@
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    @*<td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>*@
+                    @*@if (item.FileType == GlenwoodMed.Model.ViewModels.FileType.Avatar)
+                    {
+                        <div class="form-group">
+                            @Html.Label("Profile Pic", new { @class = "col-md-2 control-label" })
+                            <div class="col-md-10">
+                                @{
+                        var base64 = Convert.ToBase64String(Model._myuser.resultFile);
+                        var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                                }
+
+                                <img src="@imgSrc" alt="avatar" style="width:150px; height:150px" />
+                            </div>
+                        </div>
+                    }*@
+                    <td>
+                        @if (item.FileType == GlenwoodMed.Model.ViewModels.FileType.Avatar)
+                        {
+
+                            var base64 = Convert.ToBase64String(item.resultFile);
+                            var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+
+                            <a id="ShowImage" class="fancybox-button" data-rel="fancybox-button"
+                               title="Photo" href="@imgSrc">
+                                <div class="zoom">
+                                    <img src="@imgSrc" class="imgBox img-rounded" style="width:100px; height:70px" />
+                                    <div class="zoom-icon"></div>
+                                </div>
+                            </a>
+                            @*<img src="@imgSrc" alt="avatar" style="width:100px; height:70px" />*@
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FullName)
+                    </td>
+                    @*<td>
+                        @Html.DisplayFor(modelItem => item.Surname)
+                    </td>*@
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    @*<td>
+                        @Html.DisplayFor(modelItem => item.Sex)
+                    </td>*@
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Telephone)
+                    </td>
+                    <td>
+                        @{
+                            string val = Convert.ToDateTime(item.date).ToString("D");
+                        }
+                        @Html.DisplayFor(modelItem => val)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.start_date)
+                    </td>
+                    @*<td>
+                        @Html.DisplayFor(modelItem => item.MedicalAidName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MedicalAidNo)
+                    </td>*@
+                    <td>
+                            <div class="dropup">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" id="dropdownMenu2" aria-haspopup="true" aria-expanded="false">
+                                    <b>Actions</b>
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                    <li class="dropdown-header"><b>Primary Actions</b></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a href="@Url.Action("EditPatient", "Patient", new { PatientId = item.PatientIdKey })"><span class="glyphicon glyphicon-edit" style="color:green; width:20px; height:20px"></span> <b>Edit Patient</b></a></li>
+                                    <li><a href="@Url.Action("ViewPatient", "Patient", new { PatientId = item.PatientIdKey })"><span class="glyphicon glyphicon-eye-open" style="width:20px; height:20px"></span> <b>View Patient</b></a></li>
+                                    <li><a href="@Url.Action("Create", "Dependent", new { PatientId = item.PatientIdKey })"><span class="glyphicon glyphicon-plus" style="width:20px; height:20px"></span> <b>Dependent</b></a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li class="dropdown-header"><b>Secondary Actions</b></li>
+                                    <li role="separator" class="divider"></li>
+                                    @*<li><a href="@Url.Action("PrintHistory", "Patient", new { PatientId = item.PatientIdKey })"><span><img src="~/Images/printer-icon.png" style="width:20px; height:20px" /></span> <b>Print Report</b></a></li>*@
+                                    @*<li><a href="@Url.Action("Create", "Referrals", new { PatientId = item.PatientIdKey })"><span class="glyphicon glyphicon-plus"></span> <b>Referral Letter</b></a></li>*@
+                                    <li><a href="@Url.Action("Create", "Consultations", new { id = item.PatientIdKey })"><span class="glyphicon glyphicon-plus" style="width:20px; height:20px"></span> <b>Consult</b></a></li>
+                                    <li><a href="@Url.Action("Index", "MedicalCertificate", new { PatientId = item.PatientIdKey })"><span><img src="~/Images/291397-certificate-512.png" style="width:20px; height:20px" /></span> <b>Med Certificate</b></a></li>
+                                </ul>
+                                @Html.ActionLink(" ", "Index", "Patient", new { bookingId = item.BookingId }, new { @class = "btn btn-default glyphicon glyphicon-remove" })
+                            </div>
+                    </td>
+                </tr>
+            }
+
+        </table>
+
+        @*<div class="col-sm-10">*@
+            <div align="center">
+                @Html.PagedListPager(Model, page => Url.Action("Index", new { page, pagesize = Model.PageSize }))
+
+                <b>Showing @Model.FirstItemOnPage to @Model.LastItemOnPage of @Model.TotalItemCount Patients</b>
+            </div>
+        @*</div>*@
+       
+
+        @*<div align="center" style="margin: 0, auto">
+            <nav>
+                <ul class="pagination">
+                    <li>
+                        <a href="#">
+                            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
+                            of @Model.PageCount
+                        </a>
+                    </li>
+                    @if (Model.HasPreviousPage)
+                    {
+                        <li>@Html.ActionLink("<<", "Index", new { page = 1 })</li>
+                        @Html.Raw(" ");
+                        <li>@Html.ActionLink("< Prev", "Index", new { page = Model.PageNumber - 1 })</li>
+                    }
+
+                    else
+                    {
+                        <li class="disabled">@Html.ActionLink("<<", "Index", new { page = 1 }, new { onclick = "javascript:return false;" })</li>
+                        @Html.Raw(" ");
+                        <li class="disabled">@Html.ActionLink("< Prev", "Index", new { page = Model.PageNumber - 1 }, new { onclick = "javascript:return false;" })</li>
+                    }
+                    @*<li>
+                        <a href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>*@
+
+                    @*<li>@Html.ActionLink("1", "Index", new { page = 1 })</li>
+                    <li>@Html.ActionLink("2", "Index", new { page = 2 })</li>
+                    <li>@Html.ActionLink("3", "Index", new { page = 3 })</li>
+                    <li>@Html.ActionLink("4", "Index", new { page = 4 })</li>
+                    <li>@Html.ActionLink("5", "Index", new { page = 5 })</li>*@
+
+
+                    @*@if (Model.HasNextPage)
+                    {
+                        <li>@Html.ActionLink("1", "Index", new { page = 1 })</li>
+                        <li>@Html.ActionLink("2", "Index", new { page = 2 })</li>
+                        <li>@Html.ActionLink("3", "Index", new { page = 3 })</li>
+                        <li>@Html.ActionLink("4", "Index", new { page = 4 })</li>
+                        <li>@Html.ActionLink("5", "Index", new { page = 5 })</li>
+                        <li>@Html.ActionLink("Next >", "Index", new { page = Model.PageNumber + 1 })</li>
+                        @Html.Raw(" ");
+                        <li>@Html.ActionLink(">>", "Index", new { page = Model.PageCount })</li>
+                    }
+
+                    else
+                    {
+                        <li class="disabled">@Html.ActionLink("Next >", "Index", new { page = Model.PageNumber + 1 }, new { onclick = "javascript:return false;" })</li>
+                        @Html.Raw(" ");
+                        <li class="disabled">@Html.ActionLink(">>", "Index", new { page = Model.PageCount }, new { onclick = "javascript:return false;" })</li>
+                    }
+                </ul>
+            </nav>
+        </div>*@
+
+    </div>
+</div>

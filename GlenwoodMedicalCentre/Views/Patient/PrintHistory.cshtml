@@ -1,0 +1,359 @@
+﻿@model GlenwoodMedicalCentre.Models.PatientConsultationDetails
+
+@{
+    ViewBag.Title = "PrintHistory";
+    //Layout = "~/Views/Shared/_PdfLayout.cshtml";
+    Layout = "";
+
+
+}
+<!DOCTYPE html>
+<html>
+<body>
+    <table stlye="page-break-inside:auto;" bordercolor="RED" width="100%" height="100%" cellpadding="1.0" cellspacing="10.0">
+
+        <thead style="display:table-header-group; display: table-header-group;">
+            @*<tr stlye="page-break-inside:avoid; page-break-after:auto;">
+                    <th>Test THEAD</th>
+                </tr>*@
+
+            <tr>
+                <td colspan="2" rowspan="2" align="center" valign="top">
+                    <img src="@Server.MapPath("~/Content/white_caduceus_red_box.png")" width="100" height="100" /> <br />
+                    <div style="font-weight:bold;font-size:18;">
+                        Glenwood Medical Centre
+                    </div>
+                    <div style="font-weight:bold;font-size:16;">
+                        ( Medical Report on @DateTime.Now )
+
+                    </div>
+
+                </td>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            <tr style="border:1px">
+                <td>
+                    Patient Name :
+                </td>
+                <td>
+                    @Model.Patient.Title @Model.Patient.FullName @Model.Patient.Surname
+                </td>
+            </tr>
+            <tr style="border:none">
+                <td>
+                    Date of Birth :
+                </td>
+                <td>
+                    @Model.Patient.DOB
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Medical Provider &amp; Number :
+                </td>
+                <td>
+                    @{
+                        if (Model.Patient.MedicalAidNo == null)
+                        {
+                            Model.Patient.MedicalAidNo = "Not Available";
+                        }
+
+                        else
+                        {
+                            Model.Patient.MedicalAidNo = Model.Patient.MedicalAidName + " | " + Model.Patient.MedicalAidNo;
+                        }
+                    }
+                    @Model.Patient.MedicalAidNo
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    ID Number
+                </td>
+                <td>
+                    @Model.Patient.NationalId
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    Address
+                </td>
+                <td>
+                    @Model.Patient.Address1
+                    @*<newline>
+                            @Model._patient.Address1
+                        </newline>*@
+                    <newline>
+                        @Model.Patient.Address2
+                    </newline>
+                    <newline>
+                        @Model.Patient.Address3
+                    </newline>
+
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    Gender
+                </td>
+                <td>
+                    @Model.Patient.Sex
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    Cellphone Number
+                </td>
+                <td>
+                    @Model.Patient.Telephone
+                </td>
+            </tr>
+        </tbody>
+
+        <tfoot style="display:table-footer-group;">
+            @*<tr>
+                    <td>TFOOT</td>
+                </tr>*@
+        </tfoot>
+    </table>
+
+    @*<table border="1" width="100%" height="100%" cellpadding="1.0" cellspacing="3.0">
+            <tr>
+                <td colspan="6" rowspan="2" align="center" valign="top">
+                    Consultations
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model._consult.First().illness)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model._consult.First().Symptoms)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model._consult.First().PresribedMed)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model._consult.First().Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model._consult.First().ConsultDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model._consult.First().ConsultTime)
+                </th>
+            </tr>
+
+            @foreach (var item in Model._consult)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.illness)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Symptoms)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PresribedMed)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @{
+                            string parameterValue = item.ConsultDate.ToString("MM/dd/yyyy");
+                        }
+                        @Html.DisplayFor(modelItem => parameterValue)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ConsultTime)
+                    </td>
+                </tr>
+            }
+        </table>*@
+    <newline />
+    <paragraph leading="24.0" font="unknown" align="center">
+        <h2><b>Consultations</b></h2>
+        <hr />
+    </paragraph>
+    <newline />
+    @*<div align="center">
+            <h2><b>Consultations</b></h2>
+            <hr/>
+        </div>*@
+
+    <div>
+        <ol>
+            @foreach (var item in Model._Consultation)
+            {
+                <br />
+                <li>
+                    @{
+                string parameterValue = item.illness.ToUpper();
+                    }
+                    <b>@Html.DisplayFor(modelItem => parameterValue)</b>
+                </li>
+
+                <ul type="circle">
+                    <li>
+                        <b>@Html.DisplayNameFor(model => model._Consultation.First().Symptoms):</b>   @{
+                                                                                                        foreach (var course in item.Symptomses)
+                                                                                                        {
+                                                                                                            @course.symptomsname    <br />
+                                                                                                        }
+                                                                                                    }
+                    </li>
+                    <li>
+                        <b>@Html.DisplayNameFor(model => model._Consultation.First().PresribedMed):</b>   
+                        @{
+                            foreach (var course in item.Drugs)
+                            {
+                                @course.DrugName   <br />
+                            }
+                        }
+                    </li>
+                    <li>
+                        <b>@Html.DisplayNameFor(model => model._Consultation.First().Description):</b>   @Html.DisplayFor(modelItem => item.Description)
+                    </li>
+                    <li>
+                        <b>@Html.DisplayNameFor(model => model._Consultation.First().ConsultDate):</b>   @{
+                string Value = item.ConsultDate.ToString("MM/dd/yyyy");
+                        }
+                        @Html.DisplayFor(modelItem => Value)
+                    </li>
+                    <li style="margin-bottom: 10px;">
+                        <b>@Html.DisplayNameFor(model => model._Consultation.First().ConsultTime):</b>   @Html.DisplayFor(modelItem => item.ConsultTime)
+                    </li>
+                    <li><div align="center"><hr /></div></li>
+                </ul>
+            }
+        </ol>
+
+    </div>
+
+
+    <newline />
+    <paragraph leading="24.0" font="unknown" align="center">
+        <h2><b>Test Results</b></h2>
+
+    </paragraph>
+    <newline />
+    <paragraph leading="24.0" font="unknown" align="center">
+        <h2><b>( Xray Results )</b></h2>
+        <hr />
+    </paragraph>
+    <newline></newline>
+    @*<div align="center">
+            <h2><b>Consultations</b></h2>
+            <hr/>
+        </div>*@
+
+    <div>
+        <ol>
+            @foreach (var item in Model._Xray)
+            {
+                <br />
+                <li>
+                    @{
+                string parameterValue = item.name1.ToUpper();
+                    }
+                    <b>@Html.DisplayFor(modelItem => parameterValue)</b>
+                </li>
+
+                <ul type="circle">
+                    <li>
+                        <b>@Html.DisplayNameFor(model => model._Xray.First().ray1):</b>   @Html.DisplayFor(modelItem => item.ray1)
+                    </li>
+                    <li>
+                        <b>@Html.DisplayNameFor(model => model._Xray.First().ray2):</b>   @Html.DisplayFor(modelItem => item.ray2)
+                    </li>
+                    <li>
+                        <b>@Html.DisplayNameFor(model => model._Xray.First().ray3):</b>   @Html.DisplayFor(modelItem => item.ray3)
+                    </li>
+                    <li>
+                        <b>@Html.DisplayNameFor(model => model._Xray.First().ray4):</b>   @Html.DisplayFor(modelItem => item.ray4)
+                    </li>
+                    <li>
+                        <b>@Html.DisplayNameFor(model => model._Xray.First().ray5):</b>   @Html.DisplayFor(modelItem => item.ray5)
+                    </li>
+                    <li>
+                        <b>@Html.DisplayNameFor(model => model._Xray.First().Date):</b>   @{
+                string Value = item.Date.ToString("MM/dd/yyyy");
+                        }
+                        @Html.DisplayFor(modelItem => Value)
+                    </li>
+                    <li style="margin-bottom: 10px;">
+                        <b>@Html.DisplayNameFor(model => model._Xray.First().place):</b>   @Html.DisplayFor(modelItem => item.place)
+                    </li>
+                    <li><div align="center"><hr /></div></li>
+                </ul>
+            }
+        </ol>
+
+    </div>
+
+    <newline />
+    <paragraph leading="24.0" font="unknown" align="center">
+        <h2><b>( HIV Results )</b></h2>
+        <hr />
+    </paragraph>
+    <newline></newline>
+    @*<div align="center">
+            <h2><b>Consultations</b></h2>
+            <hr/>
+        </div>*@
+
+    <div>
+        <ol>
+            @foreach (var item in Model._HIV)
+            {
+                <br />
+                <li>
+                    @{
+                string parameterValue = item.HIVtestType.ToUpper();
+                    }
+                    <b>@Html.DisplayFor(modelItem => parameterValue)</b>
+                </li>
+
+                <ul type="circle">
+                    <li>
+                        <b>@Html.DisplayNameFor(model => model._HIV.First().Status):</b>   @Html.DisplayFor(modelItem => item.Status)
+                    </li>
+                    <li>
+                        <b>@Html.DisplayNameFor(model => model._HIV.First().TestigLocation):</b>   @Html.DisplayFor(modelItem => item.TestigLocation)
+                    </li>
+                    <li>
+                        <b>@Html.DisplayNameFor(model => model._HIV.First().Date):</b>   @{
+                string DValue = item.Date.ToString("MM/dd/yyyy");
+                        }
+                        @Html.DisplayFor(modelItem => DValue)
+                    </li>
+                    <li style="margin-bottom: 10px;">
+                        <b>@Html.DisplayNameFor(model => model._HIV.First().NextAppointment):</b>   @{
+                string NextValue = item.NextAppointment.ToString("MM/dd/yyyy");
+                        }
+                        @Html.DisplayFor(modelItem => NextValue)
+                    </li>
+                    <li><div align="center"><hr /></div></li>
+                </ul>
+            }
+        </ol>
+
+    </div>
+
+    <newline />
+    <paragraph leading="24.0" font="unknown" align="Default">
+
+    </paragraph>
+    <newline />
+    <newline />
+
+</body>
+
+</html>

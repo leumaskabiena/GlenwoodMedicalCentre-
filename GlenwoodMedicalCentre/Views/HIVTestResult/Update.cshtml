@@ -1,0 +1,113 @@
+﻿@model GlenwoodMed.Model.ViewModels.HIVTestResultModel  
+@{
+    ViewBag.Title = "Update";
+}
+<script src="~/Scripts/PopUp.js"></script>
+<script type="text/javascript">
+    $(function () {// will trigger when the document is ready
+        $("#datepicker").datepicker();
+    });
+
+    function goBack() {
+        window.history.back();
+    };
+</script>
+<link href="~/Content/ButtonColors.css" rel="stylesheet" />
+
+<div class="text-center x"><h2>Edit Test Result for @Model.PatientName</h2></div>
+<hr />
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+      @Html.HiddenFor(model => model.TestId)
+     
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control", id = "datepicker" } })
+                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @*<div class="form-group">
+            @Html.LabelFor(model => model.DOB, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DOB, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DOB, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+        @*<div class="form-group">
+            @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Gender", new List<SelectListItem>{
+                                new SelectListItem{Text="Male",Value="Male"},
+                                new SelectListItem{Text="Female",Value="Female"},
+                                }, "Gender", new { @class = "form-control" })
+            </div>
+        </div>*@
+        <div class="form-group">
+            @Html.LabelFor(model => model.HIVtestType, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("HIVtestType", new List<SelectListItem>{
+                                new SelectListItem{Text="HIV ELISA",Value="HIV ELISA"},
+                                new SelectListItem{Text="HIV PCR DNA qualitative",Value="HIV PCR DNA qualitative"},
+                                 new SelectListItem{Text="CD4 count",Value="CD4 count"},
+                                  new SelectListItem{Text="HIV Viral load-PCR",Value="HIV Viral load-PCR"},
+                                   new SelectListItem{Text="HIV Monitoring(HIV VL+CD4)",Value="HIV Monitoring(HIV VL+CD4)"},
+                                    new SelectListItem{Text="HIV Resistance",Value="HIV Resistance"},
+
+                                }, "HIV Test Type", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Status", new List<SelectListItem>{
+                                new SelectListItem{Text="Positive",Value="Positive"},
+                                new SelectListItem{Text="Negative",Value="Negative"},
+
+                                }, "Status", new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TestigLocation, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TestigLocation, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TestigLocation, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.NextAppointment, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NextAppointment, new { htmlAttributes = new { @class = "form-control", id = "datepicker" } })
+                @Html.ValidationMessageFor(model => model.NextAppointment, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Update" class="btn btn-default" />  
+                @*<input type="submit" value="Cancel" id="btncanceldetails" class="btn btn-success" />*@
+                <button onclick='goBack()' class="btn btn-primary">Cancel</button>
+            </div>
+        </div>
+    </div>
+}
+
+@*<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>*@
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
+
+

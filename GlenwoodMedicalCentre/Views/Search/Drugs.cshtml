@@ -1,0 +1,97 @@
+﻿@model IEnumerable<GlenwoodMed.Data.Tables.Drug>
+                      <style>
+                          .x {
+                              color: Blue;
+                              font: bold;
+                          }
+                          .y{
+                              font-family:'Bell MT';
+                              color:royalblue;
+                              font-size:x-large;
+                          }
+                          .wid {
+                              width: 50%;
+                          }
+
+                          .table-bordered {
+                              border: thick;
+                              color:blue;
+                          }
+                          table {
+                              border: thick,thin;
+                              color: blue;
+                              background-color: lightgrey;
+                          }
+                          td{
+                              color:black;
+                          }
+                      </style>
+@{
+    ViewBag.Title = "Drugs";
+}
+                      <h2 class="y">Search for</h2>
+
+                      <form>
+                          <table class="table">
+                              <tr>
+                                  <td><input type="radio" name="searchfor" value="Patient" onclick="location.href='@Url.Action("Patient", "Search")';return false;" /><text>Patient</text></td>
+                                  <td></td>
+                                  @*<td><input type="radio" name="searchfor" value="Drugs" onclick="location.href='@Url.Action("Drugs", "Search")';return false;" /><text>Drugs</text></td>
+                                  <td></td>*@
+                                  <td><input type="radio" name="searchfor" value="TestResult" onclick="location.href='@Url.Action("TestResult", "Search")';return false;" /><text>Test Result</text></td>
+                                  <td></td>
+                                  <td><input type="radio" name="searchfor" value="Consultation" onclick="location.href='@Url.Action("consultation", "Search")';return false;" /><text>Consultation</text></td>
+
+
+                              </tr>
+                          </table>
+                      </form><br /><br />
+
+<h2 class="x">Drugs</h2>
+
+
+@using (Html.BeginForm("Drugs", "Search", FormMethod.Get))
+{
+    <br /><br />
+
+    <h3><b>Search by:</b><br /></h3>
+    <h5 class="y">@Html.RadioButton("Searchby", "DrugName", true)<text>Name</text></h5>
+    <h5 class="y">@Html.RadioButton("Searchby", "DrugType")<text>Type</text></h5>
+    <h3 class="wid">@Html.TextBox("Drugpar")</h3><br />
+   
+    <input type="submit" value="Search Drugs" name="searchdrugs"  />
+}
+<table class="table table-striped table-bordered table-hover table-responsive">
+    <tr class="success">
+        <th>
+            @Html.DisplayNameFor(model => model.DrugName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DrugType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Qty)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.DrugName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DrugType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Qty)
+        </td>
+        @*<td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.DrugId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.DrugId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.DrugId })
+        </td>*@
+    </tr>
+}
+
+</table>

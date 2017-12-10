@@ -1,0 +1,49 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calendar</title>
+    @{
+        Layout = "";
+    }
+    <style>
+        .modal-content {
+            width: 1300px !important;
+            margin: 30px auto !important;
+            height: 900px;
+        }
+
+        .modal-body {
+            width: 1300px !important;
+            margin: 30px auto !important;
+            height: 900px;
+        }
+    </style>
+    <style>
+        body {
+            background-color: #eee;
+        }
+    </style>
+    <link href="~/Content/dhtmlxScheduler/dhtmlxscheduler-responsive.css" rel="stylesheet" />
+    <script src="~/Scripts/dhtmlxScheduler/dhtmlxscheduler-responsive.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <link href="~/Content/style.css" rel="stylesheet" />
+</head>
+
+<body>
+    @*<div class="modal-body modal-bodyy">*@
+    <div class="container">
+        <div class="close-modal" data-dismiss="modal">
+            <div class="lr">
+                <div class="rl">
+                </div>
+            </div>
+        </div>
+        <div style="height:700px;width:100%;margin:0 auto">
+            @Html.Raw(Model.Render())
+        </div>
+    </div>
+    @*</div>*@
+</body>
+
+</html>

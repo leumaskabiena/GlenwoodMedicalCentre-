@@ -1,0 +1,72 @@
+﻿@model IEnumerable<GlenwoodMed.Model.ViewModels.ReferralModel>
+
+@{
+    ViewBag.Title = "Referral Letter Printing";
+}
+
+<h2>Index</h2>
+
+@*<p>
+        @Html.ActionLink("Create New", "Create")
+    </p>*@
+<paragraph>
+    <chunk style="font-family: Times; font-weight: bold;">Date:</chunk>
+    <chunk style="font-family: Times;">@DateTime.Now.ToString("Dd:mm:yyyy")</chunk>
+</paragraph><br />
+@*<paragraph>
+        <chunk style="font-family: Times; font-weight: bold;">Time:</chunk>
+        <chunk style="font-family: Times;">@DateTime.Now.ToString("hh:mm:ss tt ")</chunk>
+    </paragraph>*@
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Ref_date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Referred_Doctor)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Patient_name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Patient_age)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Patient_number)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Reason)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ref_date)
+            </td>
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.Referred_Doctor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Patient_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Patient_age)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Patient_number)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Reason)
+            </td>
+            <td>
+                <li><a href="@Url.Action("PrintReferal", "Referrals", new { PatientId = item.PatientId })"><span><img src="~/Images/printer-icon.png" style="width:20px; height:20px" /></span> <b>Print Referral</b></a></li>
+             
+            </td>
+        </tr>
+    }
+
+</table>

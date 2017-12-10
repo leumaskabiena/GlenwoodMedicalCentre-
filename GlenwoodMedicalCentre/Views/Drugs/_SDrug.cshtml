@@ -1,0 +1,69 @@
+﻿<link href="~/Content/PagedList.css" rel="stylesheet" />
+@model PagedList.IPagedList<GlenwoodMed.Model.ViewModels.DrugModel>
+@using PagedList.Mvc
+@using PagedList;
+
+<div align="center">
+    <table class="table table-striped table-bordered table-hover table-responsive">
+        <tr class="success">
+            <th>
+                @Html.DisplayNameFor(model => model.First().DrugCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().DrugName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().DrugCategory)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().DrugQuantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().DrugType)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DrugCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DrugName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DrugCategory)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DrugQuantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DrugType)
+                </td>
+                <td>
+
+                    <div class="btn-group" role="group">
+                        @Html.ActionLink(" ", "Update", "Drugs", new { id = item.DrugId }, new { title = "Edit " + item.DrugName + " Details" + "", @class = "lnkEdit btn btn-default glyphicon glyphicon-edit edit view" })
+                        @*@Html.ActionLink(" ", "Details", "Drugs", new { id = item.DrugId }, new { title = "View " + item.DrugName + " Details", @class = "lnkDetail btn btn-default glyphicon glyphicon-eye-open details view" })*@
+                        @Html.ActionLink(" ", "Delete", "Drugs", new { id = item.DrugId }, new { title = "Delete " + item.DrugName + " Details", @class = "lnkDel btn btn-default glyphicon glyphicon-remove delete view", FormMethod.Post })
+                    </div>
+                    @*@Html.ActionLink("Update", "Update", "Drugs", new { id = item.DrugId }, new { @class = "lnkEdit btn btn-info glyphicon glyphicon-edit" })
+                        @Html.ActionLink("Details", "Details", "Drugs", new { id = item.DrugId }, new { @class = "lnkDetail btn btn-info glyphicon glyphicon-eye-open" })
+                        @Html.ActionLink("Delete", "Delete", "Drugs", new { id = item.DrugId }, new { @class = "lnkDelete btn btn-info glyphicon glyphicon-trash" })
+                        </div>*@
+                </td>
+
+            </tr>
+        }
+
+    </table>
+</div>
+
+
+<div align="center">
+    @Html.PagedListPager(Model, page => Url.Action("SDrugs", new { page, pagesize = Model.PageSize }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "DisplayD" }))
+
+    <b>Showing @Model.FirstItemOnPage to @Model.LastItemOnPage of @Model.TotalItemCount Patients</b>
+</div>

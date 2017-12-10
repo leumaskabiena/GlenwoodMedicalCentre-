@@ -1,0 +1,448 @@
+﻿@using GlenwoodMed.BusinessLogic.Business
+@using GlenwoodMed.Data
+@model GlenwoodMed.Model.ViewModels.ConsultationView
+@{
+    ConsultationBusiness con = new ConsultationBusiness();
+    ViewBag.Title = "Create";
+}
+
+
+<style type="text/css">
+    .imgBox {
+        width: 200px;
+        height: 200px;
+        opacity: 1.0;
+        filter: alpha(opacity=100);
+    }
+
+        .imgBox:hover {
+            -moz-box-shadow: 0 0 10px #ccc;
+            -webkit-box-shadow: 0 0 10px #ccc;
+            box-shadow: 0 0 10px #ccc;
+            opacity: 0.4;
+            filter: alpha(opacity=40);
+        }
+</style>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#ShowImage").fancybox({
+            helpers:
+            {
+                title:
+                {
+                    type: 'float'
+                }
+            }
+        });
+    });
+
+</script>
+<script src="~/Scripts/CustomJs.js"></script>
+
+
+<script language="javascript" type="text/javascript">
+    var i = 0;
+    function addValue() {
+        var inputa = document.getElementById("txtValue");
+        var v = document.contactForm.txtValue.value;
+        if (inputa.value != "") {
+
+            document.getElementById("lstValue").value +=
+                document.getElementById("txtValue").value + ",  ";
+
+            // get the TextBox Value and assign it into the variable
+            //AddOpt = new Option(v, v);
+
+            //document.contactForm.lstValue.val().appendChild(v);
+            //document.contactForm.lstValue.options[i++] = AddOpt;
+
+            //var multi = document.getElementById("lstValue");
+            //for (var t = 0; t < multi.options.length; t++) {
+            //    multi.options[t].selected = true;
+            //}
+            document.getElementById("txtValue").value = "";
+            return true;
+        }
+    }
+</script>
+
+
+@*<script>
+    $(document).ready(function () {
+        // Confirmation Dialog
+        $('#confirmDialog').dialog({
+            autoOpen: false,
+            width: 500,
+            modal: true,
+            resizable: false,
+            buttons: {
+                "Submit": function () {
+                    $(".ui-dialog-buttonpane button:contains('Submit')").button("disable");
+                    $(".ui-dialog-buttonpane button:contains('Edit')").button("disable");
+                    document.contactForm.submit();
+                },
+                "Edit": function () {
+
+                    $("#confirmSymptoms").empty();
+                    $("#confirmMed").empty();
+                    $("#confirmIllness").empty();
+                    $("#confirmTest").empty();
+
+                    $(this).dialog("close");
+                }
+            }
+        });
+
+        $('#contactForm').submit(function (e) {
+            e.preventDefault();
+
+
+            var x = document.getElementById("illness");
+            var y = document.getElementById("lstValue");
+            var options = $('#lstValue > option:selected');
+            var option2=$('#lstValue > option:selected');
+            $('#illness').chosen();
+            $('#lstValue').chosen();
+
+            if (($('#illness').val() == null && $('#illness_chosen').is(':visible')) || ($('#lstValue').val() == null && $('#lstValue_chosen').is(':visible'))) {
+                alert('You must choose an Illness type');
+            }
+
+            else {
+
+
+                function addnew() {
+                    //    var symptoms = document.getElementById("Symptoms");
+                    //    var symptomstoadd = document.getElementById("Test");
+                    //    var option = document.createElement("OPTION");
+                    //    option.innerHTML = symptomstoadd.value;
+                    //    option.value = symptomstoadd.value;
+                    //    symptoms.appendChild(option);
+
+
+                    //    for (i = 0; i < symptoms.option.length; i++) {
+                    //        if (symptoms.option[i].innerHTML == symptomstoadd.value) {
+                    //            symptoms.selectedIndex = i;
+                    //            break;
+                    //        }
+                    //    }
+
+                }
+
+                function getillnessValue() {
+                    var x = document.getElementById("illness");
+                    var y = document.getElementById("confirmIllness");
+                    for (var i = 0; i < x.options.length; i++) {
+                        if (x.options[i].selected == true) {
+                            y.innerHTML += x.options[i].text + ",";
+                        }
+                    }
+                }
+                function getSymptomsValue() {
+                    var x = document.getElementById("lstValue");
+                    var y = document.getElementById("confirmSymptoms");
+                    for (var i = 0; i < x.options.length; i++) {
+                        if (x.options[i].selected == true) {
+                            y.innerHTML += x.options[i].text + ",";
+                        }
+                    }
+                }
+
+                function getTestValue() {
+                    var x = document.getElementById("Testtype");
+                    var y = document.getElementById("confirmTest");
+                    for (var i = 0; i < x.options.length; i++) {
+                        if (x.options[i].selected == true) {
+                            y.innerHTML += x.options[i].text + ",";
+                        }
+                    }
+                }
+                // Validate the fields with MVC validation.
+                if ($(this).valid()) {
+                    var field;
+                    var confirmDiv;
+                    confirmDiv = $("#confirmDialog");
+                    confirmDiv.parent().show();
+
+                    // Textbox.
+                    field = $("#lstValue");
+                    confirmDiv = $("#confirmSymptoms");
+                    if (field.val() == '') {
+                        confirmDiv.parent().hide();
+                    } else {
+
+                        confirmDiv.parent().show();
+                        //confirmDiv.html(field.val());
+
+                        getSymptomsValue();
+                    }
+
+                    field = $("#Description");
+                    confirmDiv = $("#confirmDesc");
+                    if (field.val() == '') {
+                        confirmDiv.parent().hide();
+                    } else {
+                        confirmDiv.parent().show();
+                        confirmDiv.html(field.val());
+                    }
+
+
+                    // Textbox.
+                    field = $("#Notes");
+                    confirmDiv = $("#confirmNotes");
+                    if (field.val() == '') {
+                        confirmDiv.parent().hide();
+                    } else {
+                        confirmDiv.parent().show();
+                        confirmDiv.html(field.val());
+                    }
+
+                    // Textbox.
+                    field = $("#illness");
+                    confirmDiv = $("#confirmIllness");
+                    if (field.val() == '') {
+                        confirmDiv.parent().hide();
+                    } else {
+                        confirmDiv.parent().show();
+                        //confirmDiv.html(field.val());
+                        getillnessValue();
+                    }
+                    field = $("#Testtype");
+                    confirmDiv = $("#confirmTest");
+                    if (field.val() == '') {
+                        confirmDiv.parent().hide();
+                    } else {
+                        confirmDiv.parent().show();
+                        //confirmDiv.html(field.val());
+                        getTestValue();
+                    }
+                    // Textbox.
+                    field = $("#PresribedMed");
+                    confirmDiv = $("#confirmMed");
+                    if (field.val() == '') {
+                        confirmDiv.parent().hide();
+                    } else {
+                        confirmDiv.parent().show();
+                        // getDrugsValue();
+                    }
+
+                    // Dropdown list.
+                    field = $("#Color_ID");
+                    confirmDiv = $("#confirmColor");
+                    if (field.val() == '0') {
+                        confirmDiv.parent().hide();
+                    } else {
+                        confirmDiv.parent().show();
+                        confirmDiv.html($("#Color_ID option:selected").text());
+                    }
+
+                    $('#confirmDialog').dialog('open');
+                }
+            }
+
+        });
+    });
+</script>*@
+
+<script>
+    $('#contactForm').submit(function (e) {
+        e.preventDefault();
+
+        function AddNew() {
+            var symptoms = document.getElementById("Symptoms");
+            var symptomstoadd = document.getElementById("Test");
+            var option = document.createElement("OPTION");
+            option.innerHTML = symptomstoadd.value;
+            option.value = symptomstoadd.value;
+            symptoms.appendChild(option);
+
+
+            var len = symptoms.option.length;
+            for (i = 0; i < len; i++) {
+                if (symptoms.option[i].innerHTML == symptomstoadd.value) {
+                    symptoms.selectedIndex = i;
+                    break;
+                }
+            }
+
+        }
+    });
+</script>
+@*<div id="confirmDialog" hidden="hidden" title="Confirm Details">
+    <p>Please confirm your details.</p>
+    <div id="PrintMed">
+        <div>
+            <b> Patient Name:</b> <span>@Html.DisplayFor(x => x.patientfullname)</span>
+
+        </div>
+        <div>
+            <b>Symptoms:</b> <span id="confirmSymptoms" />
+        </div>
+        <div>
+            <b>illness:</b> <span id="confirmIllness" />
+        </div>
+        <div>
+            <b>Notes:</b> <span id="confirmNotes" />
+        </div>
+        <div>
+            <b>Test:</b> <span id="confirmTest" />
+        </div>
+    </div>
+</div>*@
+<div class="text-center">
+    <div class="item">
+        @if (Model.FileType == GlenwoodMed.Model.ViewModels.FileType.Avatar)
+        {
+            var base64 = Convert.ToBase64String(Model.resultFile);
+            var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+
+            <a id="ShowImage" class="fancybox-button" data-rel="fancybox-button"
+               title="Profile Pic" href="@imgSrc">
+                <div class="zoom">
+                    <img src="@imgSrc" class="imgBox img-rounded" style="width:100px; height:100px" />
+                    <div class="zoom-icon"></div>
+                </div>
+            </a>
+
+            @*<img src="@imgSrc" alt="avatar" style="width:150px; height:150px" />*@
+        }
+    </div>
+    <h2 class="x"><small>Create Consultation for </small>( @Html.DisplayFor(x => x.patientfullname) )</h2>
+</div>
+<div class="row" id="contactInformation">
+    @using (Html.BeginForm("AddConsultation", "Consultations", FormMethod.Post, new { id = "contactForm", name = "contactForm", @class = "form-horizontal", role = "form" }))
+    {
+        <fieldset>
+            @if (ViewData.ModelState.IsValid)
+            {
+                @Html.ValidationSummary("", new { @class = "text-danger" })
+
+            }
+
+            <div class="col-md-6">
+                @Html.AntiForgeryToken()
+
+                <div class="form-group">
+
+                    <br />
+
+                    @Html.LabelFor(model => model.Symptoms, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @*<select name="lstValue" id="lstValue" class=" form-control " multiple></select>*@
+                        @Html.DropDownList("lstValue", con.populatelistsymptoms(), new { @readonly = "readonly", @class = "form-control  chosen-select", placeholder = "Symptoms will be added here", multiple = "multiple", data_placeholder = "Select Symptoms...", style = "width:350px;" })
+                        @Html.ActionLink(" ", "CreateSymptoms", "Consultations", new { UserId = @Model.PatientId }, new { @title = "Add Symptoms if it doesnt exist", @class = "btn btn-primary view lnkCreates glyphicon glyphicon-plus " })
+                        @Html.ValidationMessageFor(model => model.Symptoms, "", new { @class = "text-danger" })
+                    </div>
+                    <br />
+                    <br />
+
+                </div>
+                <div class="form-group">
+
+                    <br />
+                    @Html.LabelFor(m => m.Notes, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(m => m.Notes, new { @class = "form-control ", rows = 5, cols = 20, data_placeholder = "Notes", data_bind = "value: Notes" })
+                        @Html.ValidationMessageFor(model => model.Notes, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+                <div class="form-group">
+
+                    <br />
+
+                    @Html.LabelFor(m => m.TestTypes, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("Test Type", @con.populatetest(), new { @name = "country", @class = "chosen-select form-control", @multiple = "multiple" })
+                    </div>
+
+                </div>
+                <div class="form-group">
+
+                    <br />
+
+                    @Html.LabelFor(m => m.procedures, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        <div id="procedure">
+                            @Html.EditorFor(model => model.procedures)
+                        </div>
+                        <p>
+                            @Html.AddLinks(" ", "#procedure", ".procedures", "procedures", typeof(GlenwoodMed.Model.ViewModels.ConsultationView.procedure), new { @class = " btn btn-primary glyphicon glyphicon-plus view" })
+                        </p>
+                        @*@Html.DropDownList("Procedures", @con.populateProcedure(), new { @name = "country", @class = "chosen-select form-control", @multiple = "multiple" })*@
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h4 class="x"></h4>
+                <div class="form-group">
+                    @Html.Label("Allergy", new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.DisplayFor(m => m.Description, new { @class = "form-control" })
+                        @*@Html.ActionLink(" ", "EditAllergy", "Consultations", new { UserId = @Model.PatientId }, new { @title = "Edit Allergy", @class = "btn btn-primary view lnkCreate glyphicon glyphicon-plus " })*@
+                    </div>
+                    <br />
+                    <br />
+
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Ill ", "Illness", new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+
+                        @Html.DropDownList("illness", @con.populatelistIllness(), new { @name = "country", @class = "chosen-select form-control", @multiple = "multiple" })
+                        @Html.ActionLink(" ", "CreateIllness", "Consultations", new { UserId = @Model.PatientId }, new { @title = "Add Illness if it doesnt exist", @class = "btn btn-primary view lnkCreate1 glyphicon glyphicon-plus " })
+                        <script type="text/javascript">
+                                $('#SubmitName').click(function () {
+                                    var first = @Model.PatientId;
+                                    var last = $('#illness').val();
+                                    var path = '@Url.Content("~/CreateIllness/Consultations")' + "?UserId=" + first + "+&Illnesshref=" + last;
+                                    $(this).attr("href", path);
+                                });
+                        </script>
+
+                    </div>
+                    <br />
+                    <br />
+
+                </div>
+                <br />
+                <div class="form-group">
+                    @Html.LabelFor(m => m.PresribedMed, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        <div id="custs">
+                            @Html.EditorFor(model => model.Custs)
+                        </div>
+                        <p>
+                            @Html.AddLink(" ", "#custs", ".cust", "Custs", typeof(GlenwoodMed.Model.ViewModels.ConsultationView.Cust), new { @class = " btn btn-primary glyphicon glyphicon-plus view" })
+                        </p>
+
+                        @*<fieldset>
+                            @Html.EditorFor(model => model.Custs)
+
+                            <button type="button" class="btn btn-primary view" title="Click to add" data-bind="click: addPosition"><span class="glyphicon glyphicon-plus "></span></button>
+            <button type="button" class="btn btn-danger view" title="Click to remove" data-bind="click: removePosition"><span class="glyphicon glyphicon-remove "></span></button>
+                        </fieldset>*@
+                    </div>
+                </div>
+
+
+                <br />
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" class="btn btn-primary view" title="Create and  Send to Pharmasicts" value="Send to Pharmasicts" id="btnRegister" />
+                        @*<input type="submit" class="btn btn-primary" value="Add Consultation" id="lnkDetail" onclick="if (confirm('Are you sure ???'))submit" />*@
+                        @*<input id="btnAdd" type="button" title="Prescribe Medicine" class="btn btn-primary view" value="Prescribe" onclick="GetDetailsHTML();" />*@
+
+                        @*@Html.ActionLink("Add Procedure", "Procedures", "Consultations", Model, new { @title = " View previous consultations ", @class = " modal-link btn btn-success view" })*@
+                        @Html.ActionLink("View Last consultations ", "Last2Consultation", "Consultations", null, new { @title = " View previous consultations ", @class = "lnkconsult btn btn-success view" })
+                        @*<button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Next", new { id = Model.UserName })';return false;"> Next</button>*@
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+
+    }
+
+</div>
+

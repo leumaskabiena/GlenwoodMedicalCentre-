@@ -1,0 +1,76 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlenwoodMed.BusinessLogic", "GlenwoodMed.BusinessLogic\GlenwoodMed.BusinessLogic.csproj", "{65E24C2B-014D-4FD5-9209-F8273670EBEF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlenwoodMed.Data", "GlenwoodMed.Data\GlenwoodMed.Data.csproj", "{2B0BC9F8-787A-4012-973F-18AB7A5C4CCE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlenwoodMed.Model", "GlenwoodMed.Model\GlenwoodMed.Model.csproj", "{F6410628-BFD8-47D8-B08D-51EDE8799535}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlenwoodMed.Service", "GlenwoodMed.Service\GlenwoodMed.Service.csproj", "{5AE1BCD2-B92E-4E4D-ADC2-8E1BC527999A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlenwoodMed.Test", "GlenwoodMed.Test\GlenwoodMed.Test.csproj", "{E79DB23C-A110-4E57-95FC-6C133F342FDA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlenwoodMedicalCentre", "GlenwoodMedicalCentre\GlenwoodMedicalCentre.csproj", "{F75B1C04-4493-4BFD-AAB7-368A2789AE67}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 7
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://ds3projects.dut.ac.za/tfs/group7_15
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = GlenwoodMed.BusinessLogic\\GlenwoodMed.BusinessLogic.csproj
+		SccProjectName1 = GlenwoodMed.BusinessLogic
+		SccLocalPath1 = GlenwoodMed.BusinessLogic
+		SccProjectUniqueName2 = GlenwoodMed.Data\\GlenwoodMed.Data.csproj
+		SccProjectName2 = GlenwoodMed.Data
+		SccLocalPath2 = GlenwoodMed.Data
+		SccProjectUniqueName3 = GlenwoodMed.Model\\GlenwoodMed.Model.csproj
+		SccProjectName3 = GlenwoodMed.Model
+		SccLocalPath3 = GlenwoodMed.Model
+		SccProjectUniqueName4 = GlenwoodMed.Service\\GlenwoodMed.Service.csproj
+		SccProjectName4 = GlenwoodMed.Service
+		SccLocalPath4 = GlenwoodMed.Service
+		SccProjectUniqueName5 = GlenwoodMed.Test\\GlenwoodMed.Test.csproj
+		SccProjectName5 = GlenwoodMed.Test
+		SccLocalPath5 = GlenwoodMed.Test
+		SccProjectUniqueName6 = GlenwoodMedicalCentre\\GlenwoodMedicalCentre.csproj
+		SccProjectName6 = GlenwoodMedicalCentre
+		SccLocalPath6 = GlenwoodMedicalCentre
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{65E24C2B-014D-4FD5-9209-F8273670EBEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65E24C2B-014D-4FD5-9209-F8273670EBEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65E24C2B-014D-4FD5-9209-F8273670EBEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65E24C2B-014D-4FD5-9209-F8273670EBEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B0BC9F8-787A-4012-973F-18AB7A5C4CCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B0BC9F8-787A-4012-973F-18AB7A5C4CCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B0BC9F8-787A-4012-973F-18AB7A5C4CCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B0BC9F8-787A-4012-973F-18AB7A5C4CCE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6410628-BFD8-47D8-B08D-51EDE8799535}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6410628-BFD8-47D8-B08D-51EDE8799535}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6410628-BFD8-47D8-B08D-51EDE8799535}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6410628-BFD8-47D8-B08D-51EDE8799535}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5AE1BCD2-B92E-4E4D-ADC2-8E1BC527999A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5AE1BCD2-B92E-4E4D-ADC2-8E1BC527999A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5AE1BCD2-B92E-4E4D-ADC2-8E1BC527999A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5AE1BCD2-B92E-4E4D-ADC2-8E1BC527999A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E79DB23C-A110-4E57-95FC-6C133F342FDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E79DB23C-A110-4E57-95FC-6C133F342FDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E79DB23C-A110-4E57-95FC-6C133F342FDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E79DB23C-A110-4E57-95FC-6C133F342FDA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F75B1C04-4493-4BFD-AAB7-368A2789AE67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F75B1C04-4493-4BFD-AAB7-368A2789AE67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F75B1C04-4493-4BFD-AAB7-368A2789AE67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F75B1C04-4493-4BFD-AAB7-368A2789AE67}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

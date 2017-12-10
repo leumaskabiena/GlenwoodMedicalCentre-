@@ -1,0 +1,122 @@
+﻿@model IEnumerable<GlenwoodMed.Model.ViewModels.MedicalCertificateModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+<link href="~/Content/ButtonColors.css" rel="stylesheet" />
+<ol class="breadcrumb">
+    <li class="x"><a href="@Url.Action("Index", "Patient")">Patient</a></li>
+    <li class="active">Medical Certificates</li>
+</ol>
+
+<div class="text-center">
+    <h2 class="x">All ( @ViewBag.Name ) Certificates</h2>
+    <hr />
+</div>
+<p>
+    <button type="button" class="btn btn-success" onclick="location.href='@Url.Action("CreateMedCertificate")';return false;"><span class="glyphicon glyphicon-plus"></span>  Create</button>
+</p>
+
+    @*<p>
+        <a href="@Url.Action("CreateMedCertificate", "MedicalCertificate")"><span class="glyphicon glyphicon-plus" style="width:20px; height:20px"></span> <b>Create Medical Certificate</b></a>
+       
+    </p>*@
+
+@*<div class="text-center x">
+    <h2>Upload file for @Model.PatintName</h2>
+</div>*@
+
+<table class="table table-striped table-bordered table-hover table-responsive">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PatintName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OpinonIllness)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Fitnessproblem)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StartingDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Enddate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Comment)
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.Doctorname)
+        </th>*@
+        @*<th>
+            @Html.DisplayNameFor(model => model.Address)
+        </th>*@
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PatintName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OpinonIllness)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fitnessproblem)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartingDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Enddate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Comment)
+            </td>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.Doctorname)
+            </td>*@
+            @*<td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>*@
+            @*<td>
+                @Html.ActionLink("Modify contents", "modifycontents", new { id=item.MedcertificateId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.MedcertificateId }) |
+                @*<li><a href="@Url.Action("PrintCertificate", "MedicalCertificate", new { PatientId = item.PatientId })"><span><img src="~/Images/printer-icon.png" style="width:20px; height:20px" /></span> <b>Print Certificate</b></a></li>
+                @Html.ActionLink("Delete", "Delete", new { id = item.MedcertificateId })
+            </td>*@
+            <td>
+                
+                <div class="dropup">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" id="dropdownMenu2" aria-haspopup="true" aria-expanded="false">
+                        <b>Actions</b>
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                        <li class="dropdown-header"><b>Primary Actions</b></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="@Url.Action("modifycontents", "MedicalCertificate", new {  id=item.MedcertificateId })"><span class="glyphicon glyphicon-edit" style="color:green; width:20px; height:20px"></span> <b>Modify</b></a></li>
+                        <li><a href="@Url.Action("PrintCertificate", "MedicalCertificate", new { MedcertificateId = item.MedcertificateId })"><span><img src="~/Images/printer-icon.png" style="width:20px; height:20px" /></span> <b>Print</b></a></li>
+                        @*<li><a href="@Url.Action("CreateMedCertificate", "MedicalCertificate", new { PatientId = item.PatientId })"><span class="glyphicon glyphicon-plus" style="width:20px; height:20px"></span> <b>Create</b></a></li>*@
+                        @*<li role="separator" class="divider"></li>
+                <li class="dropdown-header"><b>Secondary Actions</b></li>
+                <li role="separator" class="divider"></li>*@
+                        <li><a href="@Url.Action("DeleteCertificate", "MedicalCertificate", new { id = item.MedcertificateId })"><span class="glyphicon glyphicon-trash"></span> <b>Delete</b></a></li>
+
+
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    }
+
+</table>

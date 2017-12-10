@@ -1,0 +1,243 @@
+﻿@model GlenwoodMedicalCentre.Models.PatientConsultationDetails
+@using GlenwoodMed.BusinessLogic.Business
+
+@using GlenwoodMed.Service.RepositoryClass
+@{
+    ViewBag.Title = "PrintConsultation";
+    //Layout = "~/Views/Shared/_PdfLayout.cshtml";
+    Layout = "";
+    InformationBusiness ib = new InformationBusiness();
+    DrugRespo respo = new DrugRespo();
+    @*<style>
+        .noborder {
+            border: none;
+        }
+    </style>*@
+
+}
+
+@*<paragraph style="font-family:Helvetica;font-size:22; align-content:center;" align="center">
+        <chunk red="255" green="0" blue="0">Glenwood Medical Centre</chunk>
+    </paragraph>*@
+
+@*<image url="@Context.Server.MapPath("~/Content/white_caduceus_red_box.png")" width="10" height="10" />*@
+@*<img src="@Server.MapPath("~/Content/white_caduceus_red_box.png")" width="100" height="100" />*@
+@*<paragraph>
+
+
+
+    </paragraph>*@
+@*<paragraph>
+        <chunk style="font-family:Times;font-size:18;font-weight:bold;">Patient Name : </chunk>
+        <chunk style="font-family:Times;font-size:18;">@Model.Patient.FullName @Model.Patient.Surname</chunk>
+    </paragraph>*@
+
+@*<paragraph>
+        <chunk style="font-family:Times;font-weight:bold;font-size:18;">Consultation Date : </chunk>
+        <chunk style="font-family:Times;font-size:18;">@Model.Consultation.ConsultDate.ToString("MM/dd/yyyy")</chunk>
+    </paragraph>*@
+@*<paragraph>
+        <chunk style="font-family:Times;font-weight:bold;font-size:18;">Consultation Time: </chunk>
+        <chunk style="font-family:Times;font-size:18;">@Model.Consultation.ConsultTime</chunk>
+    </paragraph>*@
+<!DOCTYPE html>
+<html>
+<body>
+    <table stlye="page-break-inside:auto;" bordercolor="RED" width="100%" height="100%" cellpadding="1.0" cellspacing="10.0">
+
+        <thead style="display:table-header-group; display: table-header-group;">
+            @*<tr stlye="page-break-inside:avoid; page-break-after:auto;">
+                <th>Test THEAD</th>
+            </tr>*@
+
+            <tr>
+                <td colspan="2" rowspan="2" bgcolor="LightGreen" align="center" valign="top">
+                    <img src="@Server.MapPath("~/Content/white_caduceus_red_box.png")" width="100" height="100" /> <br />
+                    <div style="font-weight:bold;font-size:18;">
+                        Glenwood Medical Centre
+                    </div>
+                </td>
+            </tr>
+        </thead>
+
+        <tbody>
+            
+            <tr style="border:1px">
+                <td>
+                    Patient Name :
+                </td>
+                <td>
+                    @Model.Patient.FullName @Model.Patient.Surname
+                </td>
+            </tr>
+            <tr style="border:none">
+                <td>
+                    Date of Birth :
+                </td>
+                <td>
+                    @Model.Patient.DOB
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Medical Provider &amp; Number :
+                </td>
+                <td>
+                    @{
+                        if (Model.Patient.MedicalAidNo == null)
+                        {
+                            Model.Patient.MedicalAidNo = "Not Available";
+                        }
+
+                        else
+                        {
+                            Model.Patient.MedicalAidNo = Model.Patient.MedicalAidName + "|" + Model.Patient.MedicalAidNo;
+                        }
+                    }
+                    @Model.Patient.MedicalAidNo
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Consultation Date :
+                </td>
+                <td>
+                    @{
+                        string val = @Model.ConsultationV.ConsultDate.ToString("D");
+                    }
+                    @Html.DisplayFor(modelItem => val)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Consultation Time :
+                </td>
+                <td>
+                    @Model.ConsultationV.ConsultTime
+                </td>
+            </tr>
+        </tbody>
+        
+        <tfoot style="display:table-footer-group;">
+            @*<tr>
+                <td>TFOOT</td>
+            </tr>*@
+        </tfoot>
+    </table>
+
+    <table border="1" width="100%" height="100%" cellpadding="1.0" cellspacing="10.0">
+        <tr>
+            <td>
+                Illness :
+            </td>
+            <td>
+                @foreach (var im in @Model.ConsultationV.Illnesses)
+                {
+                    @im.Illnessname    <br />
+
+                }
+            </td>
+        </tr>
+@*@foreach (var item in Model.Consultation)
+            {*@
+        <tr>
+            <td>
+                Symptoms :
+            </td>
+            <td>
+                @{
+                    foreach (var items in @Model.ConsultationV.symptomses)
+                    {
+                        @items.symptomsname
+                        <br />
+                    }
+                }
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Prescribed Medicine :
+            </td>
+            <td>
+                @{
+                    foreach (var items in @Model.ConsultationV.Custs)
+                    {
+                        var find= respo.GetAll().Find(x=>Convert.ToString(x.DrugId)==items.DrugId);
+                        @items.DrugId
+                        <br />
+                    }
+                }
+            </td>
+        </tr>
+@*}*@
+
+        <tr>
+            <td>
+                Notes :
+            </td>
+            <td>
+                @Model.ConsultationV.Notes
+            </td>
+        </tr>
+    </table>
+    <newline />
+    <paragraph leading="24.0" font="unknown" align="Default">
+
+    </paragraph>
+    <newline />
+    <newline />
+    <p>
+        I <b>Dr Naidoo</b> hereby certify that I conducted this consultation myself and every of it's content was decided by me. ________________
+    </p>
+
+    @*@section footer
+        {
+        <b>This is the footer</b>
+        }
+        @RenderSection("footer", false)*@
+</body>
+
+</html>
+
+@*<table width="100%" cellpadding="1.0" cellspacing="10.0" widths="3;8">
+        <row>
+            <cell>Patient Name :</cell>
+            <cell>@Model.Patient.FullName @Model.Patient.Surname</cell>
+        </row>
+
+        <row>
+            <cell>Consultation Date :</cell>
+            <cell>@Model.Consultation.ConsultDate.ToString("MM/dd/yyyy")</cell>
+        </row>
+
+        <row>
+            <cell>Consultation Time:</cell>
+            <cell>@Model.Consultation.ConsultTime</cell>
+        </row>
+    </table>*@
+
+@*<table width="100%" cellpadding="1.0" cellspacing="10.0" widths="3;8">
+        <row>
+            <cell borderwidth="0.5" left="false" right="false" top="false" bottom="true">Illness</cell>
+            <cell borderwidth="0.5" left="false" right="false" top="false" bottom="true">@Model.Consultation.illness</cell>
+        </row>
+
+        <row>
+            <cell borderwidth="0.5" left="false" right="false" top="false" bottom="true">Symtoms</cell>
+            <cell borderwidth="0.5" left="false" right="false" top="false" bottom="true">@Model.Consultation.Symptoms</cell>
+        </row>
+
+        <row>
+            <cell borderwidth="0.5" left="false" right="false" top="false" bottom="true">Prescribed Medicine</cell>
+            <cell borderwidth="0.5" left="false" right="false" top="false" bottom="true">@Model.Consultation.PresribedMed</cell>
+        </row>
+
+        <row>
+            <cell borderwidth="0.5" left="false" right="false" top="false" bottom="true">Description</cell>
+            <cell borderwidth="0.5" left="false" right="false" top="false" bottom="true">@Model.Consultation.Description</cell>
+        </row>
+    </table>*@
+
+
+

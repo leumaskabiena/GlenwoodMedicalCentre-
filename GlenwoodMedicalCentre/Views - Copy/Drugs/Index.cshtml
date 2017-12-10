@@ -1,0 +1,355 @@
+﻿@*@model PagedList.IPagedList<GlenwoodMed.Model.ViewModels.DrugModel>*@
+@{
+    ViewBag.Title = "Drugs";
+}
+
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script src="~/Scripts/jquery-2.1.4.js"></script>
+<script src="~/Scripts/jquery-2.1.4.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.11.4.js"></script>
+<script src="~/Scripts/jquery-ui-1.11.4.min.js"></script>
+<link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+@*<script src="~/Scripts/DrugPopUp.js"></script>*@
+<link href="~/Content/ButtonColors.css" rel="stylesheet" />
+<script src="~/Scripts/TooTipScript.js"></script>
+@*<style>
+    .modal-content {
+        width: 1000px !important;
+        margin: 30px auto !important;
+        height: 700px;
+    }
+
+    .modal-body {
+        width: 500px !important;
+        margin: 30px auto !important;
+        height: 700px;
+    }
+</style>*@
+
+
+
+<script>
+    $(document).ready(function () {
+        var url = "";
+        $("#dialog-alert").dialog({
+            autoOpen: false,
+            resizable: false,
+            height: 170,
+            width: 350,
+            show: { effect: 'drop', direction: "up" },
+            modal: true,
+            draggable: true,
+            open: function (event, ui) {
+                $(".ui-dialog-titlebar-close").hide();
+            },
+            buttons: {
+                "OK": function () {
+                    $(this).dialog("close");
+
+                },
+                "Cancel": function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+
+        if ('@TempData["msg"]' != "") {
+            $("#dialog-alert").dialog('open');
+        }
+
+        $("#dialog-edit").dialog({
+            title: 'Create Drugs',
+            autoOpen: false,
+            resizable: false,
+            width: 650,
+            show: { effect: 'drop', direction: "up" },
+            modal: true,
+            draggable: true,
+            open: function (event, ui) {
+                $(".ui-dialog-titlebar-close").hide();
+                $(this).load(url);
+            }
+        });
+
+        $("#dialog-editdetails").dialog({
+            title: 'Update Drug Details',
+            autoOpen: false,
+            resizable: false,
+            width: 600,
+            show: { effect: 'drop', direction: "up" },
+            modal: true,
+            draggable: true,
+            open: function (event, ui) {
+                $(".ui-dialog-titlebar-close").hide();
+                $(this).load(url);
+            }
+        });
+
+        $("#dialog-delete").dialog({
+            title: 'Delete ?',
+            autoOpen: false,
+            resizable: false,
+            width: 500,
+            show: { effect: 'drop', direction: "up" },
+            modal: true,
+            draggable: true,
+            open: function (event, ui) {
+                $(".ui-dialog-titlebar-close").hide();
+                $(this).load(url);
+            }
+        });
+
+        $("#dialog-confirm").dialog({
+            autoOpen: false,
+            resizable: false,
+            height: 170,
+            width: 350,
+            show: { effect: 'drop', direction: "up" },
+            modal: true,
+            draggable: true,
+            open: function (event, ui) {
+                $(".ui-dialog-titlebar-close").hide();
+
+            },
+            buttons: {
+                "Continue": function () {
+                    $(this).dialog("close");
+                    window.location.href = url;
+                },
+                "Cancel": function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+
+        $("#dialog-detail").dialog({
+            title: 'Drug Details',
+            autoOpen: false,
+            resizable: false,
+            width: 500,
+            show: { effect: 'drop', direction: "up" },
+            modal: true,
+            draggable: true,
+            open: function (event, ui) {
+                $(".ui-dialog-titlebar-close").hide();
+                $(this).load(url);
+            },
+            buttons: {
+                "Close": function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+
+        $(document).on("click", ".lnkCreate", function (e) {
+            //e.preventDefault(); //use this or return false
+            url = $(this).attr('href');
+            $("#dialog-edit").dialog('open');
+
+            return false;
+        });
+
+        $(document).on("click", ".lnkEdit", function (e) {
+            // e.preventDefault(); use this or return false
+            url = $(this).attr('href');
+            //$(".ui-dialog-title").html("Edit Patient Dependent");
+            $("#dialog-editdetails").dialog('open');
+
+            return false;
+        });
+
+        $(document).on("click", ".lnkDelete", function (e) {
+            //$(".lnkDelete").live("click", function (e) {
+            // e.preventDefault(); use this or return false
+            url = $(this).attr('href');
+            $("#dialog-delete").dialog('open');
+
+            return false;
+        });
+
+        $(document).on("click", ".lnkDetail", function (e) {
+            //$(".lnkDetail").live("click", function (e) {
+            // e.preventDefault(); use this or return false
+            url = $(this).attr('href');
+            $("#dialog-detail").dialog('open');
+
+            return false;
+        });
+
+        $(document).on("click", "#btncancel", function (e) {
+            $("#dialog-edit").dialog('close');
+            return false;
+        });
+
+        $(document).on("click", "#btncanceldetails", function (e) {
+            $("#dialog-editdetails").dialog("close");
+            return false;
+        });
+
+        $(document).on("click", "#btncanceldelete", function (e) {
+            $("#dialog-delete").dialog("close");
+            return false;
+        });
+    });
+</script>
+<div id="dialog-alert" style="display: none">
+    <p>
+        @TempData["msg"]!
+    </p>
+</div>
+
+<div id="dialog-confirm" style="display: none">
+    <p>
+        <span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>
+        Are you sure to delete?
+    </p>
+</div>
+
+<div id="dialog-edit" style="display: none">
+</div>
+
+<div id="dialog-delete" style="display: none">
+</div>
+
+<div id="dialog-editdetails" style="display: none">
+</div>
+
+<div id="dialog-detail" style="display: none">
+</div>
+
+
+<ol class="breadcrumb">
+    <li class="x">Drugs</li>
+    <li class="active">All Drugs</li>
+</ol>
+
+<div class="text-center" >
+    <h2 class="x">Drug Database</h2>
+    <hr />
+</div>
+
+@*<p>
+    <chunk style="font-family: Times; font-weight: bold;">Date:</chunk>
+    <chunk style="font-family: Times;">@DateTime.Now.ToString("MM:dd:yyyy")</chunk>
+</p>
+<p>
+    <chunk style="font-family: Times; font-weight: bold;">Time:</chunk>
+    <chunk style="font-family: Times;">@DateTime.Now.ToString("hh:mm:ss tt zz")</chunk>
+</p>*@
+
+@*<script src="~/Scripts/jquery-1.9.1.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.8.11.min.js"></script>
+
+<script src="~/Scripts/jquery-1.8.2.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.9.2.min.js"></script>*@
+
+
+@*@Styles.Render("~/Content/themes/base/css")
+@Scripts.Render("~ Bundles/jquery")
+@Scripts.Render("~ Bundles/jqueryui")
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("DrugName").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url:'@Url.Action( "/Drugs/AutoComplete")',
+                    type: "POST",
+                    dataType: "json",
+                    data: { term: request.term },
+                    success: function (data) {
+                        response($.map(json, function (data, id) {
+                            debugger;
+                            return {
+                                label: data.Text,
+                                value: data.Value,
+                            };
+                        }));
+
+                    }
+                })
+            },
+            //messages: {
+            //    noResults: "", results: ""
+            //}
+        });
+    })
+</script>*@
+
+@using (Ajax.BeginForm("SDrugs", "Drugs", null, new AjaxOptions()
+                                            {
+                                                HttpMethod = "GET",
+                                                UpdateTargetId = "DisplayS",
+                                                InsertionMode = InsertionMode.Replace
+                                            }))
+{
+    <div align="center">
+        @Html.TextBox("drugpar", "", new { @class = "form-control", @placeholder = "Enter Text Here" }) <br />
+        <input type="submit" name="searchdrug" value="Search" class="btn btn-success" />
+    </div>
+}
+
+<div>
+    <p>
+        @Html.ActionLink("Create", "Create", "Drugs", new { @class = "modal-link btn btn-success" })
+        @*<button type="button" class="btn btn-success" onclick="location.href='@Url.Action("Create")'"><span class="glyphicon glyphicon-plus"></span>  Add Drugs</button>*@ &nbsp; &nbsp;
+
+    </p>
+</div>
+
+<div id="loader" class="alert text-center" style="display:none; margin:0 auto;">
+    Loading...<img src="~/Images/IMG_6246.GIF" />
+</div>
+
+<br /><br />
+<div id="DisplayS">
+
+</div>
+
+@*<div align="center" style="margin: 0, auto">
+    <nav>
+        <ul class="pagination">
+            <li>
+                <a href="#">
+                    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
+                    of @Model.PageCount
+                </a>
+            </li>
+            @if (Model.HasPreviousPage)
+            {
+                <li>@Html.ActionLink("<<", "Download", new { page = 1 })</li>
+                @Html.Raw(" ");
+                <li>@Html.ActionLink("< Prev", "Download", new { page = Model.PageNumber - 1 })</li>
+            }
+
+            else
+            {
+                <li class="disabled">@Html.ActionLink("<<", "Download", new { page = 1 }, new { onclick = "javascript:return false;" })</li>
+                @Html.Raw(" ");
+                <li class="disabled">@Html.ActionLink("< Prev", "Download", new { page = Model.PageNumber - 1 }, new { onclick = "javascript:return false;" })</li>
+            }
+
+
+            <li>@Html.ActionLink("1", "Download", new { page = 1 })</li>
+            <li>@Html.ActionLink("2", "Download", new { page = 2 })</li>
+            <li>@Html.ActionLink("3", "Download", new { page = 3 })</li>
+            <li>@Html.ActionLink("4", "Download", new { page = 4 })</li>
+            <li>@Html.ActionLink("5", "Download", new { page = 5 })</li>
+
+
+            @if (Model.HasNextPage)
+            {
+                <li>@Html.ActionLink("Next >", "Download", new { page = Model.PageNumber + 1 })</li>
+                @Html.Raw(" ");
+                <li>@Html.ActionLink(">>", "Download", new { page = Model.PageCount })</li>
+            }
+
+            else
+            {
+                <li class="disabled">@Html.ActionLink("Next >", "Download", new { page = Model.PageNumber + 1 }, new { onclick = "javascript:return false;" })</li>
+                @Html.Raw(" ");
+                <li class="disabled">@Html.ActionLink(">>", "Download", new { page = Model.PageCount }, new { onclick = "javascript:return false;" })</li>
+            }
+        </ul>
+    </nav>
+</div>*@

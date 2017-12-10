@@ -1,0 +1,172 @@
+﻿@model GlenwoodMed.Model.ViewModels.Email_serviceViewModel
+
+@{
+    ViewBag.Title = "Send E-mail";
+}
+
+
+<style>
+    input, select, text {
+        max-width: 700px;
+        width: 500px;
+    }
+
+    input, select, text {
+        max-width: 500px;
+    }
+
+    .bot {
+        width: 270px;
+    }
+
+    textarea {
+        max-width: 700px;
+        width: 540px;
+    }
+</style>
+
+
+<link href="~/Content/ButtonColors.css" rel="stylesheet" />
+<script type="text/javascript">
+    $(function () {
+        $("#datepicker").datepicker();
+    });
+
+    $(document).ready(function () {
+        $("#All").click(function () {
+            $("#hide").hide();
+        });
+        $("#One").click(function () {
+            $("#hide").show();
+        });
+    });
+</script>
+<script type="text/javascript" src="http://js.nicedit.com/nicEdit-latest.js"></script>
+<script type="text/javascript">
+
+    //<![CDATA[
+
+    bkLib.onDomLoaded(function () { nicEditors.allTextAreas() });
+
+    //]]>
+
+</script>
+
+<ol class="breadcrumb">
+    <li class="x">Email Services</li>
+    <li class="active">Create Email</li>
+</ol>
+
+<div class="text-center"><h2 class="x">Send E-mail To Patients</h2></div>
+<div class="btn-group btn-group-justified" role="group" aria-label="ButtonHeads">
+    <div class="btn-group" role="group">
+        <button type="button" id="All" class="btn btn-default btn-lg but">Send To All</button>
+    </div>
+    <div class="btn-group" role="group">
+        <button type="button" id="One" class="btn btn-danger btn-lg but">Send To Specific</button>
+    </div>
+</div>
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <center></center>
+    <div class="form-horizontal">
+
+        <hr />
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div id="hide" style="display:none">
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.To, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">@@</span>
+                        @Html.EditorFor(model => model.To, new { htmlAttributes = new { @class = "form-control", @placeholder = "To" } })
+                    </div>
+                    @Html.ValidationMessageFor(model => model.To, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Cc, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1">@@</span>
+                    @Html.EditorFor(model => model.Cc, new { htmlAttributes = new { @class = "form-control", @placeholder = "Cc" } })
+                </div>
+                @Html.ValidationMessageFor(model => model.Cc, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Bcc, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1">@@</span>
+                    @Html.EditorFor(model => model.Bcc, new { htmlAttributes = new { @class = "form-control", @placeholder = "Bcc" } })
+                </div>
+                @Html.ValidationMessageFor(model => model.Bcc, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Subject, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1">T </span>
+                    @Html.EditorFor(model => model.Subject, new { htmlAttributes = new { @class = "form-control", @placeholder = "Subject" } })
+                </div>
+                @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Body, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <table>
+                    @*<tr>
+
+                            <td>
+                                Attachment
+
+                            </td>
+
+                            <td>
+
+                                <input type="file" name="fileUploader" />
+
+                            </td>
+
+                        </tr>*@
+                    <tr>
+                        <td>
+                            @Html.TextAreaFor(model => model.Body, 10, 50, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Body, "", new { @class = "text-danger" })
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Send Email" class="bot btn btn-success" size="15" />
+                <input type="reset" value="Reset Fields" class="bot btn btn-danger glyphicon-alert" size="15" />
+            </div>
+        </div>
+    </div>
+}
+@ViewBag.errormessage
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+@*<div>
+        <h4 style="font-family:Cambria" > @Html.ActionLink("View Previous Email sent", "Index")</h4>
+    </div>*@

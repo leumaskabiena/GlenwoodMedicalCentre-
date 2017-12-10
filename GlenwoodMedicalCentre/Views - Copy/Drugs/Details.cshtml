@@ -1,0 +1,73 @@
+﻿@model GlenwoodMed.Model.ViewModels.DrugModel
+
+<link href="~/Content/ButtonColors.css" rel="stylesheet" />
+
+@*<p>
+        <chunk style="font-family: Times; font-weight: bold;">Date:</chunk>
+        <chunk style="font-family: Times;">@DateTime.Now.ToString("MM:dd:yyyy")</chunk>
+    </p>
+    <p>
+        <chunk style="font-family: Times; font-weight: bold;">Time:</chunk>
+        <chunk style="font-family: Times;">@DateTime.Now.ToString("hh:mm:ss tt zz")</chunk>
+    </p>*@
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DrugCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DrugCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DrugName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DrugName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DrugCategory)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DrugCategory)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DrugDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(item.DrugDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DrugQuantity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DrugQuantity)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+    </dl>
+</div>
+<h4>
+    @Html.ViewBag.msg
+</h4>
+<p>
+    @Html.ActionLink("Edit", "Update", "Drugs", new { id = Model.DrugId }, new { @class = "lnkEdit btn btn-warning" })
+</p>
+

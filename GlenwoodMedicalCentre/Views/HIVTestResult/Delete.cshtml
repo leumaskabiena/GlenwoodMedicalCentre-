@@ -1,0 +1,68 @@
+﻿@model GlenwoodMed.Model.ViewModels.TestResultModel
+@{
+    ViewBag.Title = "Delete";
+}
+
+@*<h2>Details</h2>*@
+
+<link href="~/Content/ButtonColors.css" rel="stylesheet" />
+
+<div>
+    <h3 class="x">Delete For ( @Model.PatientName )</h3>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Test)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Test)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TestType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TestType)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ray1)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ray1)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ray2)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ray2)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ray3)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ray3)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ray4)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ray4)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ray5)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ray5)
+        </dd>
+
+    </dl>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" />
+            <input type="button" value="Cancel" id="btncanceldelete" class=" btn btn-primary" />
+        </div>
+    }
+</div>

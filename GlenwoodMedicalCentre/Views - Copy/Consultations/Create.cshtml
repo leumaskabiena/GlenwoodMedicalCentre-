@@ -1,0 +1,972 @@
+﻿@model GlenwoodMed.Model.ViewModels.ConsultationView
+
+@using GlenwoodMed.BusinessLogic.Business
+@using GlenwoodMed.Data
+@using GlenwoodMed.Model.ViewModels
+@{
+    ConsultationBusiness con = new ConsultationBusiness();
+    ViewBag.Title = "Create";
+}
+
+
+<style type="text/css">
+    .imgBox {
+        width: 200px;
+        height: 200px;
+        opacity: 1.0;
+        filter: alpha(opacity=100);
+    }
+
+        .imgBox:hover {
+            -moz-box-shadow: 0 0 10px #ccc;
+            -webkit-box-shadow: 0 0 10px #ccc;
+            box-shadow: 0 0 10px #ccc;
+            opacity: 0.4;
+            filter: alpha(opacity=40);
+        }
+</style>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#ShowImage").fancybox({
+            helpers:
+            {
+                title:
+                {
+                    type: 'float'
+                }
+            }
+        });
+    });
+
+    $(function() {
+
+        $("#btnPrint").click(function() {
+            var contents = $("#PrintMed").html();
+            var frame1 = $('<iframe />');
+            frame1[0].name = "frame1";
+            frame1.css({ "position": "absolute", "top": "-1000000px" });
+
+            $("body").append(frame1);
+            var frameDoc = frame1[0].contentWindow ? frame1[0].contentWindow : frame1[0].contentDocument.document ? frame1[0].contentDocument.document : frame1[0].contentDocument;
+            frameDoc.document.open();
+            //Create a new HTML document.
+            frameDoc.document.write('<html><head><title>Prescription</title>');
+            frameDoc.document.write('</head><body>');
+            //Append the external CSS file.
+            frameDoc.document.write('<link href="~/Chosen/printbootstrap.css" rel="stylesheet" type="text/css" media="print" />');
+            //Append the DIV contents.
+            frameDoc.document.write(contents);
+
+            frameDoc.document.write('</body><footer>@DateTime.Now Dr Vanny</footer></html>');
+            frameDoc.document.close();
+            setTimeout(function () {
+                window.frames["frame1"].focus();
+                window.frames["frame1"].print();
+                frame1.remove();
+            }, 500);
+        });
+    });
+</script>
+
+<script src="~/Scripts/jquery-2.1.4.min.js"></script>
+<script src="~/Scripts/jquery.mousewheel-3.0.6.pack.js"></script>
+<script src="~/Scripts/jquery.fancybox.js?v=2.1.5"></script>
+<link href="~/Content/jquery.fancybox.css?v=2.1.5" rel="stylesheet" media="screen" />
+<link href="~/Scripts/jquery.fancybox.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.11.4.js"></script>
+<script src="~/Scripts/jquery-ui-1.11.4.min.js"></script>
+<link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+<script src="~/Scripts/PopUp.js"></script>
+<link href="~/Content/ButtonColors.css" rel="stylesheet" />
+<script src="~/Scripts/TooTipScript.js"></script>
+<script >
+    $(document).ready(function() {
+        var url = "";
+        $("#dialog-alert").dialog({
+            autoOpen: false,
+            resizable: false,
+            height: 170,
+            width: 350,
+            show: { effect: 'drop', direction: "up" },
+            modal: true,
+            draggable: true,
+            open: function (event, ui) {
+                $(".ui-dialog-titlebar-close").hide();
+            },
+            buttons: {
+                "OK": function () {
+                    $(this).dialog("close");
+
+                },
+                "Cancel": function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+
+        if ('@TempData["msg"]' != "") {
+            $("#dialog-alert").dialog('open');
+        }
+
+        $("#dialog-edit").dialog({
+            title: 'Create Symptoms',
+            autoOpen: false,
+            resizable: false,
+            width: 300,
+            show: { effect: 'drop', direction: "up" },
+            modal: true,
+            draggable: true,
+            open: function (event, ui) {
+                $(".ui-dialog-titlebar-close").hide();
+                $(this).load(url);
+            }
+        });
+
+        $("#dialog-edit1").dialog({
+            title: 'Create illness',
+            autoOpen: false,
+            resizable: false,
+            width: 300,
+            show: { effect: 'drop', direction: "up" },
+            modal: true,
+            draggable: true,
+            open: function (event, ui) {
+                $(".ui-dialog-titlebar-close").hide();
+                $(this).load(url);
+            }
+        });
+
+        $("#dialog-editdetails").dialog({
+            title: 'Update Drug Details',
+            autoOpen: false,
+            resizable: false,
+            width: 600,
+            show: { effect: 'drop', direction: "up" },
+            modal: true,
+            draggable: true,
+            open: function (event, ui) {
+                $(".ui-dialog-titlebar-close").hide();
+                $(this).load(url);
+            }
+        });
+
+        $("#dialog-delete").dialog({
+            title: 'Delete ?',
+            autoOpen: false,
+            resizable: false,
+            width: 500,
+            show: { effect: 'drop', direction: "up" },
+            modal: true,
+            draggable: true,
+            open: function (event, ui) {
+                $(".ui-dialog-titlebar-close").hide();
+                $(this).load(url);
+            }
+        });
+
+        $("#dialog-confirm").dialog({
+            autoOpen: false,
+            resizable: false,
+            height: 170,
+            width: 350,
+            show: { effect: 'drop', direction: "up" },
+            modal: true,
+            draggable: true,
+            open: function (event, ui) {
+                $(".ui-dialog-titlebar-close").hide();
+
+            },
+            buttons: {
+                "Continue": function () {
+                    $(this).dialog("close");
+                    window.location.href = url;
+                },
+                "Cancel": function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+
+        $("#dialog-detail").dialog({
+            title: 'Drug Details',
+            autoOpen: false,
+            resizable: false,
+            width: 500,
+            show: { effect: 'drop', direction: "up" },
+            modal: true,
+            draggable: true,
+            open: function (event, ui) {
+                $(".ui-dialog-titlebar-close").hide();
+                $(this).load(url);
+            },
+            buttons: {
+                "Close": function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+
+        $(document).on("click", ".lnkCreate", function (e) {
+            //e.preventDefault(); //use this or return false
+            url = $(this).attr('href');
+            $("#dialog-edit").dialog('open');
+
+            return false;
+        });
+
+        $(document).on("click", ".lnkCreate1", function (e) {
+            //e.preventDefault(); //use this or return false
+            url = $(this).attr('href');
+            $("#dialog-edit").dialog('open');
+
+            return false;
+        });
+
+        $(document).on("click", ".lnkEdit", function (e) {
+            // e.preventDefault(); use this or return false
+            url = $(this).attr('href');
+            //$(".ui-dialog-title").html("Edit Patient Dependent");
+            $("#dialog-editdetails").dialog('open');
+
+            return false;
+        });
+
+        $(document).on("click", ".lnkDelete", function (e) {
+            //$(".lnkDelete").live("click", function (e) {
+            // e.preventDefault(); use this or return false
+            url = $(this).attr('href');
+            $("#dialog-delete").dialog('open');
+
+            return false;
+        });
+
+        $(document).on("click", ".lnkDetail", function (e) {
+            //$(".lnkDetail").live("click", function (e) {
+            // e.preventDefault(); use this or return false
+            url = $(this).attr('href');
+            $("#dialog-detail").dialog('open');
+
+            return false;
+        });
+
+        $(document).on("click", "#btncancel", function (e) {
+            $("#dialog-edit").dialog('close');
+            return false;
+        });
+
+        $(document).on("click", "#btncanceldetails", function (e) {
+            $("#dialog-editdetails").dialog("close");
+            return false;
+        });
+
+        $(document).on("click", "#btncanceldelete", function (e) {
+            $("#dialog-delete").dialog("close");
+            return false;
+        });
+    });
+</script>
+
+<div id="dialog-confirm" style="display: none">
+    <p>
+        <span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>
+        Are you sure to delete?
+    </p>
+</div>
+
+<div id="dialog-edit" style="display: none">
+</div>
+
+<div id="dialog-edit1" style="display: none">
+</div>
+
+<div id="dialog-delete" style="display: none">
+</div>
+
+<div id="dialog-editdetails" style="display: none">
+</div>
+
+<div id="dialog-detail" style="display: none">
+</div>
+
+<script>
+    $('#contactForm').submit(function (e) {
+        e.preventDefault();
+
+        function AddNew() {
+            var symptoms = document.getElementById("Symptoms");
+            var symptomstoadd = document.getElementById("Test");
+            var option = document.createElement("OPTION");
+            option.innerHTML = symptomstoadd.value;
+            option.value = symptomstoadd.value;
+            symptoms.appendChild(option);
+
+
+            var len = symptoms.option.length;
+            for (i = 0; i < len; i++) {
+                if (symptoms.option[i].innerHTML == symptomstoadd.value) {
+                    symptoms.selectedIndex = i;
+                    break;
+                }
+            }
+
+        }
+    });
+</script>
+
+
+<div id="confirmDialog" hidden="hidden" title="Confirm Details">
+    <p>Please confirm your details.</p>
+    <div id="PrintMed">
+        <div>
+            <b> Patient Name:</b> <span>@Html.DisplayFor(x => x.patientfullname)</span>
+
+        </div>
+        <div>
+            <b>Symptoms:</b> <span id="confirmSymptoms" />
+        </div>
+        <div>
+            <b>Description:</b> <span id="confirmDesc" />
+        </div>
+        <div>
+            <b>illness:</b> <span id="confirmIllness" />
+        </div>
+        <div>
+            <b>Notes:</b> <span id="confirmNotes" />
+        </div>
+        <div>
+            <b>Test:</b> <span id="confirmTest" />
+        </div>
+    </div>
+</div>
+
+<script language="javascript" type="text/javascript">
+    var i = 0;
+    function addValue() {
+        var inputa = document.getElementById("txtValue");
+        var v = document.contactForm.txtValue.value;
+        if (inputa.value != "") {
+            
+            document.getElementById("lstValue").value +=
+                document.getElementById("txtValue").value + ",  ";
+        
+            // get the TextBox Value and assign it into the variable
+            //AddOpt = new Option(v, v);
+           
+            //document.contactForm.lstValue.val().appendChild(v);
+            //document.contactForm.lstValue.options[i++] = AddOpt;
+
+            //var multi = document.getElementById("lstValue");
+            //for (var t = 0; t < multi.options.length; t++) {
+            //    multi.options[t].selected = true;
+            //}
+            document.getElementById("txtValue").value = "";
+            return true;
+        }
+    }
+</script>
+
+<script>
+    //$(function() {
+
+    //    $("#addnewvalue").click(function () {
+
+    //        var symptoms = document.getElementById("Symptoms");
+    //        var symptomstoadd = document.getElementById("Test");
+    //        var option = document.createElement("OPTION");
+    //        option.innerHTML = symptomstoadd.value;
+    //        option.value = symptomstoadd.value;
+    //        symptoms.appendChild(option);
+
+
+//        for (i = 0; i < symptoms.option.length; i++) {
+    //            if (symptoms.option[i].innerHTML == symptomstoadd.value) {
+    //                symptoms.selectedIndex = i;
+    //                break;
+    //            }
+    //        }
+    //    });
+    //});
+
+</script>
+
+<script>
+    $(document).ready(function () {
+        // Confirmation Dialog
+        $('#confirmDialog').dialog({
+            autoOpen: false,
+            width: 500,
+            modal: true,
+            resizable: false,
+            buttons: {
+                "Submit": function () {
+                    $(".ui-dialog-buttonpane button:contains('Submit')").button("disable");
+                    $(".ui-dialog-buttonpane button:contains('Edit')").button("disable");
+                    document.contactForm.submit();
+                },
+                "Edit": function () {
+
+                    $("#confirmSymptoms").empty();
+                    $("#confirmMed").empty();
+                    $("#confirmIllness").empty();
+                    $("#confirmTest").empty();
+
+                    $(this).dialog("close");
+                }
+            }
+        });
+
+        $('#contactForm').submit(function (e) {
+            e.preventDefault();
+
+
+            function getSymptomsValue() {
+                //var x = document.getElementById("Symptoms");
+                //var y = document.getElementById("confirmSymptoms");
+                //for (var i = 0; i < x.options.length; i++) {
+                //    if (x.options[i].selected == true) {
+                //        y.innerHTML += x.options[i].text + ",";
+                //    }
+                //}
+            }
+
+            function addnew() {
+                //    var symptoms = document.getElementById("Symptoms");
+                //    var symptomstoadd = document.getElementById("Test");
+                //    var option = document.createElement("OPTION");
+                //    option.innerHTML = symptomstoadd.value;
+                //    option.value = symptomstoadd.value;
+                //    symptoms.appendChild(option);
+
+
+//    for (i = 0; i < symptoms.option.length; i++) {
+                //        if (symptoms.option[i].innerHTML == symptomstoadd.value) {
+                //            symptoms.selectedIndex = i;
+                //            break;
+                //        }
+                //    }
+
+            }
+
+            function getillnessValue() {
+                var x = document.getElementById("illness");
+                var y = document.getElementById("confirmIllness");
+                for (var i = 0; i < x.options.length; i++) {
+                    if (x.options[i].selected == true) {
+                        y.innerHTML += x.options[i].text + ",";
+                    }
+                }
+            }
+            function getSymptomsValue() {
+                var x = document.getElementById("lstValue");
+                var y = document.getElementById("confirmSymptoms");
+                for (var i = 0; i < x.options.length; i++) {
+                    if (x.options[i].selected == true) {
+                        y.innerHTML += x.options[i].text + ",";
+                    }
+                }
+            }
+
+            function getTestValue() {
+                var x = document.getElementById("Testtype");
+                var y = document.getElementById("confirmTest");
+                for (var i = 0; i < x.options.length; i++) {
+                    if (x.options[i].selected == true) {
+                        y.innerHTML += x.options[i].text + ",";
+                    }
+                }
+            }
+            // Validate the fields with MVC validation.
+            if ($(this).valid()) {
+                var field;
+                var confirmDiv;
+                confirmDiv = $("#confirmDialog");
+                confirmDiv.parent().show();
+
+                // Textbox.
+                field = $("#lstValue");
+                confirmDiv = $("#confirmSymptoms");
+                if (field.val() == '') {
+                    confirmDiv.parent().hide();
+                } else {
+
+                    confirmDiv.parent().show();
+                    //confirmDiv.html(field.val());
+
+                    getSymptomsValue();
+                }
+
+                field = $("#Description");
+                confirmDiv = $("#confirmDesc");
+                if (field.val() == '') {
+                    confirmDiv.parent().hide();
+                } else {
+                    confirmDiv.parent().show();
+                    confirmDiv.html(field.val());
+                }
+
+
+// Textbox.
+                field = $("#Notes");
+                confirmDiv = $("#confirmNotes");
+                if (field.val() == '') {
+                    confirmDiv.parent().hide();
+                } else {
+                    confirmDiv.parent().show();
+                    confirmDiv.html(field.val());
+                }
+
+                // Textbox.
+                field = $("#illness");
+                confirmDiv = $("#confirmIllness");
+                if (field.val() == '') {
+                    confirmDiv.parent().hide();
+                } else {
+                    confirmDiv.parent().show();
+                    //confirmDiv.html(field.val());
+                    getillnessValue();
+                }
+                field = $("#Testtype");
+                confirmDiv = $("#confirmTest");
+                if (field.val() == '') {
+                    confirmDiv.parent().hide();
+                } else {
+                    confirmDiv.parent().show();
+                    //confirmDiv.html(field.val());
+                    getTestValue();
+                }
+                // Textbox.
+                field = $("#PresribedMed");
+                confirmDiv = $("#confirmMed");
+                if (field.val() == '') {
+                    confirmDiv.parent().hide();
+                } else {
+                    confirmDiv.parent().show();
+                    // getDrugsValue();
+                }
+
+                // Dropdown list.
+                field = $("#Color_ID");
+                confirmDiv = $("#confirmColor");
+                if (field.val() == '0') {
+                    confirmDiv.parent().hide();
+                } else {
+                    confirmDiv.parent().show();
+                    confirmDiv.html($("#Color_ID option:selected").text());
+                }
+
+                $('#confirmDialog').dialog('open');
+            }
+        });
+    });
+</script>
+
+<script language="javascript">
+    function addRow(tableID) {
+
+        var table = document.getElementById(tableID);
+
+        var rowCount = table.rows.length;
+        var row = table.insertRow(rowCount);
+
+        var colCount = table.rows[0].cells.length;
+
+        for (var i = 0; i < colCount; i++) {
+
+            var newcell = row.insertCell(i);
+
+            newcell.innerHTML = table.rows[0].cells[i].innerHTML;
+            //alert(newcell.childNodes);
+            switch (newcell.childNodes[0].type) {
+            case "text":
+                newcell.childNodes[0].value = "";
+                break;
+            case "checkbox":
+                newcell.childNodes[0].checked = false;
+                break;
+            case "select-one":
+                newcell.childNodes[0].selectedIndex = 0;
+                break;
+            }
+        }
+    }
+
+    function deleteRow(tableID) {
+        try {
+            var table = document.getElementById(tableID);
+            var rowCount = table.rows.length;
+
+            for (var i = 0; i < rowCount; i++) {
+                var row = table.rows[i];
+                var chkbox = row.cells[0].childNodes[0];
+                if (null != chkbox && true == chkbox.checked) {
+                    if (rowCount <= 1) {
+                        alert("Cannot delete all the rows.");
+                        break;
+                    }
+                    table.deleteRow(i);
+                    rowCount--;
+                    i--;
+                }
+
+
+            }
+        } catch (e) {
+            alert(e);
+        }
+    }
+
+</script>
+<div class="text-center">
+    <div class="item">
+        @if (Model.FileType == GlenwoodMed.Model.ViewModels.FileType.Avatar)
+        {
+            var base64 = Convert.ToBase64String(Model.resultFile);
+            var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+
+            <a id="ShowImage" class="fancybox-button" data-rel="fancybox-button"
+               title="Profile Pic" href="@imgSrc">
+                <div class="zoom">
+                    <img src="@imgSrc" class="imgBox img-rounded" style="width:100px; height:100px" />
+                    <div class="zoom-icon"></div>
+                </div>
+            </a>
+
+            @*<img src="@imgSrc" alt="avatar" style="width:150px; height:150px" />*@
+        }
+    </div>
+    <h2 class="x"><small>Create Consultation for </small>( @Html.DisplayFor(x => x.patientfullname) )</h2>
+</div>
+
+
+<hr />
+
+
+
+<div class="row" id="contactInformation">
+        @using (Html.BeginForm("AddConsultation", "Consultations", FormMethod.Post, new { id = "contactForm", name = "contactForm", @class = "form-horizontal", role = "form" }))
+    {
+            <fieldset>
+                @if (ViewData.ModelState.IsValid)
+                {
+                @Html.ValidationSummary("", new { @class = "text-danger" })
+
+                }
+                @*<input type="button" value="Add Row" onclick="addRow('dataTable')" />
+
+                    <input type="button" value="Delete Row" onclick="deleteRow('dataTable')" />
+                    <table id="dataTable" width="350px" border="1">
+                        <tr>
+                            <td><input type="checkbox" name="chk" /></td>
+                            <td><input type="text" name="txt" /></td>
+                            <td>
+
+
+                                @Html.DropDownList(" ", @con.populatelistdrugs(), new {@name = "country", @class = "chosen-select", @id = "newshit"+g++})
+
+                                @*<select name="country" class="chosen-select">
+                                    <option value="in">India</option>
+                                    <option value="de">Germany</option>
+                                    <option value="fr">France</option>
+                                    <option value="us">United States</option>
+                                    <option value="ch">Switzerland</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>*@
+                <div class="col-md-6">
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-group">
+
+                        <br />
+                        
+                        @Html.LabelFor(model => model.Symptoms, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @*<select name="lstValue" id="lstValue" class=" form-control " multiple></select>*@
+                            @Html.DropDownList("lstValue", con.populatelistsymptoms(), new { @readonly = "readonly", @class = "form-control  chosen-select", placeholder = "Symptoms will be added here", multiple = "multiple", data_placeholder = "Select Symptoms...", style = "width:350px;" })
+                            @Html.ActionLink(" ", "CreateSymptoms", "Consultations", new { UserId = @Model.PatientId }, new { @title = "Add Symptoms if it doesnt exist", @class = "btn btn-primary view lnkCreate glyphicon glyphicon-plus " })
+                            @Html.ValidationMessageFor(model => model.Symptoms, "", new { @class = "text-danger" })
+                        </div>
+                        <br />
+                        <br />
+
+                    </div>
+                    <div class="form-group">
+
+                        <br />
+                        @Html.LabelFor(m => m.Notes, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(m => m.Notes, new { @class = "form-control ", rows = 5, cols = 20, data_placeholder = "Notes", data_bind = "value: Notes" })
+                            @Html.ValidationMessageFor(model => model.Notes, "", new {@class = "text-danger"})
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+
+                        <br />
+
+                        @Html.LabelFor(m => m.TestTypes, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("Testtype", @con.populatetest(), new { @name = "country", @class = "chosen-select form-control", @multiple = "multiple" })
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+
+                        <br />
+
+                        @Html.LabelFor(m => m.procedures, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(x=>x.procedures)
+                            @Html.DropDownList("Procedures", @con.populateProcedure(), new { @name = "country", @class = "chosen-select form-control", @multiple = "multiple" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4 class="x"></h4>
+                    <div class="form-group">
+                        @Html.Label("Allergy", new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.DisplayFor(m => m.Description, new { @class = "form-control" })
+                        </div>
+                        <br />
+                        <br />
+
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Ill ", "Illness", new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            
+                            @Html.DropDownList("illness", @con.populatelistIllness(), new { @name = "country", @class = "chosen-select form-control", @multiple = "multiple" })
+                            @Html.ActionLink(" ", "CreateIllness", "Consultations", new { UserId = @Model.PatientId }, new { @title = "Add Illness if it doesnt exist", @class = "btn btn-primary view lnkCreate1 glyphicon glyphicon-plus " })
+                        </div>
+                        <br />
+                        <br />
+
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.PresribedMed, new { @class = "col-md-2 control-label" })
+
+                        <div class="col-md-10">
+                            <fieldset>
+                                @Html.EditorFor(model => model.Custs)
+                                <button type="button" class="btn btn-primary view" title="Click to add" data-bind="click: addPosition"><span class="glyphicon glyphicon-plus "></span></button>
+                                <button type="button" class="btn btn-danger view" title="Click to remove" data-bind="click: removePosition"><span class="glyphicon glyphicon-remove "></span></button>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <table class="table">
+                        @{
+                            DataContext da=new DataContext();
+                            
+        if (Model.procedures != null)
+        {
+            <tr>
+                <th>
+                    Procedure Name
+                </th>
+                @foreach (var course in Model.procedures)
+                {
+                    <td>
+                        @course.procedurename
+                    </td>
+
+
+
+                }
+            </tr>
+        }
+ 
+}
+                    </table>
+
+                    <br />
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" class="btn btn-primary view" title="Create and  Send to Pharmasicts" value="Send to Pharmasicts" id="btnRegister" />
+                            @*<input type="submit" class="btn btn-primary" value="Add Consultation" id="lnkDetail" onclick="if (confirm('Are you sure ???'))submit" />*@
+                            @*<input id="btnAdd" type="button" title="Prescribe Medicine" class="btn btn-primary view" value="Prescribe" onclick="GetDetailsHTML();" />*@
+
+                            @*@Html.ActionLink("Add Procedure", "Procedures", "Consultations", Model, new { @title = " View previous consultations ", @class = " modal-link btn btn-success view" })*@
+                            @Html.ActionLink("View Last consultations ", "Last2Consultation", "Consultations", null, new { @title = " View previous consultations ", @class = "modal-link btn btn-success view" })
+                            @*<button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Next", new { id = Model.UserName })';return false;"> Next</button>*@
+                        </div>
+                    </div>
+    </div>@*<div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <table>
+                                            <tr>
+                                                @{
+                      int cnt = 0;
+                    List<GlenwoodMedicalCentre.Models.AssignedConsultationSymptoms> symptoms = ViewBag.Courses;
+
+                    foreach (var item in symptoms)
+                    {
+                        if (cnt++ % 3 == 0)
+                        {
+                            @:</tr><tr>
+                                            }
+                                            @:
+                                            <td>
+                                                <input type="text"
+                                                       name="selectedCourses"
+                                                       multiple="multiple"
+                                                       class="chosen-select"
+                                                       value="@item.SymptomsID"
+                                                       @(Html.Raw(item.Assigned ? "checked=\"checked\"" : "")) />
+                                                 @item.Title
+
+                                            </td>
+                                        }
+
+
+                                                }
+                                            </table>
+                                        </div>
+                                    </div>*@
+                </fieldset>
+
+                    }
+
+</div>
+
+            <link href="~/Content/chosen.css" rel="stylesheet" />
+            <script src="~/Scripts/chosen.jquery.js"></script>
+            <script>
+
+                $(".chosen-select").chosen({
+                    
+                });
+                $("#symptoms").chosen({
+                    placeholder: "please select Symptoms"
+
+                });
+            </script>
+<script>
+    //function AddCust() {
+    //    var m = $('#divcust input:last-child').attr('name');
+    //    var v = $('#divcust input:last-child').attr('name');
+    //    var index = 0;
+    //    var index2 = 0;
+    //    var index3 = 0;
+    //    if (m != null && m.length > 0) {
+    //        index = m.split('custmodel.CustList[')[1].replace('].DrugName', '');
+
+    //        index3 = m.split('custmodel.CustList[')[1].replace('].Dosage', '');
+    //        index++;
+
+    //        index3++;
+    //    }
+    //    if (m != null && m.length > 0) {
+    //        index2 = m.split('custmodel.CustList[')[1].replace('].Quantity', '');
+    //        index2++;
+    //    }
+
+    //    var html = '<table class=\"table table-striped table-bordered table-hover table-responsive\"><tr><td><label for=\"custmodel.CustList_' + index + '__DrugName\">DrugName</label>' +
+    //        '<input title=\"The Drug Name field is required\" required id=\"custmodel.CustList_' + index + '__DrugName\" class=\"text-box single-line\"' +
+    //        ' type=\"text\" value=\"\" name=\"custmodel.CustList[' + index + '].DrugName\"></td>' +
+    //        '<td><label for=\"custmodel.CustList_' + index2 + '__Quantity\">Quantity</label>' +
+    //        '<input title=\"The Quantity field is required\" required id=\"custmodel.CustList_' + index2 + '__Quantity\" class=\"text-box single-line\"' +
+    //        ' type=\"text\" value=\"\" name=\"custmodel.CustList[' + index2 + '].Quantity\"</td>' +
+    //        '<td><label for=\"custmodel.CustList_' + index3 + '__Dosage\">Dosage</label>' +
+    //        '<input required title=\"The Dosage field is required\" id=\"custmodel.CustList_' + index3 + '__Dosage\" class=\"text-box single-line\"' +
+    //        ' type=\"text\" value=\"\" name=\"custmodel.CustList[' + index3 + '].Dosage\"></td></tr><table>';
+    //    $('#divcust').append(html);
+
+
+    //};
+</script>
+<script type="text/javascript">
+    ko.bindingHandlers.namePath = {
+        init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+
+            var jElement = $(element);
+            var parent = $(element).parents("fieldset")[0];
+            var parentIndex = $(parent).index() - 1;
+
+            if (valueAccessor()) {
+
+                var name = jElement.attr("name");
+                var modifiedPath = name.replace("[0]", "[" + parentIndex + "]");
+                element.name = modifiedPath;
+
+                var id = jElement.attr("id");
+                var modifiediD = id.replace("_0_", "_" + parentIndex + "_");
+                element.id = modifiediD;
+
+                // Workaround IE 6/7 issue
+                // - https://github.com/SteveSanderson/knockout/issues/197
+                // - http://www.matts411.com/post/setting_the_name_attribute_in_ie_dom/
+                if (ko.utils.isIe6 || ko.utils.isIe7)
+                    element.mergeAttributes(document.createElement("<input name='" + element.name + "'/>"), false);
+            }
+
+            // Fix data-valmsg-for on labels to match
+            $(element).parent().find(".field-validation-valid").each(function () {
+                var item = $(this);
+                var data = item.data();
+                var modifiedValPath = data.valmsgFor.replace("[0]", "[" + parentIndex + "]");
+                item.attr("data-valmsg-for", modifiedValPath);
+            });
+        }
+    };
+</script>
+<script type="text/javascript">
+
+    function createViewModel() {
+
+        var createPosition = function() {
+            return {
+                Dosage: ko.observable(),
+                DrugName: ko.observable(),
+                Quantity: ko.observable()
+            };
+        };
+
+        var addPosition = function() {
+            positions.push(createPosition());
+        };
+    
+        var removePosition = function() {
+            positions.pop();
+        };
+
+        var Notes = ko.observable();
+        var PatientId = ko.observable();
+        var patientfullname = ko.observable();
+        var positions = ko.observableArray([createPosition()]);
+
+        return {
+            PatientId:PatientId,
+            patientfullname:patientfullname,
+            Notes: Notes,
+            positions: positions,
+            addPosition: addPosition,
+            removePosition: removePosition
+        };
+
+    }
+
+    $(document).ready(function() {
+        var viewModel = createViewModel();
+        ko.applyBindings(viewModel);
+    });
+</script>
+
+<script type="text/javascript">
+    $('.deleteRow').click(function() {
+        var elementDelete = $(this).parent().parent();
+        $(elementDelete).remove();
+
+    });
+</script>
+
+            @section Scripts {
+                @Scripts.Render("~/bundles/jqueryval")
+            }
+
+

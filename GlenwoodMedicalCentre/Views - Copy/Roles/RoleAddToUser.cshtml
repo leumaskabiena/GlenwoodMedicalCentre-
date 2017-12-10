@@ -1,0 +1,99 @@
+﻿@{
+    ViewBag.Title = "Add User To Role";
+}
+
+<link href="~/Content/ButtonColors.css" rel="stylesheet" />
+
+<ol class="breadcrumb">
+    <li class="x">Roles</li>
+    <li class="active">Add User to Role</li>
+</ol>
+
+<div class="spacerBody">
+    <h3>@Html.ActionLink("Create New Role", "RoleCreate") | @Html.ActionLink("Roles", "RoleIndex")</h3>
+
+<div class="row">
+    @using (Ajax.BeginForm("Search", "sh", FormMethod.Get, null, new AjaxOptions() { UpdateTargetId = "Display", InsertionMode = InsertionMode.Replace }))
+    {
+
+    }
+@using (Html.BeginForm("RoleAddToUser", "Roles"))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div class="message-success">@ViewBag.ResultMessage</div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <h2>Add User to Role</h2>
+                <div class="col-md-8">
+                    <b>Username : </b>
+                    @Html.DropDownList("UserName", ViewBag.Users as SelectList, "Select A User", new { @class = "form-control" })<br />
+
+                    @ViewBag.Error
+
+                    <b>Role Name: </b>
+                    @Html.DropDownList("RoleName", ViewBag.Roles as SelectList, "Select A Role", new { @class = "form-control" })<br/>
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </div>              
+       </div>
+    
+}
+
+@using (Html.BeginForm("DeleteRoleForUser", "Roles"))
+    {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+        <div class="col-md-6">
+            <div class="form-group">
+                <h2>Remove user from role</h2>
+                <div class="col-md-8">
+                    <b>Username : </b>
+                    @Html.DropDownList("UserName", ViewBag.Users as SelectList, "Select A User", new { @class = "form-control" })<br />
+
+                    @ViewBag.Error
+
+                    <b>Role Name: </b>
+                    @Html.DropDownList("RoleName", ViewBag.Roles as SelectList, "Select A Role", new { @class = "form-control" })<br />
+                    <input type="submit" value="Remove" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+}
+</div>
+    <br/>
+    <div class="row">
+    @using (Html.BeginForm("GetRoles", "Roles", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <div class="col-md-6">
+            <div class="form-group">
+                <h2>List roles for user</h2>
+                <div class="col-md-8">
+                    <b>Username : </b>
+                    @Html.DropDownList("UserName", ViewBag.Users as SelectList, "Select A User", new { @class = "form-control" })<br />
+
+                    @ViewBag.Error
+
+                    <input type="submit" value="Get Roles" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+    }
+
+        <div class="col-md-6">
+            @if (ViewBag.RolesForThisUser != null)
+            {
+                <text>
+                    <h3>Roles for this user </h3>
+                    <ol>
+                        @foreach (string s in ViewBag.RolesForThisUser)
+                        {
+                            <li>@s</li>
+                        }
+                    </ol>
+                </text>
+            }
+        </div>
+  </div> 
+</div>

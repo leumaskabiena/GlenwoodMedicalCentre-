@@ -1,0 +1,96 @@
+﻿
+@model IPagedList<GlenwoodMed.Model.ViewModels.MedicalCertificateModel>
+@{
+    PatientBusiness pb = new PatientBusiness();
+}
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+@using PagedList.Mvc
+@using PagedList;
+@using GlenwoodMed.BusinessLogic.Business
+<table class="table table-striped table-bordered table-hover table-responsive">
+    <tr>
+        <th colspan="9">There are <span class="badge"> @ViewBag.Count </span> certicates issued within this period !</th>
+    </tr>
+    <tr class="warning body-content">
+        <th>
+            Profile Pic
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().PatintName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Doctorname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().OpinonIllness)
+        </th>
+        <th>
+            Date Created
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @if (item.FileType == GlenwoodMed.Model.ViewModels.FileType.Avatar)
+                {
+
+                    var base64 = Convert.ToBase64String(item.resultFile);
+                    var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+
+                    <a id="ShowImage" class="fancybox-button" data-rel="fancybox-button"
+                       title="Photo" href="@imgSrc">
+                        <div class="zoom">
+                            <img src="@imgSrc" class="imgBox img-rounded" style="width:100px; height:70px" />
+                            <div class="zoom-icon"></div>
+                        </div>
+                    </a>
+                    @*<img src="@imgSrc" alt="avatar" style="width:100px; height:70px" />*@
+                }
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.PatintName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Doctorname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OpinonIllness)
+            </td>
+
+            <td>
+                @{
+        string val = item.datecreated.ToString("D");
+                }
+                @Html.DisplayFor(modelItem => val)
+            </td>
+            <td>
+                <div class="dropup">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" id="dropdownMenu2" aria-haspopup="true" aria-expanded="false">
+                        <b>Actions</b>
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                        <li><a href="@Url.Action("PrintCertificate", "MedicalCertificate", new { PatientId = item.PatientId })"><span><img src="~/Images/printer-icon.png" style="width:20px; height:20px" /></span> <b>Print Certificate</b></a></li>
+                        <li><a href="@Url.Action("Delete", "MedicalCertificate", new { id = item.MedcertificateId })"><span class="glyphicon glyphicon-trash" style="width:20px; height:20px"></span> <b>Delete</b></a></li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    }
+
+</table>
+<div align="center">
+    @Html.PagedListPager(Model, page => Url.Action("_7DaysMedical", "Information", new { page, pagesize = Model.PageSize }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "info" }))
+
+    <b>Showing @Model.FirstItemOnPage to @Model.LastItemOnPage of @Model.TotalItemCount Certificates</b>
+</div>

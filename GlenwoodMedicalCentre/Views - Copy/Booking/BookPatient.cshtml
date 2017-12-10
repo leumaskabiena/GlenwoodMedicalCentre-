@@ -1,0 +1,168 @@
+﻿@model GlenwoodMed.Model.ViewModels.bookingPatient
+
+@{
+    ViewBag.Title = "BookingPatient";
+}
+<script>
+    $(function () {
+
+        $("#datepicker").datepicker({
+
+            showButtonPanel: true
+
+        });
+
+    });
+</script>
+<ol class="breadcrumb">
+    <li class="x"><a href="@Url.Action("Index", "BooKing")">Booking</a></li>
+    <li class="active">Create Booking</li>
+</ol>
+<div class="text-center"><h2 class="x">Create Booking for ( @Model.FullName )</h2>
+    <hr/></div>
+<div class="row">
+
+    <div class="col-md-6">
+        <div>
+
+           
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.FullName)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.FullName)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.identification)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.identification)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Telephone)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Telephone)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Email)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Email)
+                </dd>
+
+
+
+            </dl>
+        </div>
+    </div>
+
+
+    <div class="col-md-6">
+
+        @using (Html.BeginForm())
+            {
+            @Html.AntiForgeryToken()
+
+            @*<dt>
+                @Html.ValidationSummary("", new { @class = "text-danger" })
+            </dt>*@
+
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.LabelFor(model => model.Physician, htmlAttributes: new { @class = "control-label col-md-2" })
+                </dt>
+                <dd>
+                    @Html.DropDownList("Physician", new List<SelectListItem>{
+                            new SelectListItem{ Text="Cardiac Checking Physician", Value="Physian"},
+                            new SelectListItem{ Text="Eye Surgery Physician", Value="Eye Surgery"},
+                            new SelectListItem{ Text="General Surgery Physician", Value="General Surgery"},
+                            new SelectListItem{ Text="Gynaecology Physician", Value="Gynaecology"},
+                            new SelectListItem{ Text="Family Physician", Value="Family Medicine"},
+                            new SelectListItem{ Text="GP Physician", Value="GP Physician"},
+                   //new SelectListItem{ Text="Gynaecology", Value="Other"},
+                   //new SelectListItem{ Text="Gynaecology", Value="Other"},
+                   //new SelectListItem{ Text="Gynaecology", Value="Other"},
+                   //new SelectListItem{ Text="Gynaecology", Value="Other"},
+                   //new SelectListItem{ Text="Gynaecology", Value="Other"},
+                   //new SelectListItem{ Text="Gynaecology", Value="Other"},
+                   //new SelectListItem{ Text="Gynaecology", Value="Other"},
+                   //new SelectListItem{ Text="Gynaecology", Value="Other"},
+                   //new SelectListItem{ Text="Gynaecology", Value="Other"},
+                   //new SelectListItem{ Text="Gynaecology", Value="Other"},
+
+
+
+               }, "--Select a  Physician --", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Physician, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.date, new { htmlAttributes = new { @class = "form-control", id = "datepicker" } })
+                </dd>
+                @*<dt>
+                    @Html.LabelFor(model => model.date, htmlAttributes: new { @class = "control-label col-md-2" })
+                </dt>
+                <dd>
+                  
+                    @Html.ValidationMessageFor(model => model.date, "", new { @class = "text-danger" })
+                </dd>*@
+
+                <dt>
+                    @Html.HiddenFor(model => model.FullName)
+                    @Html.HiddenFor(model => model.identification)
+                    @Html.HiddenFor(model => model.Telephone)
+                    @Html.HiddenFor(model => model.Email)
+                    @Html.HiddenFor(model => model.PatientIdKey)
+                   
+                </dt>
+                <dt>
+
+                </dt>
+                <dd>
+                    @Html.HiddenFor(model => model.Telephone)
+                    @Html.HiddenFor(model => model.Email)
+                </dd>
+
+            </dl>
+            <dl>
+                
+                <dd>
+                    <input type="submit" value="Next" class="btn btn-success" />
+                </dd>
+            </dl>
+            <div class=" row">
+
+
+            </div>
+
+            <div class=" row">
+
+                <div class="form-group">
+                    <div class="col-md-10">
+
+
+
+
+                    </div>
+                </div>
+
+
+            </div>
+        }
+
+
+    </div>
+</div>
+
+
+
+
+
+
+

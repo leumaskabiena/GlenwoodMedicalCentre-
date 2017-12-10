@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewBag.Title = "Create Role";
+}
+
+<div class="spacerBody">
+    <h3>@Html.ActionLink("Roles", "RoleIndex") &nbsp;|&nbsp; @Html.ActionLink("Add Role to User", "RoleAddToUser")</h3>
+    
+    <h2>Create Role</h2>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+            <span class="label label-primary">Role name:</span>
+            <p>
+                @Html.TextBox("RoleName", null, new { @class = "form-control input-lg" })
+            </p>
+            <input type="submit" value="Save" class="btn btn-primary" />
+        }
+    </div>

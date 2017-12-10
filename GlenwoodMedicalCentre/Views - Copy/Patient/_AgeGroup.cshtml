@@ -1,0 +1,47 @@
+﻿<div class="text-center">
+    <h4>Patients Age Group</h4>
+    <hr style="height:1px;border:none;color:#333;background-color:#333;" />
+</div>
+
+<div id="chartbar">
+
+</div>
+
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+<script>
+    var chartData; //global variable for hold chart data
+    google.load("visualization", "1", { packages: ["corechart"] });
+
+    //Fill chartData below
+    $(document).ready(function () {
+        $.ajax({
+            url: '/Statistics/AgeGroup',
+            data: {},
+            dataType: 'json',
+            type: 'get',
+            //contentType: "application/json; chartset=utf-8",
+            success: function (data) {
+                chartData = data;
+            },
+            error: function () {
+                alert("Error loading data! Please try again.")
+            }
+        }).done(function () {
+            //after completely loading data
+            drawChart();
+        })
+    })
+
+    function drawChart() {
+        var data = google.visualization.arrayToDataTable(chartData);
+
+        var options = {
+            title: "Age Groups",
+            pointSize: 5
+        };
+
+        var barChart = new google.visualization.ColumnChart(document.getElementById('chartbar'));
+        barChart.draw(data, options);
+    }
+</script>

@@ -1,0 +1,44 @@
+﻿@model GlenwoodMed.Model.ViewModels.CollectionView
+
+@{
+    ViewBag.Title = "PhaResultDetails";
+}
+
+<h2>Prescriptioin Details</h2>
+
+<div>
+
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Prescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Prescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PatientName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PatientName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Collected)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Collected)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("PostPharmar", new { id = Model.collectionID })';return false;"> Collected</button>
+
+        @*@Html.ActionLink("YES", "PostPharmar", new {id = Model.collectionID}) |
+        @Html.ActionLink("NO", "Pharmasist")*@
+    </p>

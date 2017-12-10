@@ -1,0 +1,188 @@
+﻿@model GlenwoodMedicalCentre.Models.PatientConsultationDetails
+
+@{
+    ViewBag.Title = "Print Certificate";
+    //Layout = "~/Views/Shared/_PdfLayout.cshtml";
+    Layout = "";
+
+
+}
+<!DOCTYPE html>
+<html>
+
+<body>
+    @*<table border="0"  stlye="page-break-inside:auto;" bordercolor="LigntBlue" >
+        <tr>
+            <td align="left">
+                
+                <a>
+                    <b> Address:</b>  289 Che Guevara Rd,<br />
+                    Kwazulu Natal, 4001<br />
+                    South Africa
+                </a>
+            </td>
+            <td>
+
+            </td>
+            <td width="100%">
+                Glenwood Medical Centre
+                Medical Certificate
+            </td>
+            <td>
+
+            </td>
+            <td>
+                <img src="@Server.MapPath("~/Content/white_caduceus_red_box.png")" width="100" height="100" align="right" />
+                
+            </td>
+           
+        </tr>
+    </table>*@
+    <table border="0" stlye="page-break-inside:auto;" bordercolor="LigntBlue" width="100%" height="100%" cellpadding="1.0" cellspacing="10.0">
+
+        <thead style="display:table-header-group; display: table-header-group;">
+            @*<tr stlye="page-break-inside:avoid; page-break-after:auto;">
+                    <th>Test THEAD</th>
+                </tr>*@
+
+            <tr>
+               <td>
+
+                    <div style="font-weight:bold;font-size:16px" align="right">
+                        Glenwood Medical Centre
+                    </div>
+                   
+                    <div style="font-weight:bold;font-size:15px" align="right">
+                        Medical Certificate
+                        <br />
+                        <newline></newline>
+                        <a>
+                            <b> Address:</b>  289 Che Guevara Rd,<br />
+                            Kwazulu Natal, 4001<br />
+                            South Africa<br />
+
+                            <b>Dr K Naidoo</b><br />
+                            <b>BSC.MBCHB(hpu)med</b><br />
+                            <b>PR:0215935</b>
+                        </a>
+                    </div>
+                    <img src="@Server.MapPath("~/Content/white_caduceus_red_box.png")" width="100" height="100" align="right" /> <br />
+                </td>
+                @*<td>
+                        <img src="@Server.MapPath("~/Content/white_caduceus_red_box.png")" width="100" height="100" /> <br />
+                    </td>
+                    <td>
+                        <div style="font-weight:bold;font-size:18;">
+                            Glenwood Medical Centre
+                        </div>
+                        <div style="font-weight:bold;font-size:16;">
+                            Medical Certificate
+
+                        </div>
+                    </td>*@
+            </tr>
+
+        </thead>
+
+        <tbody style="font-size:14px">
+
+            <tr>
+                <td>
+                    <hr />
+                    <newline></newline>                 
+                    <newline></newline>
+                    <newline></newline>
+                    <newline></newline>
+                    <span style="font-family:'Yu Mincho';  font:bold; font:italic">
+                        This is to certify that on <a style="font-family:Algerian">@Model.MedCert.Date.ToString("D")</a>   @*@DateTime.Now*@ I have examined
+                        <a style="font-family:Algerian; font:bold"> @Model.MedCert.PatintName</a>
+                    </span>
+                    <newline></newline>
+                    <newline></newline>
+                    <span style="font-family:'Yu Mincho';  font:bold; font:italic">
+                        who according to my opinion is
+                        <a style="font-family:Algerian"> @Model.MedCert.OpinonIllness </a>
+                    </span>
+                    @*<newline></newline>
+                        <newline></newline>*@
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td></td>
+
+            </tr>
+
+
+            <tr>
+                <td>
+                    <span style="font-family:'Yu Mincho'; font:bold; font:italic">
+                        Hence , he will be /was <a style="font-family:Algerian">
+                            @Model.MedCert.Fitnessproblem
+                        </a>
+                        from
+                        <a style="font-family:Algerian">@{
+                            DateTime sd = Convert.ToDateTime(Model.MedCert.StartingDate);
+                            DateTime ed = Convert.ToDateTime(Model.MedCert.Enddate);
+                        } @sd.ToString("D") </a> to <a style="font-family:Algerian">@ed.ToString("D")</a>
+                    </span>
+                    @*<newline></newline>
+                        <newline></newline>*@
+                </td>
+            </tr>
+            <tr>
+
+                <td></td>
+
+            </tr>
+            <tr>
+                <td bgcolor="LightBlue">
+                    <span style="font-family:'Yu Mincho'; font:bold; font:italic">Comment: <a style="font-family:Algerian">@Model.MedCert.Comment</a></span>
+                </td>
+
+            </tr>
+            <tr>
+                <td></td>   
+            </tr>
+            @*<tr>
+                <td>
+                    <span style="font-family:'Yu Mincho UI'; font:bold; font:italic">Doctor's name:</span>  @Model.MedCert.Doctorname
+                </td>
+            </tr>*@
+            @*<tr>
+                <td></td>
+            </tr>*@
+            @*<tr>
+                <td>
+                    <span style="font-family:'Yu Mincho UI';  font:bold; font:italic">Address: <a style="font-family:Algerian">@Model.MedCert.Address</a></span>
+                </td>
+            </tr>*@
+            <tr>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+            </tr>
+            <tr>
+                <td>
+                    <span style="font-family:'Yu Mincho UI';  font:bold; font:italic">Doctor's signature:______________________ <a style="font-family:Algerian">  </a></span>
+                </td>
+            </tr>
+
+
+        </tbody>
+
+
+        <tfoot style="display:table-footer-group;">
+            @*<tr>
+                    <td>TFOOT</td>
+                </tr>*@
+        </tfoot>
+    </table>
+
+</body>
+
+
+</html>

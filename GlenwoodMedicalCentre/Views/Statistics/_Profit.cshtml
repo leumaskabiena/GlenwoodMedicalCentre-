@@ -1,0 +1,147 @@
+﻿<div id="chart" align="center" style="width:100%; height:300px">
+
+</div>
+
+@section scripts{
+    <script>
+        var chartDataYear;
+        var chartDataMonth;
+        var chartDataDays;
+        var GlobalYear;
+        var CurrentReport;
+        google.load("visualization", "1", { packages: ["corechart"] });
+
+        //load Profit Year report as default load
+        $(document).ready(function () {
+            $.ajax({
+                url: '/Statistics/ProfitYearSelection',
+                type: 'get',
+                dataType: 'json',
+                data: {},
+                success: function (d) {
+                    chartDataYear = d;
+                },
+                error: function () {
+
+                }
+            }).done(function () {
+                CurrentReport = 'year';
+                generateChart(chartDataYear, "Consultation Report Data '", selectYear);
+            });
+        }); //This would display only the years on the chart which is our default display
+
+        function generateChart(chartData, title, selectEvent) //Method to construct chart
+        {
+            var data = google.visualization.arrayToDataTable(chartData);
+            var options = {
+                title: title,
+                legend: 'none',
+                colors: ['red'],
+                lineWidth: 3,
+                pointSize: 5,
+                focusTarget: "category",
+                hAxis: {showTextEvery: 1}
+            }
+
+            var linechart = new google.visualization.LineChart(document.getElementById('chart')); // chart to div tag
+            if(selectEvent != null)
+            {
+                google.visualization.events.addListener(linechart, 'select', function() {
+                    selectEvent(linechart, data);
+                    });
+            }
+
+            GenerateBack(CurrentReport);
+            linechart.draw(data, options); //draws the draph of the chart
+        }
+
+        function GenerateBack(currentReport) { //Method for creating a back to default button
+            $('.backbuttoncontainer').remove();
+
+            //create new back button
+            if(currentReport != 'year') //back button except year according to the currentreport in the done function
+            {
+                //constructing the back button
+                var $back = $('<button/>')
+                            .text('Back')
+                            .addClass('reportBack')
+                            .css({ 'color': 'blue'})
+                            .click(function () {
+                                switch (currentReport) {
+                                    case 'month':
+                                        CurrentReport = 'year';
+                                        generateChart(chartDataYear, "Consultation Report Data '", selectYear);
+                                        break;
+
+                                    case 'days':
+                                        CurrentReport = 'month';
+                                        generateChart(chartDataMonth, "Consultation Report Data of year '" + GlobalYear, selectMonth);
+                                        break;
+                                    default:
+                                }
+                                $(this).parent().remove();
+                            });
+
+                var $div = $('<div/>')
+                        .addClass('backbuttoncontainer')
+                        .css({ 'width': '70%', 'text-align': 'right', 'padding': '5px' })
+                        .append($back);
+                $('#chart').before($div);
+            }
+        }
+
+        function selectYear(chart, data)
+        {
+            //YearEvent ( after select year data from chart )
+            var selectedItem = chart.getSelection()[0];
+            if (selectedItem) {
+                var rowlevel = parseInt(data.getValue(selectedItem.row, 0));
+                var chartData = null;
+
+                $.ajax({
+                    url: '/Statistics/ProfitMonthSelection',
+                    type: 'get',
+                    dataType: 'json',
+                    data: {'year': rowlevel},
+                    success: function (d) {
+                        chartDataMonth = d;
+                    },
+                    error: function () {
+                        alert("Error !");
+                    }
+                }).done(function () {
+                    CurrentReport = 'month';
+                    GlobalYear = rowlevel;
+                    generateChart(chartDataMonth, "Consultation Report Data of year " + rowlevel, selectMonth);
+                });
+            }
+        }
+
+        function selectMonth(chart, data) {
+            //MonthEvent ( after select month data from chart
+            //Load Chart Day Wise
+            var selectedItem = chart.getSelection()[0];
+            if(selectedItem)
+            {
+                var rowlevel = data.getValue(selectedItem.row, 0);
+                $.ajax({
+                    url: '/Statistics/ProfitDaysSelection',
+                    type: 'get',
+                    dataType: 'json',
+                    data: { 'year': GlobalYear, 'month': rowlevel },
+                    success: function (d) {
+                        chartDataDays = d;
+                    },
+                    error: function () {
+                        alert("Error !");
+                    }
+                }).done(function () {
+                    CurrentReport = 'days';
+                    generateChart(chartDataDays, "Consultation report data of " + rowlevel + " '" + GlobalYear, null);
+                })
+            }
+        }
+    </script>
+
+
+}

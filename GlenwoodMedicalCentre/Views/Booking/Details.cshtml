@@ -1,0 +1,81 @@
+﻿@using System.Web.UI.WebControls
+@model GlenwoodMed.Model.ViewModels.bookingPatient
+@{
+    ViewBag.Title = "Details";
+}
+
+<link href="~/Content/ButtonColors.css" rel="stylesheet" />
+@*@using (Html.BeginForm("Details", "Booking", FormMethod.Post))
+    {*@
+@Html.AntiForgeryToken()
+<ol class="breadcrumb">
+    <li class="x"><a href="@Url.Action("Index", "Booking")">Booking</a></li>
+    <li class="active">Patient Details</li>
+</ol>
+<div>
+    <h3 style="color:red">@ViewBag.Error</h3>
+</div>
+<div class="form-horizontal">
+    @using (Html.BeginForm("Details", "Booking", FormMethod.Post))
+    {
+        <dl class="dl-horizontal">
+            @Html.HiddenFor(model => model.PatientIdKey)
+            <dt>@Html.HiddenFor(model => model.BookingId)</dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.FullName)
+                @Html.HiddenFor(model => model.FullName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.FullName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.identification)
+                @Html.HiddenFor(model => model.identification)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.identification)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Telephone)
+                @Html.HiddenFor(model => model.Telephone)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Telephone)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Email)
+                @Html.HiddenFor(model => model.Email)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Email)
+            </dd>
+            <dt></dt>
+            <dd>
+                <br/>
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </dd>
+
+
+        </dl>
+    
+        @*<div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-success" />
+                <input type="button" value="Cancel" id="btncancel" class="btn btn-success" />
+            </div>
+        </div>*@
+
+    }
+
+</div>
+
+  
+
+@*}*@

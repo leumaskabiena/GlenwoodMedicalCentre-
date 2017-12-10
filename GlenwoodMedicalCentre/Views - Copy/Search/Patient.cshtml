@@ -1,0 +1,199 @@
+﻿@model IEnumerable<GlenwoodMed.Model.RegisterModel>
+                      <style>
+                          .x {
+                              color: Blue;
+                              font: bold;
+                          }
+
+                          .y {
+                              font-family: 'Bell MT';
+                              color:royalblue;
+                              font-size: x-large;
+                          }
+
+                          .wid {
+                              width: 50%;
+                          }
+
+                          table{
+                              border: thick,thin;
+                              color: blue;
+                              background-color:lightgrey;
+                          }
+                          
+                          td{
+                              color:black;
+                              background-color:lightgray;
+                              width:50%;
+                          }
+                      </style>
+@{
+    ViewBag.Title = "Patient";
+}
+                      <h3><b>Search for</b></h3>
+
+                      <form>
+                          <table class="table">
+                              <tr>
+                                  @*<td><input type="radio" name="searchfor" value="Patient" onclick="location.href='@Url.Action("Patient", "Search")';return false;" /><text>Patient</text></td>
+                                  <td></td>*@
+                                  <th><input type="radio" name="searchfor" value="Drugs" onclick="location.href='@Url.Action("Drugs", "Search")';return false;" /><text width="100%">Drugs</text></th>
+                                  <th></th>
+                                  <th><input type="radio" name="searchfor" value="TestResult" onclick="location.href='@Url.Action("TestResult", "Search")';return false;" /><text width="100%">Test Result</text></th>
+                                  <th></th>
+                                  <th><input type="radio" name="searchfor" value="Consultation" onclick="location.href='@Url.Action("consultation", "Search")';return false;" /><text width="100%">Consultation</text></th>
+
+
+                              </tr>
+                          </table>
+                      </form><br /><br />
+
+<h2 class="x">Patient</h2>
+
+
+                      @using (Html.BeginForm("Patient", "Search", FormMethod.Get))
+                      {
+                          <br /><br />
+                          <h3><b>Search by:</b></h3>
+                          <h5 class="y">@Html.RadioButton("Searchby", "FullName", true)<text>Name</text></h5>
+                          <h5 class="y">@Html.RadioButton("Searchby", "NationalId")<text>National ID</text><br /></h5>
+                          <h3 class="wid">@Html.TextBox("Patientpar")<br /></h3>
+                          <input type="submit" value="Search Patient" name="searchpatient" />
+                      }
+                      <table class="table table-striped table-bordered table-hover table-responsive">
+                          <tr class="success">
+                              <th>
+                                  @Html.DisplayNameFor(model => model.UserName)
+                              </th>
+                              <th>
+                                  @Html.DisplayNameFor(model => model.FullName)
+                              </th>
+                              <th>
+                                  @Html.DisplayNameFor(model => model.Surname)
+                              </th>
+                              <th>
+                                  @Html.DisplayNameFor(model => model.Password)
+                              </th>
+                              <th>
+                                  @Html.DisplayNameFor(model => model.ConfirmPassword)
+                              </th>
+                              <th>
+                                  @Html.DisplayNameFor(model => model.Email)
+                              </th>
+                              <th>
+                                  @Html.DisplayNameFor(model => model.MaritalStatus)
+                              </th>
+                              <th>
+                                  @Html.DisplayNameFor(model => model.DOB)
+                              </th>
+                              <th>
+                                  @Html.DisplayNameFor(model => model.Sex)
+                              </th>
+                              <th>
+                                  @Html.DisplayNameFor(model => model.Address)
+                              </th>
+                              <th>
+                                  @Html.DisplayNameFor(model => model.PostalCode)
+                              </th>
+                              <th>
+                                  @Html.DisplayNameFor(model => model.Telephone)
+                              </th>
+                              <th>
+                                  @Html.DisplayNameFor(model => model.Employer)
+                              </th>
+                              <th>
+                                  @Html.DisplayNameFor(model => model.EmployerTelephone)
+                              </th>
+                              <th>
+                                  @Html.DisplayNameFor(model => model.Occupation)
+                              </th>
+                              <th>
+                                  @Html.DisplayNameFor(model => model.NationalId)
+                              </th>
+                              <th>
+                                  @Html.DisplayNameFor(model => model.Status)
+                              </th>
+                              <th>
+                                  @Html.DisplayNameFor(model => model.PatientAllergy)
+                              </th>
+                              <th>
+                                  @Html.DisplayNameFor(model => model.MedicalAidName)
+                              </th>
+                              <th>
+                                  @Html.DisplayNameFor(model => model.MedicalAidNo)
+                              </th>
+                              <th></th>
+                          </tr>
+
+                          @foreach (var item in Model)
+                          {
+                              <tr>
+                                  <td>
+                                      @Html.DisplayFor(modelItem => item.UserName)
+                                  </td>
+                                  <td>
+                                      @Html.DisplayFor(modelItem => item.FullName)
+                                  </td>
+                                  <td>
+                                      @Html.DisplayFor(modelItem => item.Surname)
+                                  </td>
+                                  <td>
+                                      @Html.DisplayFor(modelItem => item.Password)
+                                  </td>
+                                  <td>
+                                      @Html.DisplayFor(modelItem => item.ConfirmPassword)
+                                  </td>
+                                  <td>
+                                      @Html.DisplayFor(modelItem => item.Email)
+                                  </td>
+                                  <td>
+                                      @Html.DisplayFor(modelItem => item.MaritalStatus)
+                                  </td>
+                                  <td>
+                                      @Html.DisplayFor(modelItem => item.DOB)
+                                  </td>
+                                  <td>
+                                      @Html.DisplayFor(modelItem => item.Sex)
+                                  </td>
+                                  <td>
+                                      @Html.DisplayFor(modelItem => item.Address)
+                                  </td>
+                                  <td>
+                                      @Html.DisplayFor(modelItem => item.PostalCode)
+                                  </td>
+                                  <td>
+                                      @Html.DisplayFor(modelItem => item.Telephone)
+                                  </td>
+                                  <td>
+                                      @Html.DisplayFor(modelItem => item.Employer)
+                                  </td>
+                                  <td>
+                                      @Html.DisplayFor(modelItem => item.EmployerTelephone)
+                                  </td>
+                                  <td>
+                                      @Html.DisplayFor(modelItem => item.Occupation)
+                                  </td>
+                                  <td>
+                                      @Html.DisplayFor(modelItem => item.NationalId)
+                                  </td>
+                                  <td>
+                                      @Html.DisplayFor(modelItem => item.Status)
+                                  </td>
+                                  <td>
+                                      @Html.DisplayFor(modelItem => item.PatientAllergy)
+                                  </td>
+                                  <td>
+                                      @Html.DisplayFor(modelItem => item.MedicalAidName)
+                                  </td>
+                                  <td>
+                                      @Html.DisplayFor(modelItem => item.MedicalAidNo)
+                                  </td>
+                                  @*<td>
+                        @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+                        @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+                    </td>*@
+                              </tr>
+                          }
+
+                      </table>

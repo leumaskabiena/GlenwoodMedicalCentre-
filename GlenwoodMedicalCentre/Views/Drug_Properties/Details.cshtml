@@ -1,0 +1,42 @@
+﻿@model GlenwoodMed.Model.ViewModels.Drug_PropertiesModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Drug_Properties</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DrugName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DrugName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DrugCategory)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DrugCategory)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DrugDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DrugDescription)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.DrugCode }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

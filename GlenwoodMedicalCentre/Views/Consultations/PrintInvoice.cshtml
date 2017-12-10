@@ -1,0 +1,343 @@
+﻿@using GlenwoodMed.Service.RepositoryClass
+@model GlenwoodMedicalCentre.Models.PatientConsultationDetails
+
+@{
+    ViewBag.Title = "PrintConsultation";
+    DrugRespo obs = new DrugRespo();
+    //Layout = "~/Views/Shared/_PdfLayout.cshtml";
+    Layout = "";
+    @*<style>
+            .noborder {
+                border: none;
+            }
+        </style>*@
+
+}
+
+@*<paragraph style="font-family:Helvetica;font-size:22; align-content:center;" align="center">
+        <chunk red="255" green="0" blue="0">Glenwood Medical Centre</chunk>
+    </paragraph>*@
+
+@*<image url="@Context.Server.MapPath("~/Content/white_caduceus_red_box.png")" width="10" height="10" />*@
+@*<img src="@Server.MapPath("~/Content/white_caduceus_red_box.png")" width="100" height="100" />*@
+@*<paragraph>
+
+
+
+    </paragraph>*@
+@*<paragraph>
+        <chunk style="font-family:Times;font-size:18;font-weight:bold;">Patient Name : </chunk>
+        <chunk style="font-family:Times;font-size:18;">@Model.Patient.FullName @Model.Patient.Surname</chunk>
+    </paragraph>*@
+
+@*<paragraph>
+        <chunk style="font-family:Times;font-weight:bold;font-size:18;">Consultation Date : </chunk>
+        <chunk style="font-family:Times;font-size:18;">@Model.Consultation.ConsultDate.ToString("MM/dd/yyyy")</chunk>
+    </paragraph>*@
+@*<paragraph>
+        <chunk style="font-family:Times;font-weight:bold;font-size:18;">Consultation Time: </chunk>
+        <chunk style="font-family:Times;font-size:18;">@Model.Consultation.ConsultTime</chunk>
+    </paragraph>*@
+<!DOCTYPE html>
+<html>
+<body>
+<table stlye="page-break-inside:auto;" bordercolor="RED" width="100%" height="100%" cellpadding="1.0" cellspacing="10.0">
+
+    <thead style="display: table-header-group; display: table-header-group;">
+    @*<tr stlye="page-break-inside:avoid; page-break-after:auto;">
+                    <th>Test THEAD</th>
+                </tr>*@
+
+    <tr>
+        <td colspan="2" rowspan="2" bgcolor="White" align="center" valign="top">
+
+            <img src="@Server.MapPath("~/Content/white_caduceus_red_box.png")" width="100" height="100"/> <br/>
+            <div style="font-weight: bold; font-size: 18;">
+                Glenwood Medical Centre
+            </div>
+       
+        </td>
+    </tr>
+    </thead>
+</table>
+    <div align ="center" style="font-weight: bold; font-size: 18;">
+        Invoice
+    </div>
+    Patient Name : @Model.Consultation.patientfullname
+<br/>
+    Address: @Model.Patient.Address1
+    <br />
+    Potal Code : @Model.Patient.PostalCode
+    <br />
+    <table border="1" width="100%" height="100%" cellpadding="1.0" cellspacing="10.0">
+        <tr>
+            <th colspan="3">
+                Description
+            </th>
+            <th>
+                Amount
+            </th>
+            <th>
+                
+            </th>
+        </tr>
+        <tr>
+            <td colspan="3">
+                @{
+                    foreach (var VARIABLE in Model.Consultation.CustLis)
+                    {
+                        @VARIABLE.DrugId
+                        <br/>
+                        <br/>
+                    }
+
+                }
+            </td>
+            <td>
+                @{
+                    foreach (var VARIABLE in Model.Consultation.CustLis)
+                    {
+                        var ob = obs.GetAll().Find(x => Convert.ToString(x.DrugName) == VARIABLE.DrugId).DrugPrice*VARIABLE.Quantity;
+                        @ob.ToString("C");
+                        <br/>
+                    }
+
+                }
+            </td>
+            <td>
+                
+            </td>
+        </tr>
+            <tr>
+                <td colspan="3">
+                    @{
+                        foreach (var VARIABLE in Model.Consultation.Procedures)
+                        {
+                            @VARIABLE.procedureName
+                            <br />
+                        }
+
+                    }
+                </td>
+                <td>
+                    @{
+                        foreach (var VARIABLE in Model.Consultation.Procedures)
+                        {
+                            @VARIABLE.procedurePrice.ToString("C")
+                            <br/>
+                        }
+
+                    }
+                </td>
+                <td>
+                    
+                </td>
+            </tr>
+        <tr>
+            <td colspan="3">
+                @{
+                    foreach (var VARIABLE in Model.Consultation.TestTypes)
+                    {
+                        @VARIABLE.Name
+                        <br/>
+                    }
+
+                }
+            </td>
+            <td>
+                @{
+                    foreach (var VARIABLE in Model.Consultation.TestTypes)
+                    {
+                        @VARIABLE.Price.ToString("C")
+                        <br/>
+                    }
+
+                }
+            </td>
+            <td>
+                
+            </td>
+
+        </tr>
+        <tr>
+            <td colspan="3">
+                Consultation Price
+            </td>
+        </tr>
+        <tr>
+            <td>
+                R 400,00
+            </td>
+        </tr>
+        <td>
+            
+        </td>
+        <tr>
+            <td border="1" colspan="3" align="right">
+                Total Price<br/><br/>
+                Amount Paid<br/><br />
+                Tax(14%) Included
+                <br/>
+                <br/>
+
+                Balance 
+            </td>
+
+              
+
+        </tr>
+        <tr>
+            <td>
+                @{
+                    var ConsultationPRice = Model.Consultation.TotalPrice;
+                    var price =Model.Consultation.TotalPrice;
+                    price-= (price * Convert.ToDecimal(0.14));
+                    @price.ToString("C")
+                }
+                
+                <br/><br /><br />
+                 @ConsultationPRice.ToString("C")
+            </td>
+
+            <td>
+                <br/><br/>
+                @Model.Consultation.Amountpaid.ToString("C")
+                <br/>
+                <br/>
+                @{
+                    string balance=(Model.Consultation.TotalPrice - @Model.Consultation.Amountpaid).ToString("C");
+                    <br/>
+                    @balance
+                }
+            </td>
+        </tr>
+      
+
+    </table>
+
+    <table border="1" width="100%" height="100%" cellpadding="1.0" cellspacing="10.0">
+        @*<tr>
+            <td>
+                Illness :
+            </td>
+            <td>
+                @foreach (var im in Model.Consultation.Illness)
+                {
+                    @im.Illnessname    <br />
+
+                }
+            </td>
+        </tr>
+        @foreach (var item in Model.Consultation)
+            {
+        <tr>
+            <td>
+                Symptoms :
+            </td>
+            <td>
+                @{
+                    foreach (var course in @Model.Consultation.Symptomses)
+                    {
+                        @course.symptomsname    <br />
+                    }
+                }
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Prescribed Medicine :
+            </td>
+            <td>
+                @{
+                @foreach (var course in @Model.Consultation.CustLis)
+                {
+                    @course.DrugId  @course.Quantity  @course.Dosage   <br />
+                }
+                @*}
+            </td>
+        </tr>
+        @*}
+        <tr>
+            <td>
+                Notes :
+            </td>
+            <td>
+                @Model.Consultation.Notes
+            </td>
+        </tr>*@
+    </table>
+    <newline />
+    <paragraph leading="24.0" font="unknown" align="Default">
+
+    </paragraph>
+    <newline />
+    <newline />
+<table>
+    <tr>
+        <td>
+
+            Patient's Signature<br/>
+            <br/>
+
+            ___________________
+        </td>
+        <td>
+
+            Cashier's Signature<br/><br/>
+
+            ___________________
+        </td>
+    </tr>
+</table>
+
+    @*@section footer
+        {
+        <b>This is the footer</b>
+        }
+        @RenderSection("footer", false)*@
+</body>
+
+</html>
+
+@*<table width="100%" cellpadding="1.0" cellspacing="10.0" widths="3;8">
+        <row>
+            <cell>Patient Name :</cell>
+            <cell>@Model.Patient.FullName @Model.Patient.Surname</cell>
+        </row>
+
+        <row>
+            <cell>Consultation Date :</cell>
+            <cell>@Model.Consultation.ConsultDate.ToString("MM/dd/yyyy")</cell>
+        </row>
+
+        <row>
+            <cell>Consultation Time:</cell>
+            <cell>@Model.Consultation.ConsultTime</cell>
+        </row>
+    </table>*@
+
+@*<table width="100%" cellpadding="1.0" cellspacing="10.0" widths="3;8">
+        <row>
+            <cell borderwidth="0.5" left="false" right="false" top="false" bottom="true">Illness</cell>
+            <cell borderwidth="0.5" left="false" right="false" top="false" bottom="true">@Model.Consultation.illness</cell>
+        </row>
+
+        <row>
+            <cell borderwidth="0.5" left="false" right="false" top="false" bottom="true">Symtoms</cell>
+            <cell borderwidth="0.5" left="false" right="false" top="false" bottom="true">@Model.Consultation.Symptoms</cell>
+        </row>
+
+        <row>
+            <cell borderwidth="0.5" left="false" right="false" top="false" bottom="true">Prescribed Medicine</cell>
+            <cell borderwidth="0.5" left="false" right="false" top="false" bottom="true">@Model.Consultation.PresribedMed</cell>
+        </row>
+
+        <row>
+            <cell borderwidth="0.5" left="false" right="false" top="false" bottom="true">Description</cell>
+            <cell borderwidth="0.5" left="false" right="false" top="false" bottom="true">@Model.Consultation.Description</cell>
+        </row>
+    </table>*@
+
+
+

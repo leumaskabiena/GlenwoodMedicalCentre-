@@ -1,0 +1,104 @@
+﻿@using GlenwoodMed.BusinessLogic.Business
+@using GlenwoodMed.Data
+@model GlenwoodMed.Model.ViewModels.DispenseDrug
+
+@{
+    ViewBag.Title = "Add Drugs to Consultation";
+}
+@{
+    ConsultationBusiness con = new ConsultationBusiness();
+    DataContext da = new DataContext();
+}
+<script src="~/Scripts/jquery-2.1.4.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.11.4.min.js"></script>
+<link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+<script src="~/Scripts/PopUp.js"></script>
+<script src="~/Scripts/CustomJs.js"></script>
+<link href="~/Content/ButtonColors.css" rel="stylesheet" />
+<ol class="breadcrumb">
+    <li class="x"><a>Consultation</a></li>
+    <li class="active">Main Index</li>
+</ol>
+<div class="text-center">
+    <h2 class="x">
+        <small> Medicine(s) for</small> @Html.DisplayFor(m => m.patientfullname) &nbsp;
+    </h2>
+</div>
+<hr />
+<br />
+<br />
+<div class="row">
+    @using (Html.BeginForm("AddDrugsToConsult", "Consultations", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+
+    }
+    <div>
+        @Html.Label("Error", "")
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+        <div class="col-md-12">
+@using (Html.BeginForm("DispenseDrug", "Consultations", FormMethod.Post, new { id = "contactForm", name = "contactForm", @class = "form-horizontal", role = "form" }))
+    {
+    @Html.HiddenFor(x => x.ConsultId)
+    @Html.HiddenFor(x => x.DispenseCusts)
+                        <table class="table table-striped table-bordered table-hover table-responsive">
+                <tr class="success">
+
+                    <th>
+                        Drug Name
+                    </th>
+                    <th>
+                        Quantity
+                    </th>
+
+                    <th>
+                        Dosage
+                    </th>
+
+                </tr>
+                @{
+        foreach (var item in Model.DispenseCusts)
+                    {
+                        var find = da.Drugs.ToList().Find(x => Convert.ToString(x.DrugId) == item.DrugId);
+
+                        <tr>
+                            <td>
+
+                                @item.DrugId
+                                
+
+                                <br />
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Quantity, new { @class = "form-control", @placeholder = "E.g 1,2" })
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Dosage, new { @class = "form-control", @placeholder = "E.g 1,2" })
+                            </td>
+
+                        </tr>
+                    }
+                }
+            </table>
+            <input type="submit" class="btn btn-primary view" title="Update Drugs" value="Update" id="btnRegister" />
+    }
+        </div>
+        <br />
+        <br />
+    </div>
+</div>
+<div align="center">
+    
+        
+    @Html.ActionLink(" ", "PrintPrescription", "Consultations", new { ConsultId = Model.ConsultId }, new { @title = "Add More Drugs and Prescribe", @class = "btn btn-info glyphicon glyphicon-print view" })
+</div>
+<link href="~/Content/chosen.css" rel="stylensheet" />
+<script src="~/Scripts/chosen.jquery.js"></script>
+
+<script>
+    $(".chosen-select").chosen(
+    );
+    $("#symptoms").chosen({
+        placeholder: "please select Symptoms"
+
+    });
+</script>

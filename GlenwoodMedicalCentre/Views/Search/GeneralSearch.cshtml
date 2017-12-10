@@ -1,0 +1,92 @@
+﻿@{
+    ViewBag.Title = "GeneralSearch";
+}
+<style>
+    text {
+        /*font-family:'Bell MT';*/
+        font: bold,italic;
+        color: deepskyblue;
+        font-size-adjust: 1;
+    }
+</style>
+
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<link href="~/Content/ButtonColors.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-ui-1.11.4.js"></script>
+<script src="~/Scripts/jquery-ui-1.11.4.min.js"></script>
+<script src="~/Scripts/jquery-2.1.4.js"></script>
+
+
+<ol class="breadcrumb">
+    <li class="x">General Search</li>
+    <li class="active">Main</li>
+</ol>
+<div align="center" class="x">
+    <h2><b>Search For</b></h2>
+</div>
+<br />
+
+<div class="btn-group btn-group-justified" role="group" aria-label="ButtonHeads">
+    @*<div class="btn-group" role="group">
+        @Ajax.ActionLink("Patients", "SearchPatient", "", new AjaxOptions()
+                                                    {
+                                                        HttpMethod = "GET",
+                                                        UpdateTargetId = "Display",
+                                                        InsertionMode = InsertionMode.Replace,
+                                                        LoadingElementId = "loader"
+                                                    }, new { @class = "btn btn-default btn-lg but" })
+    </div>*@
+    <div class="btn-group" role="group">
+        @Ajax.ActionLink("Patients", "SPatient", "", new AjaxOptions()
+                                                    {
+                                                        HttpMethod = "GET",
+                                                        UpdateTargetId = "Display",
+                                                        InsertionMode = InsertionMode.Replace,
+                                                        LoadingElementId = "loader"
+                                                    }, new { @class = "btn btn-default btn-lg but" })
+    </div>
+    <div class="btn-group" role="group">
+        @Ajax.ActionLink("Drugs", "SearchDrugs", "", new AjaxOptions()
+                                                            {
+                                                                HttpMethod = "GET",
+                                                                UpdateTargetId = "Display",
+                                                                InsertionMode = InsertionMode.Replace,
+                                                                LoadingElementId = "loader"
+                                                            }, new { @class = "btn btn-danger btn-lg but" })
+        </div>
+    @*<div class="btn-group" role="group">
+        <button type="button" class="btn btn-default btn-lg but" onclick="location.href='@Url.Action("Create", "Dependent")';return false;"><span class="glyphicon glyphicon-plus"></span>  Add Dependent ?</button>
+    </div>*@
+    @*<div class="btn-group" role="group">
+        @Ajax.ActionLink("Consultations", "SearchConsultation", "", new AjaxOptions()
+                                                            {
+                                                                HttpMethod = "GET",
+                                                                UpdateTargetId = "Display",
+                                                                InsertionMode = InsertionMode.Replace,
+                                                                LoadingElementId = "loader"
+                                                            }, new { @class = "btn btn-default btn-lg but" })
+    </div>*@
+    <div class="btn-group" role="group">
+        @Ajax.ActionLink("Staffs", "SearchStaffs", "", new AjaxOptions()
+                                                            {
+                                                                HttpMethod = "GET",
+                                                                UpdateTargetId = "Display",
+                                                                InsertionMode = InsertionMode.Replace,
+                                                                LoadingElementId = "loader"
+                                                            }, new { @class = "btn btn-default btn-lg but" })
+    </div>
+    
+</div>
+
+<div id="loader" class="alert text-center" style="display:none; margin:0 auto;">
+    Loading...<img src="~/Images/IMG_6246.GIF" />
+</div>
+    
+<br/><br/>
+    <div id="Display">
+
+    </div>
+
+@*@Html.Partial("_SearchPatient")*@
+

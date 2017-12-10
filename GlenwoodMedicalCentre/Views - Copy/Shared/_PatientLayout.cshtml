@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Glenwood Medical Centre</title>
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/themes/base/css")
+    @Scripts.Render("~/bundles/jquery")
+    @*@Scripts.Render("~/bundles/jqueryval")*@
+    @*@Scripts.Render("~/bundles/bootstrap")*@
+    @Scripts.Render("~/bundles/jqueryui")
+
+    <style>
+        body {
+            /*background-color: whitesmoke;*/
+            /*padding-bottom: 170px;*/
+        }
+    </style>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.nav li').click(function () {
+                $(this).addClass('active');
+            });
+        });
+
+        $(document).ready(function () {
+            $('.nav li').find('a[href="' + location.pathname + '"]')
+                .closest('li').addClass('active');
+        });
+    </script>
+</head>
+<body style="background-color:white">
+    <div class="container body-content" style="background-color:white">
+
+        <!-- The justified navigation menu is meant for single line per list item.
+             Multiple lines will require custom code not provided by Bootstrap. -->
+        <div class="masthead">
+            @*<h3 class="text-muted">Project name</h3>*@
+            <span><img style="width:50px; height:50px" src="~/Images/white_caduceus_red_box.png" alt="Brand" />@Html.ActionLink("Glenwood Medical Centre", "Index", "PatientView", new { area = "" }, new { @class = "navbar-brand" })</span>
+            @Html.Partial("_LoginPartial")
+            <nav>
+                <ul class="nav nav-justified">
+                    <li><a href="#">Home</a></li>
+                    <li><a href='@Url.Action("CreateFeedBack", "Feedback")'>Feedback</a></li>
+                    <li><a href='@Url.Action("Index", "DoctorAvail")'>Booking Calendar</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Glenwood Medical Centre</p>
+        </footer>
+    </div>
+
+    @*@Scripts.Render("~/bundles/jquery")*@
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+

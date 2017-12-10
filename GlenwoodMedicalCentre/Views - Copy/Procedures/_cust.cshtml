@@ -1,0 +1,18 @@
+﻿@using System.Web.Mvc.Html
+
+@model IEnumerable<GlenwoodMed.Model.ViewModels.ConsultationView.Cust>
+Something...
+@foreach (var m in Model)
+{
+    @Html.LabelFor(modelitem => m.DrugName)
+    @Html.TextBoxFor(modelitem => m.DrugName)
+
+    @Html.LabelFor(modelitem => m.Quantity)
+    @Html.TextBoxFor(modelitem => m.Quantity)
+
+    @Html.LabelFor(modelitem => m.Dosage)
+    @Html.TextBoxFor(modelitem => m.Dosage)
+}
+
+   
+

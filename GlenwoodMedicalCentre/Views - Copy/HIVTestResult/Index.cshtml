@@ -1,0 +1,330 @@
+﻿@model IPagedList<GlenwoodMed.Model.ViewModels.HIVTestResultModel>
+@using PagedList.Mvc
+@using PagedList;
+    @{
+        ViewBag.Title = "All HiV Test";
+    }
+
+    <script src="~/Scripts/jquery-2.1.4.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.11.4.min.js"></script>
+    <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+    <link href="~/Content/ButtonColors.css" rel="stylesheet" />
+    <script src="~/Scripts/TooTipScript.js"></script>
+    
+<script>
+    $(document).ready(function () {
+        var url = "";
+        @*$("#dialog-alert").dialog({
+            autoOpen: false,
+            resizable: false,
+            height: 170,
+            width: 450,
+            show: { effect: 'drop', direction: "up" },
+            modal: true,
+            draggable: true,
+            open: function (event, ui) {
+                $(".ui-dialog-titlebar-close").hide();
+            },
+            buttons: {
+                "OK": function () {
+                    $(this).dialog("close");
+
+                },
+                "Cancel": function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+
+        if ('@TempData["msg"]' != "") {
+            $("#dialog-alert").dialog('open');
+        }*@
+
+        $("#dialog-edit").dialog({
+            title: 'Create X-RAY TEST RESULT',
+            autoOpen: false,
+            resizable: false,
+            width: 1090,
+            show: { effect: 'drop', direction: "up" },
+            modal: true,
+            draggable: true,
+            open: function (event, ui) {
+                $(".ui-dialog-titlebar-close").hide();
+                $(this).load(url);
+            }
+        });
+
+        $("#dialog-editdetails").dialog({
+            title: 'Update HIV Details',
+            autoOpen: false,
+            resizable: false,
+            width: 1030,
+            show: { effect: 'drop', direction: "up" },
+            modal: true,
+            draggable: true,
+            open: function (event, ui) {
+                $(".ui-dialog-titlebar-close").hide();
+                $(this).load(url);
+            }
+        });
+
+        $("#dialog-delete").dialog({
+            title: 'Delete ?',
+            autoOpen: false,
+            resizable: false,
+            width: 500,
+            show: { effect: 'drop', direction: "up" },
+            modal: true,
+            draggable: true,
+            open: function (event, ui) {
+                $(".ui-dialog-titlebar-close").hide();
+                $(this).load(url);
+            }
+        });
+
+        $("#dialog-confirm").dialog({
+            autoOpen: false,
+            resizable: false,
+            height: 170,
+            width: 350,
+            show: { effect: 'drop', direction: "up" },
+            modal: true,
+            draggable: true,
+            open: function (event, ui) {
+                $(".ui-dialog-titlebar-close").hide();
+
+            },
+            buttons: {
+                "Continue": function () {
+                    $(this).dialog("close");
+                    window.location.href = url;
+                },
+                "Cancel": function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+
+        $("#dialog-detail").dialog({
+            title: 'HIV Details',
+            autoOpen: false,
+            resizable: false,
+            width: 500,
+            show: { effect: 'drop', direction: "up" },
+            modal: true,
+            draggable: true,
+            open: function (event, ui) {
+                $(".ui-dialog-titlebar-close").hide();
+                $(this).load(url);
+            },
+            buttons: {
+                "Close": function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+
+        $(document).on("click", ".lnkCreate", function (e) {
+            //e.preventDefault(); //use this or return false
+            url = $(this).attr('href');
+            $("#dialog-edit").dialog('open');
+
+            return false;
+        });
+
+        $(document).on("click", ".lnkEdit", function (e) {
+            // e.preventDefault(); use this or return false
+            url = $(this).attr('href');
+            //$(".ui-dialog-title").html("Edit Patient Dependent");
+            $("#dialog-editdetails").dialog('open');
+
+            return false;
+        });
+
+        $(document).on("click", ".lnkDelete", function (e) {
+            //$(".lnkDelete").live("click", function (e) {
+            // e.preventDefault(); use this or return false
+            url = $(this).attr('href');
+            $("#dialog-delete").dialog('open');
+
+            return false;
+        });
+
+        $(document).on("click", ".lnkDetail", function (e) {
+            //$(".lnkDetail").live("click", function (e) {
+            // e.preventDefault(); use this or return false
+            url = $(this).attr('href');
+            $("#dialog-detail").dialog('open');
+
+            return false;
+        });
+
+        $(document).on("click", "#btncancel", function (e) {
+            $("#dialog-edit").dialog('close');
+            return false;
+        });
+
+        $(document).on("click", "#btncanceldetails", function (e) {
+            $("#dialog-editdetails").dialog("close");
+            return false;
+        });
+
+        $(document).on("click", "#btncanceldelete", function (e) {
+            $("#dialog-delete").dialog("close");
+            return false;
+        });
+    });
+</script>
+
+    @*<div id="dialog-alert" style="display: none">
+        <p>
+            @TempData["msg"]!
+        </p>
+    </div>*@
+
+    <div id="dialog-confirm" style="display: none">
+        <p>
+            <span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>
+            Are you sure to delete?
+        </p>
+    </div>
+
+    <div id="dialog-edit" style="display: none">
+    </div>
+
+    <div id="dialog-delete" style="display: none">
+    </div>
+
+    <div id="dialog-editdetails" style="display: none">
+    </div>
+
+    <div id="dialog-detail" style="display: none">
+    </div>
+
+    <div class="text-center">
+    <h2 class="x">HIV Test Results @*for @Model.PatientName*@</h2>
+    <hr />
+</div>
+    @using (@Html.BeginForm("Index", "HIVTestResult", FormMethod.Get))
+    {
+       
+        <div align="center">
+           
+            <table>
+                <tr>
+                    <td align="left" width="350px">
+                        @Html.TextBox("test", "", new { @class = "form-control", @placeholder = "Search test by Client Name" })<br />
+                        <input type="submit" name="searchclient" value="Search" class="btn btn-success" />
+                    </td>
+                    <td align="right">
+                        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+                        <script type="text/javascript">
+                            google.load("visualization", "1", { packages: ["corechart"] });
+                            google.setOnLoadCallback(drawChart);
+                            function drawChart() {
+                                var data = google.visualization.arrayToDataTable([
+                                  ['Task', 'Hours per Day'],
+                                  ['HIV Negative',@TempData["msg"]],
+                                  ['HIV Positive ', @ViewBag.ee]
+                                ]);
+
+                                var options = {
+                                    title: 'Statistics for HIV',
+                                    is3D: true,
+                                };
+
+                                var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+                                chart.draw(data, options);
+                            }
+                        </script>
+                        <div id="piechart_3d" style="width: 400px; height: 220px;"></div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    }
+
+    @*<div>
+        <p>
+            @Html.ActionLink("Create", "Create", "HIVTestResult", new { @class = "lnkCreate btn btn-success" })
+             &nbsp; &nbsp;
+        </p>
+    </div>*@
+
+    <table class="table table-striped table-bordered table-hover table-responsive">
+        <tr class="success">
+            <th>
+                @Html.DisplayNameFor(model => model.First().PatientName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().DOB)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().Gender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().HIVtestType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().TestigLocation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().NextAppointment)
+            </th>
+            
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PatientName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DOB)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Gender)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HIVtestType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TestigLocation)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NextAppointment)
+                </td>
+                
+                <td>
+                    <div class="btn-group" role="group">
+                        @Html.ActionLink(" ", "Update", "HIVTestResult", new { id = item.TestId }, new { title = "Edit " + item.PatientName + " Details" + "", @class = " btn btn-default glyphicon glyphicon-edit edit view" })
+                        @Html.ActionLink(" ", "Details", "HIVTestResult", new { id = item.TestId }, new { title = "View " + item.PatientName + " Details", @class = "lnkDetail btn btn-default glyphicon glyphicon-eye-open details view" })
+                        @Html.ActionLink(" ", "Delete", "HIVTestResult", new { id = item.TestId }, new { title = "Delete " + item.PatientName + " Details", @class = "lnkDelete btn btn-default glyphicon glyphicon-remove delete view" })
+                    </div>
+                   
+                </td>
+
+            </tr>
+        }
+
+    </table>
+<div align="center">
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, pagesize = Model.PageSize }))
+
+    <b>Showing @Model.FirstItemOnPage to @Model.LastItemOnPage of @Model.TotalItemCount Patients</b>
+</div>
+   

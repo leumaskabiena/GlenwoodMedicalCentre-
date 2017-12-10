@@ -1,0 +1,144 @@
+﻿@model GlenwoodMed.Model.ViewModels.AvailDoctor
+
+@{
+    ViewBag.Title = "DoctorTime";
+}
+
+<script src="~/Scripts/jquery-2.1.4.min.js" type="text/javascript"></script>
+<script src="~/Scripts/jquery-ui-1.11.4.min.js"></script>
+<link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+
+<script type='text/javascript'>
+    $(function () {
+        $('.date-picker').datepicker({
+            beforeShowDay: function (date) {
+                var day = date.getDay();
+                return [(day != 0), ''];
+            },
+            dateFormat: 'yy-mm-dd',
+            minDate: 1,
+            maxDate: 30,
+            showOn: "button",
+            buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif",
+            buttonImageOnly: true,
+            buttonText: ""
+        });
+    })
+</script>
+@*<title>jQuery UI Datepicker - Restrict date range</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <link rel="stylesheet" href="/resources/demos/style.css">*@
+
+
+<ol class="breadcrumb">
+    <li class="x"><a href="@Url.Action("Index", "BooKing")">Booking</a></li>
+    <li class="active">Doctor Time</li>
+</ol>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.from, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                   @Html.EditorFor(model => model.from, new { htmlAttributes = new { @class = "form-control datepicker", id = "datepicker" } })
+                    @Html.ValidationMessageFor(model => model.from, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.to, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.to, new { htmlAttributes = new { @class = "form-control datepicker", id = "datepi" } })
+                    @Html.ValidationMessageFor(model => model.to, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.Label("Select Date", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <input class="date-picker form-control" id="date-picker" name="from" placeholder="Select Date" value="" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Days", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <input id="date-picker" class="form-control" name="num" type="text" placeholder="Number of Working Days" value="" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </div>
+            @*<table style="font-size:medium;font-family:'Segoe UI'" align="center" class="table-hover">
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <tr>
+                    <td>
+                        <div>
+                            Select Date
+                        </div>
+                    </td>
+
+                    <td width="360">
+
+                        <input class="date-picker" id="date-picker" name="from" placeholder="Select Date" value="" readonly />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        &nbsp; &nbsp;<br />
+
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div>
+                            Days
+                        </div>
+                    </td>
+
+                    <td width="360">
+
+
+                        <input id="date-picker" name="num" type="text" placeholder="Number of Working Days" value="" />
+                    </td>
+                </tr>
+
+
+
+                <tr>
+                    <td colspan="2" align="center">
+                        <br />
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Create" class="btn btn-default" />
+                            </div>
+                        </div>
+                    </td>
+
+                </tr>
+            </table>*@
+        </div>
+        @*<div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </div>*@
+    </div>
+}
+
+

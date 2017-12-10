@@ -1,0 +1,72 @@
+﻿<!doctype html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+
+    <title>Booking</title>
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+    <link rel="stylesheet" href="/resources/demos/style.css">
+
+    <script>
+
+        $(function () {
+
+            var tabs = $("#tabs").tabs();
+
+            tabs.find(".ui-tabs-nav").sortable({
+
+                axis: "x",
+
+                stop: function () {
+
+                    tabs.tabs("refresh");
+
+                }
+
+            });
+
+        });
+
+    </script>
+
+</head>
+
+
+<body>
+
+
+
+    <div id="tabs">
+
+        <ul>
+
+            <li><a href="@Url.Action("CreateBooking","Booking")">Create Booking</a></li>
+
+            <li><a href="@Url.Action("Index","Booking")">View All Booking</a></li>
+
+            
+
+        </ul>
+        @*@RenderBody()*@
+       
+
+    </div>
+
+
+
+
+
+</body>
+
+</html>
+
+

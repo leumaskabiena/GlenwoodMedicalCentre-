@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Glenwood Medical Centre</title>
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/themes/base/css")
+    @Scripts.Render("~/bundles/jquery")
+    @*@Scripts.Render("~/bundles/jqueryval")*@
+    @*@Scripts.Render("~/bundles/bootstrap")*@
+    @Scripts.Render("~/bundles/jqueryui")
+
+    <script src="~/Scripts/knockout-3.3.0.debug.js"></script>
+    <script src="~/Scripts/knockout-3.3.0.js"></script>
+    <style>
+        body {
+            /*background-color: whitesmoke;*/
+            /*padding-top: 170px;*/
+        }
+    </style>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.nav li').click(function () {
+                $(this).addClass('active');
+            });
+        });
+
+        $(document).ready(function () {
+            $('.nav li').find('a[href="' + location.pathname + '"]')
+                .closest('li').addClass('active');
+        });
+    </script>
+</head>
+<body>
+    <div class="container body-content">
+
+        @*<!-- The justified navigation menu is meant for single line per list item.
+             Multiple lines will require custom code not provided by Bootstrap. -->
+        <div class="masthead">
+            <h3 class="text-muted">Project name</h3>
+            <span><img style="width:50px; height:50px" src="~/Images/white_caduceus_red_box.png" alt="Brand" />@Html.ActionLink("Glenwood Medical Centre", "Index", "PatientView", new { area = "" }, new { @class = "navbar-brand" })</span>
+            @Html.Partial("_LoginPartial")
+            <nav>
+                <ul class="nav nav-justified">
+                    <li><a href="#">Home</a></li>
+                    <li><a href='@Url.Action("CreateFeedBack", "Feedback")'>Feedback</a></li>
+                    <li><a href='@Url.Action("Index", "DoctorAvail")'>Booking Calendar</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+        </div>*@
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Glenwood Medical Centre</p>
+        </footer>
+    </div>
+
+    @*@Scripts.Render("~/bundles/jquery")*@
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+    <div id="modal-container" class="section-modal modal fade" tabindex="-1" role="dialog">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(function () {
+            // Initialize numeric spinner input boxes
+            //$(".numeric-spinner").spinedit();
+
+            // Initalize modal dialog
+            // attach modal-container bootstrap attributes to links with .modal-link class.
+            // when a link is clicked with these attributes, bootstrap will display the href content in a modal dialog.
+            $('body').on('click', '.modal-link', function (e) {
+                e.preventDefault();
+                $(this).attr('data-target', '#modal-container');
+                $(this).attr('data-toggle', 'modal');
+            });
+
+            // Attach listener to .modal-close-btn's so that when the button is pressed the modal dialog disappears
+            $('body').on('click', '.modal-close-btn', function () {
+                $('#modal-container').modal('hide');
+            });
+
+            //clear modal cache, so that new content can be loaded
+            $('#modal-container').on('hidden.bs.modal', function () {
+                $(this).removeData('bs.modal');
+            });
+
+            $('#CancelModal').on('click', function () {
+                return false;
+            });
+        });
+    </script>
+</body>
+</html>
+

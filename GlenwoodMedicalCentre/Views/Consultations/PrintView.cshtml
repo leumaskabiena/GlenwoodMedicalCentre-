@@ -1,0 +1,31 @@
+﻿@using GlenwoodMed.Service.RepositoryClass
+@{
+    ViewBag.Title = "Print";
+    ConsultationRepository mcr = new ConsultationRepository();
+    Layout = "";
+}
+<link href="~/Content/ButtonColors.css" rel="stylesheet" />
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<link href="~/Content/style.css" rel="stylesheet" />
+@*<ol class="breadcrumb">
+    <li class="x"><a href="@Url.Action("Index", "Patient")">Patient</a></li>`
+    <li class="active">Print</li>
+</ol>*@
+
+@{
+    string name = mcr.GetById(ViewBag.Id).patientfullname.ToString();
+}
+<div align="center" class="text-center">
+
+    <h2>Print Prescription Certificate for ( @Html.DisplayFor(modelItem => name) )</h2>
+</div>
+
+<div class="container">
+    <div class="close-modal" data-dismiss="modal">
+        <div class="lr">
+            <div class="rl">
+            </div>
+        </div>
+    </div>
+    <iframe name="iframe1" src='@Url.Action("PrintPrescription", "Consultations", new { ConsultId = ViewBag.Id })' width="100%" height="1000" frameborder="0"></iframe>
+</div>

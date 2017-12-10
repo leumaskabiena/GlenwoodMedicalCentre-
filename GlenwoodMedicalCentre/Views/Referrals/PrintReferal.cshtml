@@ -1,0 +1,124 @@
+﻿@model GlenwoodMed.Model.ViewModels.ReferralModel
+
+@{
+    ViewBag.Title = "Print Referral Letter";
+    //Layout = "~/Views/Shared/_PdfLayout.cshtml";
+    Layout = "";
+
+
+}
+<!DOCTYPE html>
+<html>
+<body>
+    <table border="0" stlye="page-break-inside:auto;" bordercolor="LigntBlue" width="100%" height="100%" cellpadding="1.0" cellspacing="10.0">
+
+        <thead style="display:table-header-group; display: table-header-group;">
+
+            <tr>
+                <td colspan="2" rowspan="2" align="center" valign="top">
+                    <img src="@Server.MapPath("~/Content/white_caduceus_red_box.png")" width="100" height="100" /> <br />
+                    <div style="font-weight:bold;font-size:15px">
+                        Glenwood Medical Centre
+                    </div>
+                    <div style="font-weight:bold;font-size:10px;">
+                        REFERRAL LETTER
+                        @{
+                            string name = System.Configuration.ConfigurationManager.AppSettings["D_name"];
+                            string address = System.Configuration.ConfigurationManager.AppSettings["D_add"];
+                            string phone = System.Configuration.ConfigurationManager.AppSettings["D_phone"];
+                            //string Practice = System.Configuration.ConfigurationManager.AppSettings["PN"];
+
+                        }
+                    </div>
+
+                    @Html.DisplayFor(item => name) <br/>
+                    @Html.DisplayFor(item => address) <br/>
+                    @Html.DisplayFor(item => phone) @*<br />*@
+                    @*@Html.DisplayFor(item=>Practice)*@
+                </td>
+            </tr>
+        </thead>
+
+        <tbody style="font-size:14px">
+
+            <tr>
+                <td>
+                    <paragraph>
+                        <chunk style="font-family: Times; font-weight: bold;">Date :</chunk>
+                        <chunk style="font-family: Times;">@DateTime.Now.ToString("Dd/Mm/yyyy")</chunk>
+                    </paragraph><br />
+                    @*<paragraph>
+                        <chunk style="font-family: Times; font-weight: bold;">Time:</chunk>
+                        <chunk style="font-family: Times;">@DateTime.Now.ToString("hh:mm:ss tt ")</chunk>
+                    </paragraph>*@
+
+                    @*<newline></newline>
+                        <newline></newline>*@
+
+                    Re:<br/>
+                        Patient name : <b>@Model.Patient_name</b><br />
+                        &nbsp;&nbsp; Patient age  : <b>@Model.Patient_age</b><br />
+                        &nbsp;&nbsp; Patient phone: <b>@Model.Patient_number</b>
+
+                    <newline></newline>
+                    <newline></newline>
+
+                    Dear Dr <b>@Model.Referred_Doctor,</b>
+
+                    <newline></newline>
+                    <newline></newline>
+                    I am referring <b>@Model.Patient_name</b> to your office
+                    for @Model.Reason. The patient should be seen on @Model.Ref_date  (immediately if possible).
+
+                    <newline></newline>
+                    <newline></newline>
+                    Following are my diagnostic findings:
+                     
+                    <panel>
+                        <b>@Model.diagnotics</b>
+                    </panel>@*_____________________________________________________________
+                    _____________________________________________________________
+                    _____________________________________________________________
+                    _____________________________________________________________*@
+                    <newline></newline>
+                    <newline></newline>
+                    I have enclosed the following for your reference:<br />
+                    Copies of X-rays dated____________________________________<br />
+                    Copies of models dated____________________________________<br />
+                    Other_____________________________________________________
+
+                    <newline></newline>
+                    <newline></newline>
+                    Once you have completed your evaluation and/or treatment, please provide a written summary to my
+                    office for my records and refer the patient back to me. Please contact me at 031 201 5470@*@Model.Referrals.Doc_Number*@
+                    with any questions regarding my findings or to fully discuss an appropriate treatment plan.
+                    <newline></newline>
+                    <newline></newline>
+                    <newline></newline>
+                    <newline></newline>
+                    Sincerely,
+
+                    <newline></newline>
+                    Signature___________________
+
+                    <newline></newline>
+                    <newline></newline>
+
+
+                    <div class="text-center">
+                        <div style="font-weight:bold;font-size:25px;">
+                            <h2 class="x"> PLACE COPY IN THE PATIENT’S CHART </h2>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
+
+@*Dr Naidoo Kmk (glenwood Medical & Dental Centre)
+Address: 289 Che Guevara Rd, Bulwer, Kwazulu Natal, 4001, South Africa
+City of Durban
+
+Phone: 031 201 5470*@

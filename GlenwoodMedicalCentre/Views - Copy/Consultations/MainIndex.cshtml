@@ -1,0 +1,39 @@
+﻿    @{
+        ViewBag.Title = "Index";
+    }
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <link href="~/Content/ButtonColors.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-ui-1.11.4.js"></script>
+    <script src="~/Scripts/jquery-ui-1.11.4.min.js"></script>
+    <script src="~/Scripts/jquery-2.1.4.js"></script>
+
+    <ol class="breadcrumb">
+        <li class="x">Consultation</li>
+        <li class="active">Main Index</li>
+    </ol>
+
+    <div class="text-center x"><h2>Consultation</h2></div>
+    <hr />
+
+    @using (Ajax.BeginForm("SConsult", "Consultations", null, new AjaxOptions()
+                                            {
+                                                HttpMethod = "GET",
+                                                UpdateTargetId = "DisplayS",
+                                                InsertionMode = InsertionMode.Replace
+                                            }))
+    {
+        <div align="center">
+            @Html.TextBox("conspar", "", new { @class = "form-control", @placeholder = "Enter Text Here" }) <br />
+            <input type="submit" name="searchpatient" value="Search" class="btn btn-success" />
+        </div>
+    }
+
+    <div id="loader" class="alert text-center" style="display:none; margin:0 auto;">
+        Loading...<img src="~/Images/IMG_6246.GIF" />
+    </div>
+
+    <br /><br />
+    <div id="DisplayS">
+
+    </div>

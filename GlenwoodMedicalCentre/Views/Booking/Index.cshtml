@@ -1,0 +1,161 @@
+﻿
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+@model IPagedList<GlenwoodMed.Model.ViewModels.PatientModel>
+@using PagedList.Mvc
+@using PagedList;
+@using GlenwoodMed.BusinessLogic.Business
+@{
+    ViewBag.Title = "Booking";
+    BookingBusiness pb = new BookingBusiness();
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/ButtonColors.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-2.1.4.js"></script>
+@*<script src="~/Scripts/jquery-2.1.4.min.js"></script>*@
+@*<link href="~/Content/jquery-ui-1.10.4.custom.min.css" rel="stylesheet" />*@
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+@*<script src="~/Scripts/jquery-1.10.2.js"></script>*@
+<script src="~/Scripts/jquery-ui-1.11.4.min.js"></script>
+@*<script src="~/Scripts/jquery-ui-1.10.4.custom.min.js"></script>*@
+
+
+<head>
+    <title>Booking</title>
+
+
+    <script type="text/javascript">
+        $(function () {
+            $("#txtsearch").autocomplete
+            source: '@Url.Action("Booking/GetPatients")'
+        });
+    </script>
+
+</head>
+
+    <ol class="breadcrumb">
+        <li class="active">Booking</li>
+    </ol>
+
+
+<div class="btn-group btn-group-justified" role="group" aria-label="ButtonHeads">
+    <div class="btn-group" role="group">
+        <button type="button" id="cre" class="btn btn-default btn-lg but" onclick="location.href='@Url.Action("DoctorTime", "Booking")';return false;"><span class="glyphicon glyphicon-eye-open"></span>  Doctor Booking </button>
+    </div>
+    <div class="btn-group" role="group">
+        <button type="button" id="cre" class="btn btn-default btn-lg but" onclick="location.href='@Url.Action("RegisterPatient", "Patient")';return false;"><span class="glyphicon glyphicon-plus"></span>  Add Patient </button>
+    </div>
+</div>
+<div class="text-center">
+    <h2 class="">Create Booking for patient</h2>
+    <hr />
+</div>
+
+@using (@Html.BeginForm("Index", "Booking", FormMethod.Post))
+{
+    <table class="table table-striped table-bordered table-hover table-responsive">
+        <tr class="success">
+            <td>
+                <div align="center">
+                    @Html.TextBox("patient", null, new { id = "txtsearch", @class = "form-control", @placeholder = "Enter (Patient No. or ID No.)" }) <br />
+
+
+                    @if (@TempData["msg"] != "true")
+                    {
+                        if (@TempData["msg"] == "Emp")
+                        {
+                            <br /><span style="color:red">Please Enter Patient No. or ID No.</span><br />
+
+                        }
+                        <input type="submit" name="spatient" value="Create Booking" class="btn btn-success" />
+                    }
+                    else if (@TempData["msg"] == "true")
+                    {
+                        <span style="color:red">The Patient does not Exist</span><br />
+                        <p>
+                            &nbsp; &nbsp; &nbsp; <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("RegisterPatient", "Patient")';return false;"> Register</button> 
+                            &nbsp; &nbsp;
+
+                        </p>
+                        <p>
+                            &nbsp; @Html.ActionLink("Cancel", "Index", "Booking", new { @class = "lnkCreate btn btn-default" })
+
+
+                        </p>
+
+                    }
+
+
+                </div>
+            </td>
+        </tr>
+    </table>
+
+}
+
+
+<br />
+@if (TempData["msg"] == "all")
+{
+    <div id="p">
+        <table class="table table-striped table-bordered table-hover table-responsive">
+
+
+            <tr class="success">
+                <th>
+                    @Html.DisplayNameFor(model => model.First().FullName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().Telephone)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().Email)
+                </th>
+
+
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FullName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Telephone)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+
+                    <td>
+                        <div class="dropup">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" id="dropdownMenu2" aria-haspopup="true" aria-expanded="false">
+                                <b>Actions</b>
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                <li class="dropdown-header"><b>Primary Actions</b></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="@Url.Action("Details", "BooKing", new { id = item.userId })"><span class="glyphicon glyphicon-plus" style="color:green; width:20px; height:20px"></span> <b>Book Patient</b></a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            }
+
+        </table>
+
+        <div class="col-sm-10">
+            <div align="center">
+                @Html.PagedListPager(Model, page => Url.Action("Index", new { page, pagesize = Model.PageSize }))
+
+                <b>Showing @Model.FirstItemOnPage to @Model.LastItemOnPage of @Model.TotalItemCount Patients</b>
+            </div>
+        </div>
+    </div>
+}
+
+
+

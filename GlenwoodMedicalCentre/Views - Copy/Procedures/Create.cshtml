@@ -1,0 +1,69 @@
+﻿@using GlenwoodMed.BusinessLogic.Business
+@model GlenwoodMed.Model.ViewModels.ProcedureView
+
+@{
+    ViewBag.Title = "Create";
+    ConsultationBusiness con=new ConsultationBusiness();
+}
+
+<h2>Create</h2>
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Procedure</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.procedureName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.procedureName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.procedureName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.procedurePrice, htmlAttributes: new {@class = "control-label col-md-2"})
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.procedurePrice, new {htmlAttributes = new {@class = "form-control"}})
+                @Html.ValidationMessageFor(model => model.procedurePrice, "", new {@class = "text-danger"})
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ProcedureItem, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("procedureItem", @con.populateProcedureItem(), new { @name = "country", @class = "chosen-select form-control", @multiple = "multiple" })
+                @Html.ValidationMessageFor(model => model.procedurePrice, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+<link href="~/Content/chosen.css" rel="stylesheet" />
+<script src="~/Scripts/chosen.jquery.js"></script>
+<script>
+
+                $(".chosen-select").chosen({
+
+                });
+                $("#symptoms").chosen({
+                    placeholder: "please select Symptoms"
+
+                });
+</script>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

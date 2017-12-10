@@ -1,0 +1,47 @@
+﻿@model GlenwoodMed.Model.ViewModels.PatientAddressModel
+@using GlenwoodMed.BusinessLogic.Business
+@{
+    ViewBag.Title = "PatientAddressModel";
+}
+<style>
+    .thisthing {
+        width: 60%;
+        height: 34px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.42857143;
+        color: #555;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+        -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+        -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    }
+</style>
+
+<div class="address">
+    <div class="form-group required">
+        @Html.Label("Address", new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.HiddenFor(x => x.AddressId)
+            @Html.HiddenFor(x => x.PatientId)
+            <p>
+                @Html.TextBoxFor(m => m.Address, new { @class = "thisthing" })
+                @Html.RemoveLink(" ", "div.address", "input.mark-for-delete", new { @class = "btn btn-danger glyphicon glyphicon-remove" })
+                @Html.HiddenFor(x => x.DeleteAddress, new { @class = "mark-for-delete" })
+                @Html.ValidationMessageFor(m => m.Address, "", new { @class = "text-danger" })
+                @*<button type="button" class="btn btn-danger glyphicon glyphicon-remove" href="@Html.RemoveLink("", "div.address", "input.mark-for-delete")"> </button>*@
+            </p>
+            
+        </div>
+    </div>
+    @*<p>
+        <label>Address</label>
+        @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+        @Html.HiddenFor(x => x.DeleteAddress, new { @class = "mark-for-delete" })
+    </p>*@
+</div>

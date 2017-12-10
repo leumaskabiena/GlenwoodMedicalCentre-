@@ -1,0 +1,147 @@
+﻿@using GlenwoodMed.Service.RepositoryClass
+@model GlenwoodMed.Data.Tables.Consultation
+
+@{
+    ViewBag.Title = "Print Prescription";
+    DrugRespo obs = new DrugRespo();
+    //Layout = "~/Views/Shared/_PdfLayout.cshtml";
+    Layout = "";
+
+}
+<!DOCTYPE html>
+<html>
+<body>
+    <table stlye="page-break-inside:auto;" bordercolor="RED" width="100%" height="100%" cellpadding="1.0" cellspacing="10.0">
+
+        <thead style="display: table-header-group; display: table-header-group;">
+            <tr>
+                <td colspan="2" rowspan="2" bgcolor="White" align="center" valign="top">
+
+                    <img src="@Server.MapPath("~/Content/white_caduceus_red_box.png")" width="100" height="100" /> <br />
+                    <div style="font-weight: bold; font-size: 18;">
+                        Glenwood Medical Centre
+                    </div>
+
+                </td>
+            </tr>
+        </thead>
+    </table>
+    <div align="center" style="font-weight: bold; font-size: 18;">
+       Prescription
+    </div>
+    Patient Name : @Model.patientfullname
+    <table border="1" width="100%" height="100%" cellpadding="1.0" cellspacing="10.0">
+        <thead>
+            <tr>
+                <th>
+                    Drug
+                </th>
+                <th>
+                    Dosage
+                </th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            @foreach (var VARIABLE in Model.CustLis)
+            {
+                <tr>
+                    <td>
+                        @VARIABLE.DrugId
+                    </td>
+                    <td>
+                        @VARIABLE.Dosage
+                    </td>
+                </tr>
+            }
+        </tbody>
+   </table>
+
+    <newline />
+    <paragraph leading="24.0" font="unknown" align="Default">
+
+    </paragraph>
+    <newline />
+    <newline />
+        <p> 
+            I,  (Dr Naidoo) hereby prescibe these drugs for Mr. ( @Model.patientfullname ) ____________________
+        </p>
+
+
+
+    <newline />
+    <paragraph leading="24.0" font="unknown" align="Default">
+
+    </paragraph>
+    <newline />
+    <newline />
+    @*<table>
+        <tr>
+            <td>
+
+                Patient's Signature<br />
+                <br />
+
+                ___________________
+            </td>
+            <td>
+
+                Cashier's Signature<br /><br />
+
+                ___________________
+            </td>
+        </tr>
+    </table>*@
+
+    @*@section footer
+        {
+        <b>This is the footer</b>
+        }
+        @RenderSection("footer", false)*@
+</body>
+
+</html>
+
+@*<table width="100%" cellpadding="1.0" cellspacing="10.0" widths="3;8">
+        <row>
+            <cell>Patient Name :</cell>
+            <cell>@Model.Patient.FullName @Model.Patient.Surname</cell>
+        </row>
+
+        <row>
+            <cell>Consultation Date :</cell>
+            <cell>@Model.Consultation.ConsultDate.ToString("MM/dd/yyyy")</cell>
+        </row>
+
+        <row>
+            <cell>Consultation Time:</cell>
+            <cell>@Model.Consultation.ConsultTime</cell>
+        </row>
+    </table>*@
+
+@*<table width="100%" cellpadding="1.0" cellspacing="10.0" widths="3;8">
+        <row>
+            <cell borderwidth="0.5" left="false" right="false" top="false" bottom="true">Illness</cell>
+            <cell borderwidth="0.5" left="false" right="false" top="false" bottom="true">@Model.Consultation.illness</cell>
+        </row>
+
+        <row>
+            <cell borderwidth="0.5" left="false" right="false" top="false" bottom="true">Symtoms</cell>
+            <cell borderwidth="0.5" left="false" right="false" top="false" bottom="true">@Model.Consultation.Symptoms</cell>
+        </row>
+
+        <row>
+            <cell borderwidth="0.5" left="false" right="false" top="false" bottom="true">Prescribed Medicine</cell>
+            <cell borderwidth="0.5" left="false" right="false" top="false" bottom="true">@Model.Consultation.PresribedMed</cell>
+        </row>
+
+        <row>
+            <cell borderwidth="0.5" left="false" right="false" top="false" bottom="true">Description</cell>
+            <cell borderwidth="0.5" left="false" right="false" top="false" bottom="true">@Model.Consultation.Description</cell>
+        </row>
+    </table>*@
+
+
+
+
+

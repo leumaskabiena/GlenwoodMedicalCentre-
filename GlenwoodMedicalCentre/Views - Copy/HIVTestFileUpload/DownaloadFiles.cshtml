@@ -1,0 +1,90 @@
+﻿@model PagedList.IPagedList<GlenwoodMed.Data.Tables.HIVtestUpload>
+    @using PagedList;
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Downaload Files";
+}
+
+<link href="~/Content/ButtonColors.css" rel="stylesheet" />
+<script src="~/Scripts/TooTipScript.js"></script>
+
+<ol class="breadcrumb">
+    <li class="x">Test Result</li>
+    <li class="active">Xray Test Results</li>
+</ol>
+
+<div class="text-center x"><h2>All Xray Results</h2></div>
+<hr />
+
+@*<p>
+    @Html.ActionLink("Create New", "Create")
+</p>*@
+<table class="table table-striped table-bordered table-hover table-responsive">
+    <tr>
+        <th>
+            File Name
+        </th>
+        <th>
+            Patient Name
+        </th>
+        
+        <th>
+            Download
+        </th>
+        @*<th>
+            View
+        </th>*@
+        <th>
+            Delete
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FileName)
+        </td>
+        
+        <td>
+            @Html.DisplayFor(modelItem => item.patientName)
+        </td>
+        <td>
+            @Html.ActionLink(" ", "DownaloadPatientFiles", new { id = item.FileId }, new { title = "Download " + item.patientName + "'s File", @class = "btn btn-default glyphicon glyphicon-download-alt but edit view" })
+        </td>
+        @*<td> to be completed for viewing online
+            @Html.ActionLink(" ", "DownloadFile", new { id = item.FileId }, new { title = "View " + item.patientName + "'s File", @class = "btn btn-default glyphicon glyphicon-eye-open but details view" })
+        </td>*@
+        <td>
+            @Html.ActionLink(" ", "Delete", "HIVTestFileUpload", new { id = item.FileId }, new { onclick = "return confirm('Are you sure you wish to delete this file?');", title = "Delete " + item.patientName + "'s Details", @class = "btn btn-default glyphicon glyphicon-remove but delete view" })
+        </td>
+        
+        @*<td>
+            <p>@Html.ActionLink("GetPdf", "GetPdf", new { id = item.FileId }, new { title = "View " + item.patientName })</p>
+        </td>*@
+        @*<td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.FileId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.FileId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.FileId })
+        </td>*@
+    </tr>
+}
+
+</table>
+
+@*<table align="center">
+    <tr>
+        <td>
+            <div>
+                <iframe src='<% Html.RenderAction("GetPDF"); %>' width="600" height="600"></iframe>
+            </div>
+        </td>
+    </tr>
+
+</table>*@
+
+<div align="center" style="margin: 0, auto">
+    @Html.PagedListPager(Model, page => Url.Action("DownaloadFiles", new { page, pagesize = Model.PageSize }))
+
+    <b>Showing @Model.FirstItemOnPage to @Model.LastItemOnPage of @Model.TotalItemCount Patients</b>
+</div>

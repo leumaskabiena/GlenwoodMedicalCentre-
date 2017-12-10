@@ -1,0 +1,47 @@
+﻿@*@model IEnumerable<GlenwoodMed.Model.ViewModels.PatientModel>*@
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+@model PagedList.IPagedList<GlenwoodMed.Model.ViewModels.PatientModel>
+@using PagedList.Mvc
+@using PagedList;
+<table class="table table-striped table-bordered table-hover table-responsive">
+    <tr class="success">
+        <th>
+            @Html.DisplayNameFor(model => model.First().FullName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Surname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().DOB)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Surname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DOB)
+            </td>
+
+
+            <td>
+                @*@Html.ActionLink(" ", "Create", "Consultations", new { id = item.userId }, new { title = "Create Consultation", @class = "edit btn btn-default glyphicon glyphicon-plus plus edit view" })*@
+                @Html.ActionLink(" ", "ViewPatientConsultation", "Consultations", new { id = item.userId }, new { title = "View Consultation", @class = " btn btn-default glyphicon glyphicon-eye-open details view" })
+            </td>
+        </tr>
+    }
+
+</table>
+
+<div align="center">
+        @Html.PagedListPager(Model, page => Url.Action("Search", new { page, pagesize = Model.PageSize }))
+
+        <b>Showing @Model.FirstItemOnPage to @Model.LastItemOnPage of @Model.TotalItemCount Patients</b>
+    </div>

@@ -1,0 +1,220 @@
+﻿@model IEnumerable<GlenwoodMed.Model.ViewModels.Email_serviceViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+<script src="~/Scripts/TooTipScript.js"></script>
+<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        if ('@ViewBag.Message' == 'Sent') {
+            alert('Mail has been sent successfully');
+        }
+    });
+</script>
+
+
+<style>
+    .x {
+        color: Blue;
+        font: bold;
+    }
+
+    .wid {
+        width: 50%;
+    }
+
+    .table-bordered {
+        border: thick;
+    }
+    th {
+    border: 1px solid BLACK;
+    width: 4000px;
+    overflow: hidden;
+    white-space: nowrap;
+}
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#show").click(function () {
+            $("#p").toggle();
+            $("#all").toggle();
+        });
+    });
+</script>
+
+<script src="~/Scripts/jquery-2.1.4.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.11.4.min.js"></script>
+<link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+@*<script src="~/Scripts/PopUp.js"></script>*@
+<link href="~/Content/ButtonColors.css" rel="stylesheet" />
+<script>
+    $(document).ready(function () {
+        var url = "";
+        $("#dialog-alert").dialog({
+            autoOpen: false,
+            resizable: false,
+            height: 170,
+            width: 350,
+            show: { effect: 'drop', direction: "up" },
+            modal: true,
+            draggable: true,
+            open: function (event, ui) {
+                $(".ui-dialog-titlebar-close").hide();
+            },
+            buttons: {
+                "OK": function () {
+                    $(this).dialog("close");
+
+                },
+                "Cancel": function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+
+        if ('@TempData["msg"]' != "") {
+            $("#dialog-alert").dialog('open');
+        }
+
+        $(document).on("click", "#btncancel", function (e) {
+            $("#dialog-edit").dialog('close');
+            return false;
+        });
+
+        $(document).on("click", "#btncanceldetails", function (e) {
+            $("#dialog-editdetails").dialog("close");
+            return false;
+        });
+
+        $(document).on("click", "#btncanceldelete", function (e) {
+            $("#dialog-delete").dialog("close");
+            return false;
+        });
+    });
+</script>
+<div id="dialog-alert" style="display: none">
+    <p>
+        @TempData["msg"]!
+    </p>
+</div>
+
+<script src="~/Scripts/jquery-2.1.4.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.11.4.min.js"></script>
+<link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+@*<script src="~/Scripts/PopUp.js"></script>*@
+<link href="~/Content/ButtonColors.css" rel="stylesheet" />
+<script>
+    $(document).ready(function () {
+        var url = "";
+        $("#dialog-alert").dialog({
+            autoOpen: false,
+            resizable: false,
+            height: 170,
+            width: 350,
+            show: { effect: 'drop', direction: "up" },
+            modal: true,
+            draggable: true,
+            open: function (event, ui) {
+                $(".ui-dialog-titlebar-close").hide();
+            },
+            buttons: {
+                "OK": function () {
+                    $(this).dialog("close");
+
+                },
+                "Cancel": function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+
+        if ('@TempData["msg"]' != "") {
+            $("#dialog-alert").dialog('open');
+        }
+
+        $(document).on("click", "#btncancel", function (e) {
+            $("#dialog-edit").dialog('close');
+            return false;
+        });
+
+        $(document).on("click", "#btncanceldetails", function (e) {
+            $("#dialog-editdetails").dialog("close");
+            return false;
+        });
+
+        $(document).on("click", "#btncanceldelete", function (e) {
+            $("#dialog-delete").dialog("close");
+            return false;
+        });
+    });
+</script>
+<div id="dialog-alert" style="display: none">
+    <p>
+        @TempData["msg"]!
+    </p>
+</div>
+<p>
+    @Html.ActionLink("Compose an Email", "Create")
+</p>
+<div class="container-fluid  list-inline" id="disp">
+    
+    <table class="table table-striped table-bordered table-hover table-responsive">
+        <tr class="success">
+            <th>
+                @Html.DisplayNameFor(model => model.To)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cc)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Bcc);
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Subject)
+            </th>
+            <th >
+                @Html.DisplayNameFor(model => model.Body)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StaffName)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.To)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cc)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Bcc);
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Subject)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Body)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem=>item.StaffName)
+                </td>
+                <td>
+                    @*@Html.ActionLink("Edit", "Edit", new { id = item.emailID }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.emailID }) |*@
+                    @*<div class="col-lg-4">
+                            <button type="button" id="btndel" class="btn btn-detault btn-lg" onclick="location.href='@Html.ActionLink("Delete", "Delete", new { id = item.emailID })"><span class="glyphicon glyphicon-alert"></span> ?</button>
+                        </div>*@
+                @Html.ActionLink(" ", "Details", "Email_services1", new { id = item.emailID }, new { title = "View Details", @class = " btn btn-default glyphicon glyphicon-eye-open details view" })
+                @Html.ActionLink(" ", "Delete", "Email_services1", new { id = item.emailID }, new { title = "Delete Details", @class = " btn btn-default glyphicon glyphicon-remove delete view" }) 
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>

@@ -1,0 +1,47 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_PatientLayout.cshtml";
+}
+
+<div class="text-center">
+    <h2>My Activities</h2>
+    <hr/>
+</div>
+
+<br/>
+<div class="row">
+    <div class="col-md-4">
+        <a href="@Url.Action("MyProfile", "PatientView")"><img src="~/Images/profile_icon.png" style="width:100px" /><br/> <b>My Profile</b></a>
+    </div>
+    
+    <div class="col-md-4">
+        <a href="@Url.Action("MyProfile", "PatientView")"><img src="~/Images/consult.png" style="width:100px" /><br/> <b>My Consultations</b></a>
+    </div>
+
+    <div class="col-md-4">
+        @*<div class="thumbnail">
+            <img src="~/Images/email.png" style="width:100px" />
+            <div class="caption">
+                <h3>Thumbnail label</h3>
+                <p>...</p>
+                <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+            </div>
+        </div>*@
+    </div>
+</div>
+<br/>
+<div class="row">
+    <div class="col-md-4">
+        <a href="@Url.Action("MyProfile", "PatientView")"><img src="~/Images/profile_icon.png" style="width:100px" /><br /> <b>My Profile</b></a>
+    </div>
+
+    <div class="col-md-4">
+        @*<img src="~/Images/medneg-sq-icon.png" />*@
+        <a href="@Url.Action("PatientConsultation", "PatientView")"><img src="~/Images/consult.png" style="width:100px" /><br /> <b>My Consultations</b></a>
+    </div>
+
+    <div class="col-md-4">
+        <img src="~/Images/email.png" style="width:100px" />
+    </div>
+</div>

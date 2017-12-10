@@ -1,0 +1,70 @@
+﻿@using GlenwoodMed.BusinessLogic.Business
+@model GlenwoodMed.Model.ViewModels.DispenseDrug.DispenseCust
+@{
+    ConsultationBusiness con=new ConsultationBusiness();
+
+}
+<style>
+    .thisthing {
+        width: 30%;
+        height: 34px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.42857143;
+        color: #555;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+        -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+        -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    }
+</style>
+<div class="phoneNumber">
+    <script>
+    $(document).ready(function () {
+        $(".autocomplete").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/Consultations/Search",
+                    type: "POST",
+                    dataType: "json",
+                    data: { term: request.term },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return { label: item.DrugName + "(" + item.DrugType + ")", value: item.DrugName };
+                        }));
+                    }
+                });
+            },
+
+            messages: {
+                noResults: "",
+                results: ""
+            }
+        });
+    });
+    </script>
+
+    <p>
+        @Html.TextBoxFor(m => m.DrugId, new { @class = "autocomplete thisthing", data_bind = "value: DrugName, namePath: true" })
+        @Html.TextBoxFor(m => m.Quantity, new { @class = "thisthing", placeholder = "Enter Quantity", data_bind = "value: Quantity, namePath: true" })
+        @Html.TextBoxFor(m => m.Dosage, new { @class = "thisthing", placeholder = "Enter Dosage", data_bind = "value: Dosage, namePath: true" })
+        @Html.HiddenFor(x => x.deleteCust, new { @class = "mark-for-delete" })
+        @Html.RemoveLink(" ", "div.phoneNumber", "input.mark-for-delete", new { @class = "btn btn-danger view glyphicon glyphicon-remove" })
+    </p>
+</div>
+
+<!-- ko foreach: positions -->
+@*<fieldset>
+    @Html.DropDownListFor(m => m.DrugId, @con.GetUser(), new { @class = "thisthing", data_bind = "value: DrugName, namePath: true" })
+    @Html.TextBoxFor(m => m.Quantity, new {@class = "thisthing", placeholder = "Enter Quantity", data_bind = "value: Quantity, namePath: true"})
+    @Html.TextBoxFor(m => m.Dosage, new {@class = "thisthing", placeholder = "Enter Dosage", data_bind = "value: Dosage, namePath: true"})
+</fieldset>*@
+<!-- /ko -->
+
+
+

@@ -1,0 +1,89 @@
+﻿<link href="~/Content/PagedList.css" rel="stylesheet" />
+@model IPagedList<GlenwoodMed.Model.ViewModels.PatientModel>
+@using PagedList.Mvc
+@using PagedList;
+
+<table class="table table-striped table-bordered table-hover table-responsive">
+    <tr class="success">
+        <th>
+            @Html.DisplayNameFor(item => item.First().Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(item => item.First().FullName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(item => item.First().Surname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(item => item.First().Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(item => item.First().Sex)
+        </th>
+        <th>
+            @Html.DisplayNameFor(item => item.First().Telephone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(item => item.First().MedicalAidName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(item => item.First().MedicalAidNo)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Surname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sex)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Telephone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MedicalAidName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MedicalAidNo)
+            </td>
+            <td>
+                <div class="dropup">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" id="dropdownMenu2" aria-haspopup="true" aria-expanded="false">
+                        <b>Actions</b>
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                        <li class="dropdown-header"><b>Primary Actions</b></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="@Url.Action("CreateBooking", "BooKing", new { PatientId = item.userId })"><span class="glyphicon glyphicon-plus" style="width:20px; height:20px"></span> <b>Booking</b></a></li>
+                        <li role="separator" class="divider"></li>
+                        <li class="dropdown-header"><b>Secondary Actions</b></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="@Url.Action("PrintHistory", "Patient", new { PatientId = item.userId })"><span><img src="~/Images/printer-icon.png" style="width:20px; height:20px" /></span> <b>Print Report</b></a></li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    }
+
+</table>
+
+<div align="center">
+    @Html.PagedListPager(Model, page => Url.Action("Search", new { page, pagesize = Model.PageSize }))
+
+    <b>Showing @Model.FirstItemOnPage to @Model.LastItemOnPage of @Model.TotalItemCount Patients</b>
+</div>
+

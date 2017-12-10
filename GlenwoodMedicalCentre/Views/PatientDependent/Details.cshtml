@@ -1,0 +1,91 @@
+﻿@model GlenwoodMed.Model.ViewModels.DependentModel
+
+<style>
+    .x {
+        color: Blue;
+        font: bold;
+    }
+</style>
+
+<div>
+    <h3 class="x">Details For ( @Model.DependentFname   @Model.DependentSname )</h3>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.IdentityNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IdentityNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DependentFname)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DependentFname)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DependentSname)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DependentSname)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DependentRole)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DependentRole)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DOB_Dependent)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DOB_Dependent)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Age)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Age)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Sex)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Sex)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DependentAllergy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DependentAllergy)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.DependentId }, new { @class = "lnkEdit btn btn-warning" }) &nbsp;&nbsp;
+    @*<button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Index")';return false;">Back to List</button>*@
+</p>

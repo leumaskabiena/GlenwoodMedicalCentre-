@@ -1,0 +1,183 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Glenwood Medical Centre</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/themes/base/css")
+    @Scripts.Render("~/bundles/jquery")
+    @*@Scripts.Render("~/bundles/jqueryval")*@
+    @*@Scripts.Render("~/bundles/bootstrap")*@
+    @Scripts.Render("~/bundles/jqueryui")
+
+    <script src="~/Scripts/knockout-3.3.0.debug.js"></script>
+    <script src="~/Scripts/knockout-3.3.0.js"></script>
+    <style>
+        body {
+            /*background-color: whitesmoke;*/
+            padding-top: 170px;
+        }
+    </style>
+    @*<style>
+        .modal-content {
+            width: 1000px !important;
+            margin: 30px auto !important;
+            height: 700px;
+        }
+
+        .modal-body {
+            width: 1000px !important;
+            margin: 30px auto !important;
+            height: 700px;
+        }
+    </style>*@
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.nav li').click(function () {
+                $(this).addClass('active');
+            });
+        });
+
+        $(document).ready(function () {
+            $('.nav li').find('a[href="' + location.pathname + '"]')
+                .closest('li').addClass('active');
+        });
+    </script>
+</head>
+<body>
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">@*container*@
+            <div class="masthead">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+
+                @*@model GlenwoodMed.Model.LoginModel*@
+            
+                @*<div id="navbar" >
+                    <form class="navbar-form navbar-right">
+                       @using (Html.BeginForm("LayoutLogin", "MyAccount", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post))
+                        {
+                        
+                        <div class="form-group">
+                            @Html.TextBox("username", " ", new { @placeholder = "Username", @class = "form-control" })
+                            <input type="text" placeholder="Email" name="username" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            @Html.TextBox("password", " ", new { @placeholder = "Password", @class = "form-control" })
+                            <input type="password" placeholder="Password" name="password" class="form-control">
+                        </div>
+                        <button type="submit" class="btn btn-success">Sign in</button>
+                        }
+                    </form>
+                </div>/.navbar-collapse*@ 
+            
+
+                <span><img style="width:50px; height:50px" src="~/Images/white_caduceus_red_box.png" alt="Brand" />@Html.ActionLink("Glenwood Medical Centre", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })</span>
+                @Html.Partial("_LoginPartial")
+            </div>
+            @if (Request.IsAuthenticated && User.IsInRole("Doctor"))
+            {
+                <nav>
+                    <ul class="nav nav-pills nav-justified navbar-collapse collapse">
+                        <li><a href='@Url.Action("EditProfile", "MyAccount")'><img style="width:50px; height:50px;" src="~/Images/profile_icon.png" /><br /> Profile</a></li>
+                        <li><a href='@Url.Action("AddTestResult", "TestResult")'><img style="width:50px; height:50px;" src="~/Images/test.jpg" /><br /> Test</a></li>
+                        <li><a href='@Url.Action("Index", "Calendar")'><img style="width:50px; height:50px;" src="~/Images/booking.png" /><br /> Calendar</a></li>
+                        <li id="Patient"><a href='@Url.Action("Index", "Patient")'><img style="width:50px; height:50px;" src="~/Images/patients.png" /><br /> Patient</a></li>
+                        @*<li><a href='@Url.Action("ViewDrugsConsultation", "Consultations")'> <img style="width:50px; height:50px;" src="~/Images/pharmacist-clipart-prescription-plain.png" /><br /> Pharmacist</a></li>*@
+                        <li><a href='@Url.Action("MainIndex", "Consultations")'><img style="width:50px; height:50px;" src="~/Images/consultation_med.jpg" /><br /> Consultation</a></li>
+                        <li><a href='@Url.Action("Create", "Email_services1")'><img style="width:50px; height:50px;" src="~/Images/email.png" /><br /> Mail</a></li>
+                        @*<li><a href='@Url.Action("Index", "Home")'><img style="width:50px; height:50px;" src="~/Images/medical payment.jpg" /><br /> Medical Aid</a></li>*@
+                        <li><a href='@Url.Action("GeneralSearch", "Search")'><img style="width:50px; height:50px;" src="~/Images/Search.png" /><br /> Search</a></li>
+                        <li><a href='@Url.Action("Index", "Drugs")'><img style="width:50px; height:50px;" src="~/Images/drugs.jpg" /><br /> Drugs</a></li>
+                        <li><a href='@Url.Action("Download", "UploadFile")'><img style="width:50px; height:50px;" src="~/Images/skype-bisiness-ico.png" /><br /> Files</a></li>
+                        <li><a href='@Url.Action("Main", "Statistics")'><img style="width:50px; height:50px;" src="~/Images/icon-statistics.png" /><br /> Report</a></li>
+                    </ul>
+                </nav>
+            }
+            
+            @if (Request.IsAuthenticated && User.IsInRole("Pharmacist"))
+            {
+                <nav>
+                    <ul class="nav nav-pills nav-justified navbar-collapse collapse">
+                        <li><a href='@Url.Action("EditProfile", "MyAccount")'><img style="width:50px; height:50px;" src="~/Images/profile_icon.png" /><br /> Profile</a></li>
+                        <li><a href='@Url.Action("ViewDrugsConsultation", "Consultations")'> <img style="width:50px; height:50px;" src="~/Images/pharmacist-clipart-prescription-plain.png" /><br /> Pharmacist</a></li>
+                        <li><a href='@Url.Action("Create", "Email_services1")'><img style="width:50px; height:50px;" src="~/Images/email.png" /><br /> Mail</a></li>
+                        <li><a href='@Url.Action("GeneralSearch", "Search")'><img style="width:50px; height:50px;" src="~/Images/Search.png" /><br /> Search</a></li>
+                        <li><a href='@Url.Action("Index", "Drugs")'><img style="width:50px; height:50px;" src="~/Images/drugs.jpg" /><br /> Drugs</a></li>
+                    </ul>
+                </nav>
+            }
+            
+            @if (Request.IsAuthenticated && User.IsInRole("Receptionist"))
+            {
+                <nav>
+                    <ul class="nav nav-pills nav-justified navbar-collapse collapse">
+                        <li><a href='@Url.Action("EditProfile", "MyAccount")'><img style="width:50px; height:50px;" src="~/Images/profile_icon.png" /><br /> Profile</a></li>
+                        @*<li><a href='@Url.Action("AddTestResult", "TestResult")'><img style="width:50px; height:50px;" src="~/Images/test.jpg" /><br /> Test</a></li>*@
+                        @*<li><a href='@Url.Action("Index", "Booking")'><img style="width:50px; height:50px;" src="~/Images/booking.png" /><br /> Bookings</a></li>*@
+                        <li><a href='@Url.Action("Index", "Booking")'><img style="width:50px; height:50px;" src="~/Images/patients.png" /><br /> Patient</a></li>
+                        @*<li><a href='@Url.Action("MainIndex", "Consultations")'><img style="width:50px; height:50px;" src="~/Images/consultation_med.jpg" /><br /> Consultation</a></li>*@
+                        <li><a href='@Url.Action("Create", "Email_services1")'><img style="width:50px; height:50px;" src="~/Images/email.png" /><br /> Mail</a></li>
+                        <li><a href='@Url.Action("GeneralSearch", "Search")'><img style="width:50px; height:50px;" src="~/Images/Search.png" /><br /> Search</a></li>
+                        @*<li><a href='@Url.Action("Index", "Drugs")'><img style="width:50px; height:50px;" src="~/Images/drugs.jpg" /><br /> Drugs</a></li>*@
+                        <li><a href='@Url.Action("Download", "UploadFile")'><img style="width:50px; height:50px;" src="~/Images/skype-bisiness-ico.png" /><br /> Files</a></li>
+                        @*<li><a href='@Url.Action("Index", "Statistics")'><img style="width:50px; height:50px;" src="~/Images/icon-statistics.png" /><br /> Statistics</a></li>*@
+                    </ul>
+                </nav>
+            }
+        </div>
+    </div>
+    <div class="container-fluid body-content">
+        @Html.Partial("Notifications")
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Glenwood Medical Centre</p>
+        </footer>
+    </div>
+
+    @*@Scripts.Render("~/bundles/jquery")*@
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    <div id="modal-container" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-content">
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(function () {
+            // Initialize numeric spinner input boxes
+            //$(".numeric-spinner").spinedit();
+
+            // Initalize modal dialog
+            // attach modal-container bootstrap attributes to links with .modal-link class.
+            // when a link is clicked with these attributes, bootstrap will display the href content in a modal dialog.
+            $('body').on('click', '.modal-link', function (e) {
+                e.preventDefault();
+                $(this).attr('data-target', '#modal-container');
+                $(this).attr('data-toggle', 'modal');
+            });
+
+            // Attach listener to .modal-close-btn's so that when the button is pressed the modal dialog disappears
+            $('body').on('click', '.modal-close-btn', function () {
+                $('#modal-container').modal('hide');
+            });
+
+            //clear modal cache, so that new content can be loaded
+            $('#modal-container').on('hidden.bs.modal', function () {
+                $(this).removeData('bs.modal');
+            });
+
+            $('#CancelModal').on('click', function () {
+                return false;
+            });
+        });
+    </script>
+</body>
+</html>

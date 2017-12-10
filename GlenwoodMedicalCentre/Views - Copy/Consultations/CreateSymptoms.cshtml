@@ -1,0 +1,17 @@
+﻿
+
+@using (Html.BeginForm("CreateSymptoms", "Consultations", FormMethod.Post))
+{
+
+        @*<legend>Create Symptoms</legend>*@
+
+        <div class="editor-field">
+            @Html.TextBox("name","",new{@class="form-control "})
+        </div>
+    <br/>
+
+        <p>
+            <input class="btn btn-primary" type="submit" value="Save" />
+        </p>
+
+}

@@ -1,0 +1,13 @@
+﻿@using GlenwoodMed.BusinessLogic.Business
+@model GlenwoodMed.Model.ViewModels.ConsultationView.procedure
+@{
+    ConsultationBusiness con = new ConsultationBusiness();
+
+}
+<!-- ko foreach: positions -->
+<fieldset>
+    @Html.DropDownListFor(m => m.procedureid, con.populatelistdrugs(), new { data_bind = "value: procedureid, namePath: true" })
+    @Html.TextBoxFor(m => m.procedureprice, new { data_bind = "value: procedureprice, namePath: true" })
+</fieldset>
+<!-- /ko -->
+

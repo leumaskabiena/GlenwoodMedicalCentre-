@@ -1,0 +1,21 @@
+﻿@using GlenwoodMed.Service.RepositoryClass
+@{
+    ViewBag.Title = "FramePrint";
+    ConsultationRepository cr = new ConsultationRepository();
+}
+<link href="~/Content/ButtonColors.css" rel="stylesheet" />
+<ol class="breadcrumb">
+    <li class="x"><a href="@Url.Action("Index", "Information")">Report Information</a></li>
+    <li class="active">Print</li>
+</ol>
+
+@{
+    string name = cr.GetById(ViewBag.ConsultId).patientfullname.ToString();
+}
+<div align="center" class="text-center">
+
+    <h2>Print Consultation for ( @Html.DisplayFor(modelItem => name) )</h2>
+</div>
+
+
+<iframe name="iframe1" src='@Url.Action("PrintConsultation", "Consultations", new { ConsultId = ViewBag.ConsultId })' width="100%" height="1000" frameborder="0"></iframe>

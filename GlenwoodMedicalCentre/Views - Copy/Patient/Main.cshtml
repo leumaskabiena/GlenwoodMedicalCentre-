@@ -1,0 +1,159 @@
+﻿
+@{
+    ViewBag.Title = "Main";
+}
+<script src="~/Scripts/jquery-2.1.4.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<link href="~/Content/ButtonColors.css" rel="stylesheet" />
+<script src="~/Scripts/gviz-api.js"></script>
+<script src="~/Scripts/jquery-ui-1.11.4.js"></script>
+<script src="~/Scripts/jquery-ui-1.11.4.min.js"></script>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+    $.ajax({
+        url: '/Patient/_ConsultedPatients',
+        contentType: 'application/html; charset=utf-8',
+        type: 'GET',
+        dataType: 'html'
+    })
+
+    .success(function (result) {
+        $('#details').show();
+        $('#details').html(result);
+    })
+
+    .error(function (xhr, status) {
+        alert(status);
+    })
+
+    $.ajax({
+        url: '/Patient/_IncomeChart',
+        contentType: 'application/html; charset=utf-8',
+        type: 'GET',
+        dataType: 'html'
+    })
+
+    .success(function (result) {
+        $('#incomedetails').show();
+        $('#incomedetails').html(result);
+    })
+
+    .error(function (xhr, status) {
+        alert(status);
+    })
+
+    $.ajax({
+        url: '/Patient/_AgeChart',
+        contentType: 'application/html; charset=utf-8',
+        type: 'GET',
+        dataType: 'html'
+    })
+
+    .success(function (result) {
+        $('#agedetails').show();
+        $('#agedetails').html(result);
+    })
+
+    .error(function (xhr, status) {
+        alert(status);
+    })
+
+    $.ajax({
+        url: '/Patient/_Consultations',
+        contentType: 'application/html; charset=utf-8',
+        type: 'GET',
+        dataType: 'html'
+    })
+
+    .success(function (result) {
+        $('#consultdetails').show();
+        $('#consultdetails').html(result);
+    })
+
+    .error(function (xhr, status) {
+        alert(status);
+    })
+    });
+</script>
+
+<ol class="breadcrumb">
+    <li class="x"><a href="@Url.Action("Main", "Statistics")">Report</a></li>
+    <li class="active">Statistics</li>
+</ol>
+
+<div class="text-center">
+    <h2 class="x">Report Dashboard</h2>
+    <hr style="height:1px;border:none;color:#333;background-color:#333;" />
+</div>
+
+
+<div class="row">
+    <div class="col-md-6">
+        <div id="details" style="display:none">
+
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        @{
+            string val = @DateTime.Now.ToString("D");
+        }
+        
+        <h4>Pie chart representation of consulted patients for ( @Html.DisplayFor(modelItem => val) )</h4>
+        <hr style="height:1px;border:none;color:#333;background-color:#333;" />
+        <div align="center">
+            <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+            <script type="text/javascript">
+                google.load("visualization", "1", { packages: ["corechart"] });
+                google.setOnLoadCallback(drawChart);
+                function drawChart() {
+                    var data = google.visualization.arrayToDataTable([
+                      ['Consultations', 'Review'],
+                      ['Consulted Patients', @ViewBag.Info],
+                      ['Not Consulted Patients ', @ViewData["N_count"]]
+                    ]);
+
+                    var options = {
+                        title: 'Statistics for Consultation',
+                        is3D: true,
+                        width: 500,
+                        height: 300
+                    };
+
+                    var chart = new google.visualization.PieChart(document.getElementById('con_3d'));
+                    chart.draw(data, options);
+                }
+            </script>
+            <div id="con_3d"></div>
+        </div>
+    </div>
+</div>
+
+<hr style="height:1px;border:none;color:#333;background-color:#333;" />
+<div class="row">
+    <div class="col-md-12">
+        <div id="incomedetails" style="display:none">
+
+        </div>
+    </div>
+</div>
+
+<hr style="height:1px;border:none;color:#333;background-color:#333;" />
+<div class="row">
+    <div class="col-md-6">
+        <div id="consultdetails" style="display:none">
+
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div id="agedetails" style="display:none">
+
+        </div>
+    </div>
+</div>
+@*@Html.Partial("_ConsultedPatients")*@
+@{Html.Action("_ConsultedPatients", "Patient");}

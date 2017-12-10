@@ -1,0 +1,99 @@
+﻿@model GlenwoodMed.Model.ViewModels.TestResultModel 
+@{
+    ViewBag.Title = "Details";
+}
+<h2>Details</h2>
+
+<link href="~/Content/ButtonColors.css" rel="stylesheet" />
+
+<div>
+    <h3 class="x">Details For ( @Model.PatientName )</h3>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.place)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.place)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Test)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Test)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TestType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TestType)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ray1)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ray1)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ray2)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ray2)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ray3)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ray3)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ray4)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ray4)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ray5)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ray5)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.name1)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.name1)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.postalAddress)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.postalAddress)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.telephoneNo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.telephoneNo)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.emailAddress)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.emailAddress)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Update", "TestResult", new { id = Model.ResultId }, new { @class = "lnkEdit btn btn-warning" })
+    @*<button type="button" class="btn btn-primary" Onclick="location.href='@Html.Action("Index")'"></button>*@
+</p>

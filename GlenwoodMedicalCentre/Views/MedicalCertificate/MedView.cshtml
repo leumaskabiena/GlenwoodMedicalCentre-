@@ -1,0 +1,21 @@
+﻿@using GlenwoodMed.Service.RepositoryClass
+@{
+    ViewBag.Title = "Print";
+    MedicalCertificateRepository mcr = new MedicalCertificateRepository();
+}
+<link href="~/Content/ButtonColors.css" rel="stylesheet" />
+<ol class="breadcrumb">
+    <li class="x"><a href="@Url.Action("Index", "Patient")">Patient</a></li>`
+    <li class="active">Print</li>
+</ol>
+
+@{
+    string name = mcr.GetById(ViewBag.Id).PatintName.ToString();
+}
+<div align="center" class="text-center">
+
+    <h2>Print Medical Certificate for ( @Html.DisplayFor(modelItem => name) )</h2>
+</div>
+
+
+<iframe name="iframe1" src='@Url.Action("PrintCertificate", "MedicalCertificate", new { MedcertificateId = ViewBag.Id })' width="100%" height="1000" frameborder="0"></iframe>

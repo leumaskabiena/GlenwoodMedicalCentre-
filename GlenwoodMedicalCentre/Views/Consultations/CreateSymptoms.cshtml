@@ -1,0 +1,37 @@
+﻿<style>
+        .modal-content {
+            width: 200px !important;
+            margin: 30px auto !important;
+            height: 150px;
+        }
+
+        .modal-body {
+            width: 300px !important;
+            margin: 30px auto !important;
+            height: 250px;
+        }
+    </style>
+
+@using (Html.BeginForm("CreateSymptoms", "Consultations", FormMethod.Post))
+{
+    
+    @*<div class="modal-body">*@
+
+            @*<legend>Create Symptoms</legend>*@
+        @*<div class="modal-header">
+            Create Symptoms
+        </div>*@
+
+            <div class="editor-field">
+                @Html.TextBox("name", "", new { @class = "form-control " })
+            </div>
+            <br />
+
+            <p>
+                <input class="btn btn-primary" type="submit" value="Save" />
+                <input class="btn btn-default" id="btncancel" type="button" value="Cancel" />
+            </p>
+   
+    @*</div>*@
+
+}

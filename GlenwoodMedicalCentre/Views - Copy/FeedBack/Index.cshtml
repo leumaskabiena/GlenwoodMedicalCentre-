@@ -1,0 +1,124 @@
+﻿@model IEnumerable<GlenwoodMed.Model.ViewModels.FeedBackViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+<style>
+    .x {
+        color: Blue;
+        font: bold;
+    }
+</style>
+
+<div align="center">
+    <h2 class="x">Add Feedback</h2>
+    <hr/>
+</div>
+
+
+<p>
+    @Html.ActionLink("Feedback", "CreateFeedBack", new { @class = "btn btn-success glyphicon glyphicon-plus" })
+</p>
+<table class="table">
+    <tr>
+        @*<th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Comment)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Votes)
+        </th>
+        <th></th>*@
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Comment)
+            </td>
+            <td>
+                @{
+        string parameterValue = item.Votes;
+                }
+                @*<b>@Html.DisplayFor(modelItem => parameterValue)</b>*@
+                @if (Convert.ToInt16(parameterValue) == 0)
+                {
+                    <img src="~/Images/whitestar.gif" style="width:30px; height:30px" alt="Star Rating" align="middle" id="1" />
+                    <img src="~/Images/whitestar.gif" style="width:30px; height:30px" alt="Star Rating" align="middle" id="2" />
+                    <img src="~/Images/whitestar.gif" style="width:30px; height:30px" alt="Star Rating" align="middle" id="3" />
+                    <img src="~/Images/whitestar.gif" style="width:30px; height:30px" alt="Star Rating" align="middle" id="4" />
+                    <img src="~/Images/whitestar.gif" style="width:30px; height:30px" alt="Star Rating" align="middle" id="5" />
+                }
+
+                @if (Convert.ToInt16(parameterValue) == 1)
+                {
+                    <img src="~/Images/yellowstar.gif" style="width:30px; height:30px" alt="Star Rating" align="middle" id="1" />
+                    <img src="~/Images/whitestar.gif" style="width:30px; height:30px" alt="Star Rating" align="middle" id="2" />
+                    <img src="~/Images/whitestar.gif" style="width:30px; height:30px" alt="Star Rating" align="middle" id="3" />
+                    <img src="~/Images/whitestar.gif" style="width:30px; height:30px" alt="Star Rating" align="middle" id="4" />
+                    <img src="~/Images/whitestar.gif" style="width:30px; height:30px" alt="Star Rating" align="middle" id="5" />
+                }
+
+                @if (Convert.ToInt16(parameterValue) == 2)
+                {
+                    <img src="~/Images/yellowstar.gif" style="width:30px; height:30px" alt="Star Rating" align="middle" id="1" />
+                    <img src="~/Images/yellowstar.gif" style="width:30px; height:30px" alt="Star Rating" align="middle" id="2" />
+                    <img src="~/Images/whitestar.gif" style="width:30px; height:30px" alt="Star Rating" align="middle" id="3" />
+                    <img src="~/Images/whitestar.gif" style="width:30px; height:30px" alt="Star Rating" align="middle" id="4" />
+                    <img src="~/Images/whitestar.gif" style="width:30px; height:30px" alt="Star Rating" align="middle" id="5" />
+                }
+
+                @if (Convert.ToInt16(parameterValue) == 3)
+                {
+                    <img src="~/Images/yellowstar.gif" style="width:30px; height:30px" alt="Star Rating" align="middle" id="1" />
+                    <img src="~/Images/yellowstar.gif" style="width:30px; height:30px" alt="Star Rating" align="middle" id="2" />
+                    <img src="~/Images/yellowstar.gif" style="width:30px; height:30px" alt="Star Rating" align="middle" id="3" />
+                    <img src="~/Images/whitestar.gif" style="width:30px; height:30px" alt="Star Rating" align="middle" id="4" />
+                    <img src="~/Images/whitestar.gif" style="width:30px; height:30px" alt="Star Rating" align="middle" id="5" />
+                }
+
+                @if (Convert.ToInt16(parameterValue) == 4)
+                {
+                    <img src="~/Images/yellowstar.gif" style="width:30px; height:30px" alt="Star Rating" align="middle" id="1" />
+                    <img src="~/Images/yellowstar.gif" style="width:30px; height:30px" alt="Star Rating" align="middle" id="2" />
+                    <img src="~/Images/yellowstar.gif" style="width:30px; height:30px" alt="Star Rating" align="middle" id="3" />
+                    <img src="~/Images/yellowstar.gif" style="width:30px; height:30px" alt="Star Rating" align="middle" id="4" />
+                    <img src="~/Images/whitestar.gif" style="width:30px; height:30px" alt="Star Rating" align="middle" id="5" />
+                }
+
+                @if (Convert.ToInt16(parameterValue) == 5)
+                {
+                    <img src="~/Images/yellowstar.gif" style="width:30px; height:30px" alt="Star Rating" align="middle" id="1" />
+                    <img src="~/Images/yellowstar.gif" style="width:30px; height:30px" alt="Star Rating" align="middle" id="2" />
+                    <img src="~/Images/yellowstar.gif" style="width:30px; height:30px" alt="Star Rating" align="middle" id="3" />
+                    <img src="~/Images/yellowstar.gif" style="width:30px; height:30px" alt="Star Rating" align="middle" id="4" />
+                    <img src="~/Images/yellowstar.gif" style="width:30px; height:30px" alt="Star Rating" align="middle" id="5" />
+                }
+            </td>
+            <td>
+                @if (Request.IsAuthenticated && User.IsInRole("Doctor"))
+                {
+                    @Html.ActionLink("Details", "Details", new { id = item.PatientId })
+                    @Html.ActionLink("Delete", "Delete", new { id = item.PatientId })
+                    @*@Html.ActionLink(" ", "Delete", "Dependent", new { id = item.DependentId }, new { title = "Delete " + item.patientName + "'s Details", @class = "lnkDelete btn btn-default glyphicon glyphicon-remove delete view" })*@
+                }
+                @*@Html.ActionLink("Details", "Details", new { id = item.PatientId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.PatientId })*@
+            </td>
+        </tr>
+    }
+
+</table>
+

@@ -1,0 +1,173 @@
+﻿@using System.Web.UI.WebControls
+@model GlenwoodMed.Model.ViewModels.DrugModel
+
+@*<script type="text/javascript">
+                    $(function () {
+                        $("#ExpiryDate").datepicker();
+
+                    });
+
+</script>*@
+@*<p>
+    <chunk style="font-family: Times; font-weight: bold;">Date:</chunk>
+    <chunk style="font-family: Times;">@DateTime.Now.ToString("MM:dd:yyyy")</chunk>
+</p><br />
+<p>
+    <chunk style="font-family: Times; font-weight: bold;">Time:</chunk>
+    <chunk style="font-family: Times;">@DateTime.Now.ToString("hh:mm:ss tt zz")</chunk>
+</p>*@
+<style>
+    .modal-content {
+        width: 500px !important;
+        margin: 30px auto !important;
+        height: 500px;
+    }
+
+    .modal-body {
+        width: 500px !important;
+        margin: 30px auto !important;
+        /*height: 500px;*/
+    }
+</style>
+<link href="~/Content/ButtonColors.css" rel="stylesheet" />
+@using (Html.BeginForm("Create", "Drugs", FormMethod.Post))
+{
+    <div class="modal-header">Create Drug</div>
+    
+    @Html.AntiForgeryToken()
+    <div class="modal-body">
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.DrugCode, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.DrugCode, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.DrugCode, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.DrugName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.DrugName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.DrugName, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.DrugCategory, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.DropDownList("Category", new List<SelectListItem>
+                        {
+                            new SelectListItem {Text = "Panadol", Value = "Panadol"},
+                            new SelectListItem {Text = "Cough", Value = "Cough"},
+                            new SelectListItem {Text = "Insulin sensitizers", Value = "Insulin sensitizers"},
+                            new SelectListItem {Text = "AntiBiotics", Value = "AntiBiotics"},
+                            new SelectListItem {Text = "Aspirin", Value = "Aspirin"},
+                            new SelectListItem {Text = "Pain Block", Value = "Pain Block"},
+                            new SelectListItem {Text = "Laxatives", Value = "Laxatives"},
+                            new SelectListItem {Text = "Allergenics", Value = "Allergenics"},
+                            new SelectListItem {Text = "Penicillin", Value = "Penicillin"},
+                            new SelectListItem {Text = "glycylcyclines", Value = "glycylcyclines"},
+                           //new SelectListItem{ Text="", Value=""}
+
+                        }, "Choose Category", new { @class = "form-control" })
+                </div>
+            </div>
+
+
+            @*<div class="form-group">
+                    @Html.LabelFor(model => model.DrugCategory, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.DrugCategory, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.DrugCategory, "", new { @class = "text-danger" })
+                    </div>
+                </div>*@
+
+            @*<script src="~/scripts/tinymce/tinymce.min.js"></script>
+                <script type="text/javascript">
+                    tinymce.init({
+                        selector: "textarea",
+                        plugins: [
+                            "advlist autolink lists link image charmap print preview anchor",
+                            "searchreplace visualblocks code fullscreen",
+                            "insertdatetime media table contextmenu paste"
+                        ],
+                        toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
+                    });
+                </script>*@
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.DrugDescription, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.DrugDescription, new { rows = "4", cols = "50", htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.DrugDescription, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.DrugQuantity, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.DrugQuantity, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.DrugQuantity, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            @*<div class="form-group">
+                    @Html.LabelFor(model => model.Supplier, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Supplier, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Supplier, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ExpiryDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ExpiryDate, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ExpiryDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Status, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                    </div>
+                </div>>*@
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Status, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @*@Html.EditorFor(model => model.Status, new {htmlAttributes = new {@class = "form-control"}})
+                        @Html.ValidationMessageFor(model => model.Status, "", new {@class = "text-danger"})*@
+
+                    @Html.DropDownList("Status", new List<SelectListItem>
+                            {
+                                new SelectListItem {Text = "Available", Value = "Available "},
+                                new SelectListItem {Text = "UnAvailable", Value = "UnAvailable "}
+
+                            }, "Select Drug Status", new { @class = "form-control" })
+
+                </div>
+            </div>
+
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="button" value="Cancel" id="btncancel" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+        @*@section Scripts {
+            @Scripts.Render("~/bundles/jqueryval")
+        }*@

@@ -1,0 +1,64 @@
+﻿@model IEnumerable<GlenwoodMed.Model.ViewModels.ConsultationView>
+
+<div>
+    <h4>Consultation</h4>
+    <hr />
+    
+</div>
+<table class="table table-striped table-bordered table-hover table-responsive">
+    <tr class="success">
+        <th>
+            Consultation Date
+        </th>
+        <th>
+            Consultation Time
+        </th>
+        <th>
+            illness
+        </th>
+        <th>
+            Description
+        </th>
+
+        <th>
+            Symptoms
+        </th>
+        <th>
+            PresribedMed
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ConsultDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ConsultTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.illness)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Symptoms)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PresribedMed)
+            </td>
+            <td>
+                @Html.ActionLink("Back", "MainIndex", "Consultations", new { @class = "lnkEdit btn btn-default glyphicon glyphicon-edit edit" })
+            </td>
+        </tr>
+    }
+
+</table>
+
+<p>
+
+</p>

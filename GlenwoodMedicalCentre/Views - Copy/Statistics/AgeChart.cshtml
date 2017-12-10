@@ -1,0 +1,63 @@
+﻿
+@{
+    ViewBag.Title = "AgeChart";
+}
+
+<script src="~/Scripts/jquery-2.1.4.js"></script>
+<script src="~/Scripts/gviz-api.js"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<link href="~/Content/ButtonColors.css" rel="stylesheet" />
+
+<div class="text-center"><h2 class="x">Chart</h2></div>
+<div class="btn-group btn-group-justified" role="group" aria-label="ButtonHeads">
+    <div class="btn-group" role="group">
+        <button type="button" class="btn btn-default btn-lg but" onclick="location.href='@Url.Action("Index", "Statistics")';return false;"> Profit</button>
+    </div>
+    <div class="btn-group" role="group">
+        <button type="button" class="btn btn-danger btn-lg but" onclick="location.href='@Url.Action("AgeChart", "Statistics")';return false;"> Age Groups</button>
+    </div>
+</div>
+
+<div id="chartbar" style="width:100%; height:400px">
+    @*Chart loads in this div tag*@
+</div>
+
+@section scripts{
+    <script>
+        var chartData; //global variable for hold chart data
+        google.load("visualization", "1", { packages: ["corechart"] });
+
+        //Fill chartData below
+        $(document).ready(function () {
+            $.ajax({
+                url: '/Statistics/AgeGroup',
+                data: {},
+                dataType: 'json',
+                type: 'get',
+                //contentType: "application/json; chartset=utf-8",
+                success: function (data) {
+                    chartData = data;
+                },
+                error: function () {
+                    alert("Error loading data! Please try again.")
+                }
+            }).done(function () {
+                //after completely loading data
+                drawChart();
+            })
+        })
+
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable(chartData);
+
+            var options = {
+                title: "Age Groups",
+                pointSize: 5
+            };
+
+            var barChart = new google.visualization.ColumnChart(document.getElementById('chartbar'));
+            barChart.draw(data, options);
+        }
+    </script>
+}
+

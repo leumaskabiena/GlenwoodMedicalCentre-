@@ -1,0 +1,316 @@
+﻿@model GlenwoodMedicalCentre.Models.ConsultationDetails
+
+@{
+    ViewBag.Title = "ViewDrugsConsultation";
+}
+<style>
+    .x {
+        color: Blue;
+        font-family: bold;
+    }
+</style>
+
+<script src="~/Scripts/jquery-1.8.2.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.8.24.min.js"></script>
+<link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+<script>
+    $(document).ready(function () {
+        var url = "";
+        $("#dialog-alert").dialog({
+            autoOpen: false,
+            resizable: false,
+            height: 170,
+            width: 350,
+            show: { effect: 'drop', direction: "up" },
+            modal: true,
+            draggable: true,
+            open: function (event, ui) {
+                $(".ui-dialog-titlebar-close").hide();
+            },
+            buttons: {
+                "OK": function () {
+                    $(this).dialog("close");
+
+                },
+                "Cancel": function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+
+        if ('@TempData["msg"]' != "") {
+            $("#dialog-alert").dialog('open');
+        }
+
+        $("#dialog-edit").dialog({
+            title: 'Create User',
+            autoOpen: false,
+            resizable: false,
+            width: 650,
+            show: { effect: 'drop', direction: "up" },
+            modal: true,
+            draggable: true,
+            open: function (event, ui) {
+                $(".ui-dialog-titlebar-close").hide();
+                $(this).load(url);
+            }
+        });
+
+        $("#dialog-editdetails").dialog({
+            title: 'Edit Dependent Details',
+            autoOpen: false,
+            resizable: false,
+            width: 650,
+            show: { effect: 'drop', direction: "up" },
+            modal: true,
+            draggable: true,
+            open: function (event, ui) {
+                $(".ui-dialog-titlebar-close").hide();
+                $(this).load(url);
+            }
+        });
+
+        $("#dialog-delete").dialog({
+            title: 'Delete ?',
+            autoOpen: false,
+            resizable: false,
+            width: 650,
+            show: { effect: 'drop', direction: "up" },
+            modal: true,
+            draggable: true,
+            open: function (event, ui) {
+                $(".ui-dialog-titlebar-close").hide();
+                $(this).load(url);
+            }
+        });
+
+        $("#dialog-confirm").dialog({
+            autoOpen: false,
+            resizable: false,
+            height: 170,
+            width: 350,
+            show: { effect: 'drop', direction: "up" },
+            modal: true,
+            draggable: true,
+            open: function (event, ui) {
+                $(".ui-dialog-titlebar-close").hide();
+
+            },
+            buttons: {
+                "OK": function () {
+                    $(this).dialog("close");
+                    window.location.href = url;
+                },
+                "Cancel": function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+
+        $("#dialog-detail").dialog({
+            title: 'Dependent Details',
+            autoOpen: false,
+            resizable: false,
+            width: 500,
+            show: { effect: 'drop', direction: "up" },
+            modal: true,
+            draggable: true,
+            open: function (event, ui) {
+                $(".ui-dialog-titlebar-close").hide();
+                $(this).load(url);
+            },
+            buttons: {
+                "Close": function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+
+        $(document).on("click", "#lnkCreate", function (e) {
+            //e.preventDefault(); //use this or return false
+            url = $(this).attr('href');
+            $("#dialog-edit").dialog('open');
+
+            return false;
+        });
+
+        $(document).on("click", ".lnkEdit", function (e) {
+            // e.preventDefault(); use this or return false
+            url = $(this).attr('href');
+            //$(".ui-dialog-title").html("Edit Patient Dependent");
+            $("#dialog-editdetails").dialog('open');
+
+            return false;
+        });
+
+        $(".lnkDelete").live("click", function (e) {
+            // e.preventDefault(); use this or return false
+            url = $(this).attr('href');
+            $("#dialog-delete").dialog('open');
+
+            return false;
+        });
+
+        $(".lnkDetail").live("click", function (e) {
+            // e.preventDefault(); use this or return false
+            url = $(this).attr('href');
+            $("#dialog-detail").dialog('open');
+
+            return false;
+        });
+
+        $(document).on("click", "#btncancel", function (e) {
+            $("#dialog-edit").dialog('close');
+            return false;
+        });
+
+        $(document).on("click", "#btncanceldetails", function (e) {
+            $("#dialog-editdetails").dialog("close");
+            return false;
+        });
+
+        $(document).on("click", "#btncanceldelete", function (e) {
+            $("#dialog-delete").dialog("close");
+            return false;
+        });
+    });
+</script>
+<div id="dialog-alert" style="display: none">
+    <p>
+        @TempData["msg"]!
+    </p>
+</div>
+
+<div id="dialog-confirm" style="display: none">
+    <p>
+        <span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>
+        Are you sure to delete?
+    </p>
+</div>
+
+<div id="dialog-edit" style="display: none">
+</div>
+
+<div id="dialog-delete" style="display: none">
+</div>
+
+<div id="dialog-editdetails" style="display: none">
+</div>
+
+<div id="dialog-detail" style="display: none">
+</div>
+<h2>Consultation Drugs</h2>
+<br/>
+@*@Html.ActionLink("AddMoreDrugs", "AddDrugsToConsult", "Consultations", new { id = Model._Consultation.ConsultId }, new { @class = "lnkDetail btn btn-info " })*@
+<hr/>
+<div class="row">
+    <div class="col-md-3">
+        <table class="table table table-striped table-bordered table-hover table-responsive wid">
+            <tr class="danger">
+                <td>
+                    @Html.DisplayNameFor(m => m._Consultation.Fullnamepar)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => m._Consultation.Fullnamepar)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(m => m._Consultation.ConsultDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => m._Consultation.ConsultDate)
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(m => m._Consultation.ConsultTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => m._Consultation.ConsultTime)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(m => m._Consultation.Symptoms)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => m._Consultation.Symptoms)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(m => m._Consultation.illness)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => m._Consultation.illness)
+                </td>
+            </tr>
+
+        </table>
+
+
+
+
+
+
+    </div>
+    <div class="col-md-6">
+        <table class="table table table-striped table-bordered table-hover table-responsive wid">
+            <tr class="success">
+
+
+                <th>
+                    DrugName
+                </th>
+                <th>
+                    Quantity
+                </th>
+                <th>
+                    Price
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model._ConsultationDrugs)
+            {
+                <tr>
+                    @*<td>
+                        @Html.DisplayFor(modelItem => item.ConsultationId)
+                    </td>*@
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DrugName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Quantity)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Details", "Details", new { id = item.DrugToConsultId }) |
+                        @Html.ActionLink("Delete", "DeleteDrugsConsultation", "Consultations", new { id = item.DrugToConsultId }, new { @class = "lnkDelete btn btn-danger" })
+                    </td>
+                </tr>
+            }
+            <tr>
+                <td colspan="2">
+                    Total Price
+                </td>
+                <td>
+                    <label>R @ViewBag.total</label>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+
+
+
+
+

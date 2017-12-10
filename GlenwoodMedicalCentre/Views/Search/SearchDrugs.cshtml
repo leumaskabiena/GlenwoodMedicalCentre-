@@ -1,0 +1,57 @@
+﻿@model IEnumerable<GlenwoodMed.Model.ViewModels.DrugModel>
+<script src="~/Scripts/TooTipScript.js"></script>
+    @using (Ajax.BeginForm("SearchDrugs", "Search", null, new AjaxOptions()
+                                            {
+                                                HttpMethod = "GET",
+                                                UpdateTargetId = "Display",
+                                                InsertionMode = InsertionMode.Replace
+                                            }))
+    {
+        <div align="center">
+            @Html.TextBox("drugpar", "", new { @class = "form-control", @placeholder = "Enter Text Here" })<br/>
+            <input type="submit" name="searchdrug" value="Search" class="btn btn-success" />
+        </div>
+    }
+    <br />
+
+
+    <table class="table table-striped table-bordered table-hover table-responsive">
+        <tr class="success">
+            <th>
+                @Html.DisplayNameFor(model => model.DrugName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DrugCategory)
+            </th>
+            <th>
+                    @Html.DisplayNameFor(model => model.DrugDescription)
+                </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DrugName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DrugCategory)
+                </td>
+                <td>
+                        @Html.DisplayFor(modelItem => item.DrugDescription)
+                 </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                @*<td>
+                        @Html.ActionLink("View", "Details", "Drgs", new { id = item.DrugId }, new { @class="btn btn-success"}) |
+                        @Html.ActionLink("Add", "Update", "Drgs", new { id = item.DrugId }, new { @class="btn btn-danger"}) 
+                        
+                 </td>*@
+            </tr>
+        }
+
+    </table>

@@ -1,0 +1,73 @@
+﻿@using GlenwoodMed.BusinessLogic
+<style>
+    /*.Error {
+        color: black;
+        background-size: 400px;
+        background-color: Red;
+        
+    }
+    .Warning
+    {
+        color: black;
+        background-size: 400px;
+        background-color: Orange
+    }
+    .Success
+    {
+        color: white;
+        background-size: 400px;
+        background-color: blue
+    }
+    .notificationbox
+{
+z-index: 1000;
+padding: 12px 10px 10px 30px;
+margin-top: 10px;
+    box-shadow: 5px 5px 10px #000;
+    display: none;
+    width: 550px;
+}*/
+
+    .nb-Success {
+        color: #060;
+        background:#cfc url('../../Content/images/ok.gif') no-repeat 8px 12px;
+    }
+ 
+.nb-Error
+{
+color: #c00;
+    background: #fcc url('../../Content/images/fail.gif') no-repeat 8px 12px;
+}
+ 
+.nb-Warning
+{
+color: #c60;
+    background: #ffc url('../../Content/images/warn.gif') no-repeat 8px 12px;
+}
+.NotificationBox
+{
+z-index: 1000;
+padding: 12px 10px 10px 30px;
+margin-top: 10px;
+    box-shadow: 5px 5px 10px #000;
+    display: none;
+    width: 550px;
+}
+
+</style>
+
+@foreach (var notification in Html.Notifications().Current)
+{
+    <div class="nb-@notification.Status text-center NotificationBox" id="NotificationBox">@notification.Message</div>
+}
+<script language="javascript" type="text/javascript">
+    //Used to display and close the system notifications
+    $(document).ready(function () {
+        $("#NotificationBox").fadeIn(1000);
+
+       
+        $("#NotificationBox").delay(3000).slideUp(2000).fadeOut(1000);
+           // $("#NotificationBox").delay(5000).slideUp(1000);
+        
+    });
+</script>

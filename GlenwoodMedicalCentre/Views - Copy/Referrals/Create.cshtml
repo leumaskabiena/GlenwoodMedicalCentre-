@@ -1,0 +1,67 @@
+﻿@model GlenwoodMed.Model.ViewModels.ReferralModel
+
+@{
+    ViewBag.Title = "Create";
+}
+<link href="~/Content/ButtonColors.css" rel="stylesheet" />
+
+<ol class="breadcrumb">
+    <li class="x"><a href="@Url.Action("ViewPatientConsultation", "Consultation")">Patient Consultation</a></li>
+    <li class="active">Create Referral</li>
+</ol>
+
+<div align="center">
+    <h2 class="x"><small>Referral Letter for </small>( @Model.Patient_name )</h2>
+    <hr />
+</div>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+      
+        @Html.HiddenFor(x => x.PatientId)
+        @Html.HiddenFor(x => x.Patient_age)
+        @Html.HiddenFor(x => x.Patient_number)
+        @Html.HiddenFor(x => x.Patient_name)
+        @Html.HiddenFor(x => x.diagnotics)
+        <div class="form-group">
+            @Html.LabelFor(model => model.Ref_date, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Ref_date, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Ref_date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Referred_Doctor, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Referred_Doctor, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Referred_Doctor, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Reason, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Reason, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Reason, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Print" class="btn btn-default" />
+
+            </div>
+        </div>
+    </div>
+}
+
+@*<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>*@

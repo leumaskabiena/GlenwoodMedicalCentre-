@@ -1,0 +1,114 @@
+﻿@*@model IEnumerable<GlenwoodMed.Data.Tables.FileUploadDBModel>*@
+@model PagedList.IPagedList<GlenwoodMed.Data.Tables.FileUploadDBModel>
+    @{
+        ViewBag.Title = "Download";
+    }
+    <link href="~/Content/ButtonColors.css" rel="stylesheet" />
+<script src="~/Scripts/TooTipScript.js"></script>
+<ol class="breadcrumb">
+    <li class="x">Files</li>
+    <li class="active">All Files</li>
+</ol>
+
+  <div class="text-center x">
+  <h2>All Patients Files</h2>
+   </div>
+    @*<p>
+        @Html.ActionLink("Upload New", "Index")
+    </p>*@
+    <table class="table table-striped table-bordered table-hover table-responsive" >
+      <tr class="success">
+          <th>
+              Patient Name
+          </th>
+          <th>
+              FileName
+          </th>
+          <th>
+              Download
+          </th>
+          <th>
+              View
+          </th>
+          <th>
+              Delete
+          </th>
+      </tr>
+
+        @foreach (var item in Model)
+        {
+             <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.patientName)
+                </td>
+            
+                <td>
+                    @Html.DisplayFor(modelItem => item.FileName)
+                </td>
+                <td>
+                    @Html.ActionLink(" ", "Filedownload", new { id = item.FileId }, new { title = "Download " + item.patientName + "'s File", @class = "btn btn-default glyphicon glyphicon-download-alt but edit view" })
+                </td>
+                <td>
+                    @Html.ActionLink(" ", "Filedownload", new { id = item.FileId }, new { title = "View " + item.patientName + "'s File", @class = "btn btn-default glyphicon glyphicon-eye-open but details view" })
+                </td>
+                <td>
+                    @Html.ActionLink(" ", "Delete", "UploadFile", new { id = item.FileId }, new {onclick = "return confirm('Are you sure you wish to delete this file?');" , title = "Delete " + item.patientName + "'s Details", @class = "btn btn-default glyphicon glyphicon-remove but delete view" })
+                </td>
+            </tr>
+        }
+
+
+ 
+    </table>
+<div align="center" style="margin: 0, auto">
+    <nav>
+        <ul class="pagination">
+            <li>
+                <a href="#">
+                    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
+                    of @Model.PageCount
+                </a>
+            </li>
+            @if (Model.HasPreviousPage)
+            {
+                <li>@Html.ActionLink("<<", "Download", new { page = 1 })</li>
+                @Html.Raw(" ");
+                <li>@Html.ActionLink("< Prev", "Download", new { page = Model.PageNumber - 1 })</li>
+            }
+
+            else
+            {
+                <li class="disabled">@Html.ActionLink("<<", "Download", new { page = 1 }, new { onclick = "javascript:return false;" })</li>
+                @Html.Raw(" ");
+                <li class="disabled">@Html.ActionLink("< Prev", "Download", new { page = Model.PageNumber - 1 }, new { onclick = "javascript:return false;" })</li>
+            }
+
+            <li>@Html.ActionLink("1", "Download", new { page = 1 })</li>
+            <li>@Html.ActionLink("2", "Download", new { page = 2 })</li>
+            <li>@Html.ActionLink("3", "Download", new { page = 3 })</li>
+            <li>@Html.ActionLink("4", "Download", new { page = 4 })</li>
+            <li>@Html.ActionLink("5", "Download", new { page = 5 })</li>
+
+            @if (Model.HasNextPage)
+            {
+                <li>@Html.ActionLink("Next >", "Download", new { page = Model.PageNumber + 1 })</li>
+                @Html.Raw(" ");
+                <li>@Html.ActionLink(">>", "Download", new { page = Model.PageCount })</li>
+            }
+
+            else
+            {
+                <li class="disabled">@Html.ActionLink("Next >", "Download", new { page = Model.PageNumber + 1 }, new { onclick = "javascript:return false;" })</li>
+                @Html.Raw(" ");
+                <li class="disabled">@Html.ActionLink(">>", "Download", new { page = Model.PageCount }, new { onclick = "javascript:return false;" })</li>
+            }
+        </ul>
+    </nav>
+</div>
+
+
+
+
+
+
+

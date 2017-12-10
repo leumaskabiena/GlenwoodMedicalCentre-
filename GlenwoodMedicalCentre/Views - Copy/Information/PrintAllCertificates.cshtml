@@ -1,0 +1,93 @@
+﻿@model IEnumerable<GlenwoodMed.Model.ViewModels.MedicalCertificateModel>
+
+@{
+    ViewBag.Title = "Print All Certificates";
+    //Layout = "~/Views/Shared/_PdfLayout.cshtml";
+    Layout = "";
+
+
+}
+<!DOCTYPE html>
+<html>
+<body>
+    <table stlye="page-break-inside:auto;" bordercolor="RED" width="100%" height="100%" cellpadding="1.0" cellspacing="10.0">
+
+        <thead style="display:table-header-group; display: table-header-group;">
+            @*<tr stlye="page-break-inside:avoid; page-break-after:auto;">
+                    <th>Test THEAD</th>
+                </tr>*@
+
+            <tr>
+                <td colspan="2" rowspan="2" align="center" valign="top">
+                    <img src="@Server.MapPath("~/Content/white_caduceus_red_box.png")" width="100" height="100" /> <br />
+                    <div style="font-weight:bold;font-size:18;">
+                        Glenwood Medical Centre
+                    </div>
+                    <div style="font-weight:bold;font-size:16;">
+                        ( Medical Certificate List on @DateTime.Now )
+
+                    </div>
+
+                </td>
+            </tr>
+        </thead>
+    </table>
+
+    <newline />
+    <paragraph leading="24.0" font="unknown" align="center">
+        <h2><b>Medical Certificate List</b></h2>
+        <hr />
+    </paragraph>
+    <newline />
+    @*<div align="center">
+            <h2><b>Consultations</b></h2>
+            <hr/>
+        </div>*@
+
+    <div>
+        <ol>
+            @foreach (var item in Model)
+            {
+                <br />
+                <li>
+                    <b>@Html.DisplayNameFor(modelItem => modelItem.PatintName):  @Html.DisplayFor(modelItem => item.PatintName)</b>
+                </li>
+
+                <ul type="circle">
+                    <li>
+                        <b>@Html.DisplayNameFor(model => model.Date):</b>   @Html.DisplayFor(modelItem => item.Date)
+                    </li>
+                    <li>
+                        <b>@Html.DisplayNameFor(model => model.OpinonIllness):</b>   @Html.DisplayFor(modelItem => item.OpinonIllness)
+                    </li>
+                    <li>
+                        <b>@Html.DisplayNameFor(model => model.Fitnessproblem):</b>    @Html.DisplayFor(modelItem => item.Fitnessproblem)
+                    </li>
+                    <li>
+                        <b>@Html.DisplayNameFor(model => model.StartingDate):</b>   @Html.DisplayFor(modelItem => item.StartingDate)    <b>@Html.DisplayNameFor(model => model.Enddate):</b>   @Html.DisplayFor(modelItem => item.Enddate)
+                    </li>
+                    <li>
+                        <b>@Html.DisplayNameFor(model => model.Doctorname):</b>   @Html.DisplayFor(modelItem => item.Doctorname)
+                    </li>
+                    <li style="margin-bottom: 10px;">
+                        <b>@Html.DisplayNameFor(model => model.Address):</b>   @Html.DisplayFor(modelItem => item.Address)
+                    </li>
+                    <li><div align="center"><hr /></div></li>
+                </ul>
+            }
+        </ol>
+
+    </div>
+
+    <newline />
+
+    <newline />
+    <paragraph leading="24.0" font="unknown" align="Default">
+
+    </paragraph>
+    <newline />
+    <newline />
+
+</body>
+
+</html>

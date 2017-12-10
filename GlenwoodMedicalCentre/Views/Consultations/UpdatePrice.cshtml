@@ -1,0 +1,64 @@
+﻿@using (Html.BeginForm("UpdatePrice", "Consultations", FormMethod.Post))
+{
+    <style>
+        .thisthing {
+            width: 30%;
+            height: 34px;
+            padding: 6px 12px;
+            font-size: 14px;
+            line-height: 1.42857143;
+            color: #555;
+            background-color: #fff;
+            background-image: none;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+            -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+            transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        }
+    </style>
+    <style>
+        .modal-body {
+            height: 310px;
+            width: 100px
+        }
+        .modal-content {
+            height: 310px;
+             width: 100px;
+        }
+    </style>
+    <div class="modal-header">Update (@ViewBag.name) Consultation Price</div>
+    <div class="modal-body">
+        @*<legend>Create Symptoms</legend>*@
+    <table class="table-responsive table table-striped">
+        <tr class="success">
+            <th>
+                Balance
+            </th>
+            <th>
+                Total Price
+            </th>
+        </tr>
+        <tr>
+            <td>
+                @ViewBag.balance
+            </td>
+            <td>
+                @ViewBag.Total
+            </td>
+        </tr>
+    </table>
+        <p class="text-center">
+
+                @Html.TextBox("price", "", new { @class = "thisthing " })
+            <br/>
+            <br/>
+            <br />
+
+            <input class="btn btn-primary" type="submit" value="Save" />
+        </p>
+    </div>
+}
+

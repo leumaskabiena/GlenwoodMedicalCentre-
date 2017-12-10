@@ -1,0 +1,16 @@
+﻿@model GlenwoodMed.Data.Tables.FileUploadDBModel
+
+<div class="jumbotron">
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div>
+            @Html.LabelFor(x => x.File)
+            @Html.TextBoxFor(x => x.File, new { type = "file", multiple = "true" })
+            @Html.ValidationMessageFor(x => x.File)
+        </div>
+        <button type="submit">Upload File</button>
+    }
+</div>
+<p>
+    @Html.ActionLink("Download File", "Download", "UploadFile")
+</p>

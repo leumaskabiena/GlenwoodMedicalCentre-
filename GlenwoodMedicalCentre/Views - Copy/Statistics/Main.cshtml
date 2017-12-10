@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewBag.Title = "Main";
+}
+
+<link href="~/Content/ButtonColors.css" rel="stylesheet" />
+
+<ol class="breadcrumb">
+    <li class="x"><a href="@Url.Action("Main", "Statistics")">Report</a></li>
+    @*<li class="active">Register Patient</li>*@
+</ol>
+
+<div class="text-center"><h2 class="x">Choose Report Type</h2>
+    <hr/>
+    </div>
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-4">
+        <div align="center">
+            <a href="@Url.Action("Index", "Information")">
+                <img src="~/Images/report(info).jpg" style="width:200px; height:200px" />
+                <br />
+                <b>Report Information</b>
+            </a>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div align="center">
+            <a href="@Url.Action("Main", "Patient")">
+                <img src="~/Images/report(statistics).png" style="width:200px; height:200px" />
+                <br />
+                <b>Report Statistics</b>
+            </a>
+        </div>
+    </div>
+    <div class="col-md-2"></div>
+</div>

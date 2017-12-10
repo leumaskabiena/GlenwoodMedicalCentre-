@@ -1,0 +1,85 @@
+﻿@model GlenwoodMed.Model.ViewModels.ConsultationView
+
+<div>
+    <h4>ConsultationView</h4>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PAtieList)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PAtieList)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.illness)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.illness)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Symptoms)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Symptoms)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PresribedMed)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PresribedMed)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ConsultTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ConsultTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ConsultDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ConsultDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalPrice)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalPrice)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fullnamepar)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fullnamepar)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ConsultId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

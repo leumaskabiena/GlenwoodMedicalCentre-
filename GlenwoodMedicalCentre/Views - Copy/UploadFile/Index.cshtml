@@ -1,0 +1,41 @@
+﻿@model GlenwoodMed.Data.Tables.FileUploadDBModel
+@{
+    ViewBag.Title = "Upload File";
+}
+<link href="~/Content/ButtonColors.css" rel="stylesheet" />
+<ol class="breadcrumb">
+    <li class="x">Files</li>
+    <li class="active">Upload File</li>
+</ol>
+<div class="text-center x">
+<h2>Upload File for @Model.patientName</h2>
+</div>
+<hr/>
+<br/>
+<center>
+    <div class="row">
+
+
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <div class="form-group">
+                        @Html.LabelFor(x => x.File, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-7">
+                        @Html.TextBoxFor(x => x.File, new { type = "file", multiple = "true", @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.File)
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-7">
+                    <input type="submit" class="btn btn-primary"  value="Upload" />
+                </div>
+            </div>
+            <div class="col-md-2"></div>
+        }
+    </div>
+</center>
+
+

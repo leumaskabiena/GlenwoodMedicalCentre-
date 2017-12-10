@@ -1,0 +1,168 @@
+﻿@model GlenwoodMed.Model.ViewModels.MedicalCertificateModel
+
+@{
+    ViewBag.Title = "Create Medical Certificate";
+}
+
+<link href="~/Content/ButtonColors.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-2.1.4.min.js"></script>
+<script src="~/Scripts/jquery.mousewheel-3.0.6.pack.js"></script>
+<script src="~/Scripts/jquery.fancybox.js?v=2.1.5"></script>
+<link href="~/Content/jquery.fancybox.css?v=2.1.5" rel="stylesheet" media="screen" />
+<link href="~/Scripts/jquery.fancybox.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-ui-1.11.4.min.js"></script>
+<link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+
+<style type="text/css">
+    .imgBox {
+        width: 200px;
+        height: 200px;
+        opacity: 1.0;
+        filter: alpha(opacity=100);
+    }
+
+        .imgBox:hover {
+            -moz-box-shadow: 0 0 10px #ccc;
+            -webkit-box-shadow: 0 0 10px #ccc;
+            box-shadow: 0 0 10px #ccc;
+            opacity: 0.4;
+            filter: alpha(opacity=40);
+        }
+</style>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#ShowImage").fancybox({
+            helpers:
+            {
+                title:
+                {
+                    type: 'float'
+                }
+            }
+        });
+    });
+
+    $(function () {
+        $("#datepicker").datepicker();
+        $("#datepicker1").datepicker();
+        $("#datepicker2").datepicker();
+    });
+</script>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+<div class="row">
+    <div class="text-center">
+        <div class="item">
+            @if (Model.FileType == GlenwoodMed.Model.ViewModels.FileType.Avatar)
+            {
+                var base64 = Convert.ToBase64String(Model.resultFile);
+                var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+
+                <a id="ShowImage" class="fancybox-button" data-rel="fancybox-button"
+                   title="Profile Pic" href="@imgSrc">
+                    <div class="zoom">
+                        <img src="@imgSrc" class="imgBox img-rounded" style="width:100px; height:100px" />
+                        <div class="zoom-icon"></div>
+                    </div>
+                </a>
+
+                @*<img src="@imgSrc" alt="avatar" style="width:150px; height:150px" />*@
+            }
+        </div>
+        <h2 class="x"><small>Create Medical Certificate for </small>@Model.PatintName</h2>
+        <hr />
+    </div>
+    
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-horizontal">
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control", id = "datepicker" } })
+                    @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            @*<div class="form-group">
+            @Html.LabelFor(model => model.PatintName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PatintName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PatintName, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.OpinonIllness, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.OpinonIllness, 5, 50, new { htmlAttributes = new { @class = "form-control", @placeholder = "Eg. He was sick with malaria" } })
+                    @*@Html.EditorFor(model => model.OpinonIllness, new { htmlAttributes = new { @class = "form-control" } })*@
+                    @Html.ValidationMessageFor(model => model.OpinonIllness, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Fitnessproblem, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.Fitnessproblem, 5, 50, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Fitnessproblem, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.StartingDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.StartingDate, new { htmlAttributes = new { @class = "form-control", id = "datepicker1" } })
+                    @Html.ValidationMessageFor(model => model.StartingDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Enddate, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Enddate, new { htmlAttributes = new { @class = "form-control", id = "datepicker2" } })
+                    @Html.ValidationMessageFor(model => model.Enddate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Comment, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Comment, new { htmlAttributes = new { @class = "form-control", @placeholder = "Eg. He was sick with malaria" } })
+                    @Html.ValidationMessageFor(model => model.Comment, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Doctorname, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Doctorname, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Doctorname, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </div>
+        </div> 
+    </div>
+</div>
+    
+}
+
+@*<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>*@
